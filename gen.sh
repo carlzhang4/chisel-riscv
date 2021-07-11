@@ -44,7 +44,17 @@ BUILD_PATH=$SRC_PATH"/build"
 echo $SRC_PATH
 echo $BUILD_PATH
 
+
 # generate verilog
+if [[ "$BUILD" == "true" ]]; then
+	cd chisel
+	sbt 'runMain top.elaborateTop'
+	cp Verilog/Top.v ../examples/Top
+
+fi
+
+
+# Build project
 if [[ "$GEN_VERILOG" == "true" ]]; then
 
 	cd $SRC_PATH
@@ -58,14 +68,6 @@ if [[ "$GEN_VERILOG" == "true" ]]; then
 	git add . -A --ignore-errors
 	(echo $NAME && echo $ID && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
     sync
-fi
-
-# Build project
-if [[ "$BUILD" == "true" ]]; then
-	cd chisel
-	sbt 'runMain top.elaborateTop'
-	cp Verilog/Top.v ../examples/Top
-
 fi
 
 # Simulate
