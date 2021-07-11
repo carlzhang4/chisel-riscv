@@ -25,10 +25,10 @@ V_TOP_FILE="top.v"
 CFLAGS=
 
 
-while getopts 'bt:sw:e:' OPT; do
+while getopts 'bt:sw:m:' OPT; do
     case $OPT in
         b) BUILD="true";;
-		e) EXAMPLES_PATH="$OPTARG";;
+		m) EXAMPLES_PATH="$OPTARG";;
         t) V_TOP_FILE="$OPTARG";;
         s) SIMULATE="true";;
         w) CHECK_WAVE="true"; WAVE_FILE="$OPTARG";;
