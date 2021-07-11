@@ -2,7 +2,7 @@ module If(
   input  [31:0] io_test_in,
   output [31:0] io_test_out
 );
-  wire [33:0] _io_test_out_T = io_test_in * 2'h2; // @[If_stage.scala 10:35]
+  wire [36:0] _io_test_out_T = io_test_in * 5'h16; // @[If_stage.scala 10:35]
   assign io_test_out = _io_test_out_T[31:0]; // @[If_stage.scala 10:21]
 endmodule
 module Id(
