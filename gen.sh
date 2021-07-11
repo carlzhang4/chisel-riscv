@@ -28,12 +28,11 @@ PARAMETERS=
 WAVE_FILE="vlt_dump.vcd"
 
 
-while getopts 'bt:sm:a:v' OPT; do
+while getopts 'bt:m:a:v' OPT; do
     case $OPT in
         b) BUILD="true";;
-		m) EXAMPLES_PATH="$OPTARG";;
+		m) EXAMPLES_PATH="$OPTARG";SIMULATE="true";CHECK_WAVE="true";;
         t) V_TOP_FILE="$OPTARG";;
-        s) SIMULATE="true";CHECK_WAVE="true";;
 		a) PARAMETERS="$OPTARG";;
 		v) GEN_VERILOG="true";;
     esac
@@ -46,7 +45,7 @@ echo $BUILD_PATH
 
 
 # generate verilog
-if [[ "$BUILD" == "true" ]]; then
+if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd chisel
 	sbt 'runMain top.elaborateTop'
 	cp Verilog/Top.v ../examples/Top
@@ -55,7 +54,7 @@ fi
 
 
 # Build project
-if [[ "$GEN_VERILOG" == "true" ]]; then
+if [[ "$BUILD" == "true" ]]; then
 
 	cd $SRC_PATH
 	CPP_SRC=`find . -maxdepth 1 -name "*.cpp"`
