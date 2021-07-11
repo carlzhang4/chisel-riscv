@@ -23,15 +23,17 @@ SIMULATE="false"
 CHECK_WAVE="false"
 V_TOP_FILE="top.v"
 CFLAGS=
+PARAMETERS=
+WAVE_FILE="vlt_dump.vcd"
 
 
-while getopts 'bt:sw:m:' OPT; do
+while getopts 'bt:sm:a:' OPT; do
     case $OPT in
         b) BUILD="true";;
 		m) EXAMPLES_PATH="$OPTARG";;
         t) V_TOP_FILE="$OPTARG";;
-        s) SIMULATE="true";;
-        w) CHECK_WAVE="true"; WAVE_FILE="$OPTARG";;
+        s) SIMULATE="true";CHECK_WAVE="true";;
+		a) PARAMETERS="$OPTARG";;
     esac
 done
 
