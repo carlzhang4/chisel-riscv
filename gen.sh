@@ -49,7 +49,7 @@ echo $BUILD_PATH
 # generate verilog
 if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd "chisel"
-	sbt 'runMain top.elaborate'MODULE_NAME
+	sbt 'runMain top.elaborate'$MODULE_NAME
 	cp Verilog/Top.v ../examples/Top
 
 fi
