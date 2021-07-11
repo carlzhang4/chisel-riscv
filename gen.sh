@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#./gen.sh -v -b -m Top -f test.gtkw
 
 SHELL_PATH=$(dirname $(readlink -f "$0"))
 MYINFO_FILE=$SHELL_PATH"/myinfo.txt"
