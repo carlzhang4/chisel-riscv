@@ -50,7 +50,7 @@ echo $BUILD_PATH
 if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd "chisel"
 	sbt 'runMain top.elaborate'$MODULE_NAME
-	cp Verilog/Top.v ../modules/Top
+	cp "Verilog/"$MODULE_NAME".v" ../modules/$MODULE_NAME
 
 fi
 
