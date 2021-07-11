@@ -18,7 +18,7 @@ int main(int argc, char **argv){
 	dut_ptr = new VTop;
 	tfp = new VerilatedVcdC;
 	dut_ptr->trace(tfp, 99);
-	tfp->open("top.vcd");
+	tfp->open("vlt_dump.vcd");
 
 
 	dut_ptr->reset = 0;
