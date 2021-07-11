@@ -18,6 +18,7 @@ EXAMPLES_SRC_FOLDER="examples"
 EMU_FILE="emu"
 BUILD_FOLDER="build"
 
+GEN_VERILOG="false"
 BUILD="false"
 SIMULATE="false"
 CHECK_WAVE="false"
@@ -27,24 +28,24 @@ PARAMETERS=
 WAVE_FILE="vlt_dump.vcd"
 
 
-while getopts 'bt:sm:a:' OPT; do
+while getopts 'bt:sm:a:v' OPT; do
     case $OPT in
         b) BUILD="true";;
 		m) EXAMPLES_PATH="$OPTARG";;
         t) V_TOP_FILE="$OPTARG";;
         s) SIMULATE="true";CHECK_WAVE="true";;
 		a) PARAMETERS="$OPTARG";;
+		v) GEN_VERILOG="true";;
     esac
 done
 
 SRC_PATH=$SHELL_PATH/$EXAMPLES_SRC_FOLDER/$EXAMPLES_PATH
 BUILD_PATH=$SRC_PATH"/build"
+echo $SRC_PATH
+echo $BUILD_PATH
 
-
-# Build project
-if [[ "$BUILD" == "true" ]]; then
-	echo $SRC_PATH
-	echo $BUILD_PATH
+# generate verilog
+if [[ "$GEN_VERILOG" == "true" ]]; then
 
 	cd $SRC_PATH
 	CPP_SRC=`find . -maxdepth 1 -name "*.cpp"`
@@ -57,6 +58,14 @@ if [[ "$BUILD" == "true" ]]; then
 	git add . -A --ignore-errors
 	(echo $NAME && echo $ID && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
     sync
+fi
+
+# Build project
+if [[ "$BUILD" == "true" ]]; then
+	cd chisel
+	sbt 'runMain top.elaborateTop'
+	cp Verilog/Top.v ../examples/Top
+
 fi
 
 # Simulate
