@@ -33,7 +33,7 @@ int main(int argc, char **argv){
 	for(int i=0;i<20;i++){
 		dut->clock = !dut->clock;
 		dut->eval();
-		tfp->dump(i);
+		tfp->dump(i*2);
 		dut->clock = !dut->clock;
 
 		dut->io_w_addr+=1;
@@ -41,7 +41,7 @@ int main(int argc, char **argv){
 		dut->io_w_en=1;
 
 		dut->eval();
-		tfp->dump(i);
+		tfp->dump(i*2+1);
 
 	}
 	tfp->close();
