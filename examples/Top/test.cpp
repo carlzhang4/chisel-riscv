@@ -20,11 +20,10 @@ int main(int argc, char **argv){
 	dut_ptr->trace(tfp, 99);
 	tfp->open("vlt_dump.vcd");
 
-
 	dut_ptr->reset = 0;
 	dut_ptr->clock = 0;
 	dut_ptr->io_test_in = 0;
-	for(int i=0;i<10;i++){
+	for(int i=0;i<500;i++){
 		dut_ptr->clock = !dut_ptr->clock;
 		dut_ptr->io_test_in++;
 		dut_ptr->eval();
