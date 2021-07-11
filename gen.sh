@@ -38,6 +38,8 @@ done
 SRC_PATH=$SHELL_PATH/$EXAMPLES_SRC_FOLDER/$EXAMPLES_PATH
 BUILD_PATH=$SRC_PATH"/build"
 
+
+# Build project
 if [[ "$BUILD" == "true" ]]; then
 	echo $SRC_PATH
 	echo $BUILD_PATH
@@ -53,6 +55,23 @@ if [[ "$BUILD" == "true" ]]; then
 	git add . -A --ignore-errors
 	(echo $NAME && echo $ID && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
     sync
+fi
+
+# Simulate
+if [[ "$SIMULATE" == "true" ]]; then
+    echo "Simulating..."
+    cd $BUILD_PATH
+    if [[ "$GBD" == "true" ]]; then
+        gdb -s $EMU_FILE --args ./$EMU_FILE $PARAMETERS
+    else
+        ./$EMU_FILE $PARAMETERS
+    fi
+
+    if [ $? -ne 0 ]; then
+        echo "Failed to simulate!!!"
+        exit 1
+    fi
+    cd $SHELL_PATH
 fi
 
 
