@@ -14,7 +14,8 @@ ID="${ID##*\r}"
 NAME="${NAME##*\r}"
 
 
-EXAMPLES_SRC_FOLDER="examples"
+MODULE_SRC_FOLDER="modules"
+MODULE_NAME="Top"
 EMU_FILE="emu"
 BUILD_FOLDER="build"
 
@@ -31,7 +32,7 @@ WAVE_FILE="vlt_dump.vcd"
 while getopts 'bt:m:a:vf:' OPT; do
     case $OPT in
         b) BUILD="true";;
-		m) EXAMPLES_PATH="$OPTARG";SIMULATE="true";CHECK_WAVE="true";;
+		m) MODULE_NAME="$OPTARG";EXAMPLES_PATH="$OPTARG";SIMULATE="true";CHECK_WAVE="true";;
         t) V_TOP_FILE="$OPTARG";;
 		a) PARAMETERS="$OPTARG";;
 		v) GEN_VERILOG="true";;
@@ -39,7 +40,7 @@ while getopts 'bt:m:a:vf:' OPT; do
     esac
 done
 
-SRC_PATH=$SHELL_PATH/$EXAMPLES_SRC_FOLDER/$EXAMPLES_PATH
+SRC_PATH=$SHELL_PATH/$MODULE_SRC_FOLDER/$EXAMPLES_PATH
 BUILD_PATH=$SRC_PATH"/build"
 echo $SRC_PATH
 echo $BUILD_PATH
@@ -47,8 +48,8 @@ echo $BUILD_PATH
 
 # generate verilog
 if [[ "$GEN_VERILOG" == "true" ]]; then
-	cd chisel
-	sbt 'runMain top.elaborateTop'
+	cd "chisel"
+	sbt 'runMain top.elaborate'MODULE_NAME
 	cp Verilog/Top.v ../examples/Top
 
 fi
