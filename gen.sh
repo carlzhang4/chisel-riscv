@@ -74,6 +74,17 @@ if [[ "$SIMULATE" == "true" ]]; then
     cd $SHELL_PATH
 fi
 
+# Check waveform
+if [[ "$CHECK_WAVE" == "true" ]]; then
+    cd $BUILD_PATH
+    gtkwave $WAVE_FILE
+    if [ $? -ne 0 ]; then
+        echo "Failed to run gtkwave!!!"
+        exit 1
+    fi
+    cd $SHELL_PATH
+fi
+
 
 # cd chisel
 # sbt 'runMain top.elaborateTop'
