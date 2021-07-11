@@ -28,13 +28,14 @@ PARAMETERS=
 WAVE_FILE="vlt_dump.vcd"
 
 
-while getopts 'bt:m:a:v' OPT; do
+while getopts 'bt:m:a:vf:' OPT; do
     case $OPT in
         b) BUILD="true";;
 		m) EXAMPLES_PATH="$OPTARG";SIMULATE="true";CHECK_WAVE="true";;
         t) V_TOP_FILE="$OPTARG";;
 		a) PARAMETERS="$OPTARG";;
 		v) GEN_VERILOG="true";;
+		f) WAVE_FILE="$OPTARG";;
     esac
 done
 
