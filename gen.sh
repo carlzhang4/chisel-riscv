@@ -28,10 +28,10 @@ V_TOP_FILE="top.v"
 CFLAGS=
 PARAMETERS=
 WAVE_FILE="vlt_dump.vcd"
-PACKAGE_NAME="top"
 
 
-while getopts 'bt:m:a:vf:p:' OPT; do
+
+while getopts 'bt:m:a:vf:' OPT; do
     case $OPT in
         b) BUILD="true";;
 		m) MODULE_NAME="$OPTARG";EXAMPLES_PATH="$OPTARG";SIMULATE="true";CHECK_WAVE="true";;
@@ -39,7 +39,6 @@ while getopts 'bt:m:a:vf:p:' OPT; do
 		a) PARAMETERS="$OPTARG";;
 		v) GEN_VERILOG="true";;
 		f) WAVE_FILE="$OPTARG";;
-		p) PACKAGE_NAME="$OPTARG";;
     esac
 done
 
@@ -52,7 +51,7 @@ echo $BUILD_PATH
 # generate verilog
 if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd "chisel"
-	sbt "runMain "$PACKAGE_NAME".elaborate"$MODULE_NAME
+	sbt 'runMain top.elaborate'$MODULE_NAME
 	cp "Verilog/"$MODULE_NAME".v" ../modules/$MODULE_NAME
 
 fi
