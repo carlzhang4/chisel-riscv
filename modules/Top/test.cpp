@@ -32,13 +32,16 @@ void read_inst( char* filename){
 
 void write_inst(int num){
 	for(int i=0;i<num;i++){
+		dut->io_wr_en = 1;
+		dut->io_wr_addr++;
+		dut->io_wr_data = inst_rom[i];
+
 		dut->clock = !dut->clock;
 		dut->eval();
 	  	tfp->dump(i*2);	
 		dut->clock = !dut->clock;
-		dut->io_wr_en = 1;
-		dut->io_wr_addr++;
-		dut->io_wr_data = inst_rom[i];		
+		
+				
 	  	dut->eval();
 	  	tfp->dump(i*2+1);		  		
 	}
