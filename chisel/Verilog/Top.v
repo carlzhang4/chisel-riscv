@@ -105,7 +105,7 @@ module If(
 `endif // RANDOMIZE_REG_INIT
   reg [63:0] pc; // @[If_stage.scala 11:21]
   wire [63:0] _pc_T_1 = pc + 64'h4; // @[If_stage.scala 13:26]
-  assign io_inst_addr = pc; // @[If_stage.scala 19:22]
+  assign io_inst_addr = {{2'd0}, pc[63:2]}; // @[If_stage.scala 19:28]
   always @(posedge clock) begin
     if (io_start) begin // @[If_stage.scala 12:23]
       pc <= _pc_T_1; // @[If_stage.scala 13:20]
