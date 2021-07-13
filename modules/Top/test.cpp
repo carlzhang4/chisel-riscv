@@ -45,10 +45,8 @@ void write_inst(int num){
 }
 
 int main(int argc, char **argv){
-	char filename[100];
-	printf("Please enter your filename~\n");
-	cin >> filename;
-	read_inst(filename);
+
+	read_inst("../inst.bin");
 
 	Verilated::commandArgs(argc, argv);
   	Verilated::traceEverOn(true);
