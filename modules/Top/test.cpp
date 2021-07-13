@@ -42,6 +42,7 @@ void write_inst(int num){
 	  	dut->eval();
 	  	tfp->dump(i*2+1);		  		
 	}
+	dut->io_wr_en = 0;
 }
 
 int main(int argc, char **argv){
