@@ -242,16 +242,16 @@ module Id(
   wire [2:0] _decode_list_T_108 = _decode_list_T_5 ? 3'h6 : _decode_list_T_107; // @[Lookup.scala 33:37]
   wire [2:0] _decode_list_T_109 = _decode_list_T_3 ? 3'h5 : _decode_list_T_108; // @[Lookup.scala 33:37]
   wire [2:0] decode_list_0 = _decode_list_T_1 ? 3'h5 : _decode_list_T_109; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_146 = _decode_list_T_73 ? 7'h7 : 7'h40; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_147 = _decode_list_T_71 ? 7'h6 : _decode_list_T_146; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_148 = _decode_list_T_69 ? 7'hd : _decode_list_T_147; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_149 = _decode_list_T_67 ? 7'h5 : _decode_list_T_148; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_150 = _decode_list_T_65 ? 7'h4 : _decode_list_T_149; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_151 = _decode_list_T_63 ? 7'h3 : _decode_list_T_150; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_152 = _decode_list_T_61 ? 7'h2 : _decode_list_T_151; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_153 = _decode_list_T_59 ? 7'h1 : _decode_list_T_152; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_154 = _decode_list_T_57 ? 7'h8 : _decode_list_T_153; // @[Lookup.scala 33:37]
-  wire [6:0] _decode_list_T_155 = _decode_list_T_55 ? 7'h40 : _decode_list_T_154; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_146 = _decode_list_T_73 ? 4'h7 : 4'h8; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_147 = _decode_list_T_71 ? 4'h6 : _decode_list_T_146; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_148 = _decode_list_T_69 ? 4'hd : _decode_list_T_147; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_149 = _decode_list_T_67 ? 4'h5 : _decode_list_T_148; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_150 = _decode_list_T_65 ? 4'h4 : _decode_list_T_149; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_151 = _decode_list_T_63 ? 4'h3 : _decode_list_T_150; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_152 = _decode_list_T_61 ? 4'h2 : _decode_list_T_151; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_153 = _decode_list_T_59 ? 4'h1 : _decode_list_T_152; // @[Lookup.scala 33:37]
+  wire [3:0] _decode_list_T_154 = _decode_list_T_57 ? 4'h8 : _decode_list_T_153; // @[Lookup.scala 33:37]
+  wire [6:0] _decode_list_T_155 = _decode_list_T_55 ? 7'h40 : {{3'd0}, _decode_list_T_154}; // @[Lookup.scala 33:37]
   wire [6:0] _decode_list_T_156 = _decode_list_T_53 ? 7'hd : _decode_list_T_155; // @[Lookup.scala 33:37]
   wire [6:0] _decode_list_T_157 = _decode_list_T_51 ? 7'h5 : _decode_list_T_156; // @[Lookup.scala 33:37]
   wire [6:0] _decode_list_T_158 = _decode_list_T_49 ? 7'h1 : _decode_list_T_157; // @[Lookup.scala 33:37]
@@ -412,13 +412,13 @@ module Exe(
   reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
   wire  wb_en = 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
-  wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 32:29]
-  reg  io_wb_en_REG; // @[Exe_stage.scala 38:56]
-  reg [63:0] io_wb_data_REG; // @[Exe_stage.scala 39:56]
-  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 40:56]
-  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 40:41]
-  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 38:41]
-  assign io_wb_data = io_wb_data_REG; // @[Exe_stage.scala 39:41]
+  wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 23:29]
+  reg  io_wb_en_REG; // @[Exe_stage.scala 29:56]
+  reg [63:0] io_wb_data_REG; // @[Exe_stage.scala 30:56]
+  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 31:56]
+  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 31:41]
+  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 29:41]
+  assign io_wb_data = io_wb_data_REG; // @[Exe_stage.scala 30:41]
   always @(posedge clock) begin
     io_wb_en_REG <= 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
     if (wb_en) begin // @[Mux.scala 80:57]
@@ -426,7 +426,7 @@ module Exe(
     end else begin
       io_wb_data_REG <= 64'h0;
     end
-    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 40:56]
+    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 31:56]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
