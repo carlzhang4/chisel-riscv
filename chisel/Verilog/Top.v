@@ -176,14 +176,6 @@ module Id(
   reg [31:0] _RAND_1;
   reg [63:0] _RAND_2;
   reg [63:0] _RAND_3;
-  reg [63:0] _RAND_4;
-  reg [63:0] _RAND_5;
-  reg [63:0] _RAND_6;
-  reg [63:0] _RAND_7;
-  reg [63:0] _RAND_8;
-  reg [63:0] _RAND_9;
-  reg [63:0] _RAND_10;
-  reg [63:0] _RAND_11;
 `endif // RANDOMIZE_REG_INIT
   reg [4:0] io_rd_addr_REG; // @[Id_stage.scala 88:48]
   wire [4:0] opcode = io_inst[6:2]; // @[Id_stage.scala 91:40]
@@ -239,6 +231,7 @@ module Id(
   wire [63:0] _imm_T_35 = _imm_T_34 | _imm_T_28; // @[Mux.scala 27:72]
   wire [63:0] _imm_T_36 = _imm_T_35 | _imm_T_29; // @[Mux.scala 27:72]
   wire [63:0] _imm_T_37 = _imm_T_36 | _imm_T_30; // @[Mux.scala 27:72]
+  wire [63:0] imm = _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
   wire [7:0] _insttype_T = {funct3,opcode}; // @[Cat.scala 30:58]
   wire  _insttype_T_9 = 8'h4 == _insttype_T; // @[Id_stage.scala 13:34]
   wire  _insttype_T_10 = 8'hc == _insttype_T; // @[Id_stage.scala 13:34]
@@ -270,25 +263,16 @@ module Id(
   wire [4:0] _GEN_5 = {{1'd0}, _insttype_T_24}; // @[Mux.scala 27:72]
   reg [4:0] io_inst_type_REG; // @[Id_stage.scala 122:40]
   reg [63:0] io_op1_REG; // @[Id_stage.scala 124:48]
-  reg [63:0] op2__REG; // @[Id_stage.scala 127:56]
-  reg [63:0] op2__REG_1; // @[Id_stage.scala 128:56]
-  reg [63:0] op2__REG_2; // @[Id_stage.scala 129:56]
-  reg [63:0] op2__REG_3; // @[Id_stage.scala 130:56]
-  reg [63:0] op2__REG_4; // @[Id_stage.scala 131:56]
-  reg [63:0] op2__REG_5; // @[Id_stage.scala 132:56]
-  reg [63:0] op2__REG_6; // @[Id_stage.scala 133:56]
-  reg [63:0] op2__REG_7; // @[Id_stage.scala 134:56]
-  reg [63:0] op2__REG_8; // @[Id_stage.scala 135:56]
   wire  _op2__T_2 = 5'hc == opcode; // @[Id_stage.scala 13:34]
-  wire [63:0] _op2__T_9 = _imm_T_20 ? op2__REG : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_10 = _imm_T_22 ? op2__REG_1 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_11 = _op2__T_2 ? op2__REG_2 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_12 = _imm_T_16 ? op2__REG_3 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_13 = _imm_T_17 ? op2__REG_4 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_14 = _imm_T_18 ? op2__REG_5 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_15 = _imm_T_19 ? op2__REG_6 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_16 = _imm_T_22 ? op2__REG_7 : 64'h0; // @[Mux.scala 27:72]
-  wire [63:0] _op2__T_17 = _imm_T_23 ? op2__REG_8 : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_9 = _imm_T_20 ? io_rs2_data : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_10 = _imm_T_22 ? io_rs2_data : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_11 = _op2__T_2 ? io_rs2_data : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_12 = _imm_T_16 ? imm : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_13 = _imm_T_17 ? imm : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_14 = _imm_T_18 ? imm : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_15 = _imm_T_19 ? imm : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_16 = _imm_T_22 ? imm : 64'h0; // @[Mux.scala 27:72]
+  wire [63:0] _op2__T_17 = _imm_T_23 ? imm : 64'h0; // @[Mux.scala 27:72]
   wire [63:0] _op2__T_18 = _op2__T_9 | _op2__T_10; // @[Mux.scala 27:72]
   wire [63:0] _op2__T_19 = _op2__T_18 | _op2__T_11; // @[Mux.scala 27:72]
   wire [63:0] _op2__T_20 = _op2__T_19 | _op2__T_12; // @[Mux.scala 27:72]
@@ -296,25 +280,18 @@ module Id(
   wire [63:0] _op2__T_22 = _op2__T_21 | _op2__T_14; // @[Mux.scala 27:72]
   wire [63:0] _op2__T_23 = _op2__T_22 | _op2__T_15; // @[Mux.scala 27:72]
   wire [63:0] _op2__T_24 = _op2__T_23 | _op2__T_16; // @[Mux.scala 27:72]
+  reg [63:0] io_op2_REG; // @[Id_stage.scala 137:48]
   assign io_rs1_addr = io_inst[19:15]; // @[Id_stage.scala 86:40]
   assign io_rs2_addr = io_inst[24:20]; // @[Id_stage.scala 87:40]
   assign io_op1 = io_op1_REG; // @[Id_stage.scala 124:33]
-  assign io_op2 = _op2__T_24 | _op2__T_17; // @[Mux.scala 27:72]
+  assign io_op2 = io_op2_REG; // @[Id_stage.scala 137:33]
   assign io_rd_addr = io_rd_addr_REG; // @[Id_stage.scala 88:33]
   assign io_inst_type = io_inst_type_REG; // @[Id_stage.scala 122:25]
   always @(posedge clock) begin
     io_rd_addr_REG <= io_inst[11:7]; // @[Id_stage.scala 88:56]
     io_inst_type_REG <= _insttype_T_30 | _GEN_5; // @[Mux.scala 27:72]
     io_op1_REG <= io_rs1_data; // @[Id_stage.scala 124:48]
-    op2__REG <= io_rs2_data; // @[Id_stage.scala 127:56]
-    op2__REG_1 <= io_rs2_data; // @[Id_stage.scala 128:56]
-    op2__REG_2 <= io_rs2_data; // @[Id_stage.scala 129:56]
-    op2__REG_3 <= _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
-    op2__REG_4 <= _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
-    op2__REG_5 <= _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
-    op2__REG_6 <= _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
-    op2__REG_7 <= _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
-    op2__REG_8 <= _imm_T_37 | _imm_T_31; // @[Mux.scala 27:72]
+    io_op2_REG <= _op2__T_24 | _op2__T_17; // @[Mux.scala 27:72]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -359,23 +336,7 @@ initial begin
   _RAND_2 = {2{`RANDOM}};
   io_op1_REG = _RAND_2[63:0];
   _RAND_3 = {2{`RANDOM}};
-  op2__REG = _RAND_3[63:0];
-  _RAND_4 = {2{`RANDOM}};
-  op2__REG_1 = _RAND_4[63:0];
-  _RAND_5 = {2{`RANDOM}};
-  op2__REG_2 = _RAND_5[63:0];
-  _RAND_6 = {2{`RANDOM}};
-  op2__REG_3 = _RAND_6[63:0];
-  _RAND_7 = {2{`RANDOM}};
-  op2__REG_4 = _RAND_7[63:0];
-  _RAND_8 = {2{`RANDOM}};
-  op2__REG_5 = _RAND_8[63:0];
-  _RAND_9 = {2{`RANDOM}};
-  op2__REG_6 = _RAND_9[63:0];
-  _RAND_10 = {2{`RANDOM}};
-  op2__REG_7 = _RAND_10[63:0];
-  _RAND_11 = {2{`RANDOM}};
-  op2__REG_8 = _RAND_11[63:0];
+  io_op2_REG = _RAND_3[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
