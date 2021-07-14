@@ -16,8 +16,8 @@ static VTop* dut;
 
 int inst_rom[65536];
 
-void read_inst( char* filename){
-  FILE *fp = fopen(filename, "rb");
+void read_inst(){
+  FILE *fp = fopen("../inst.bin", "rb");
   if( fp == NULL ) {
 		printf( "Can not open this file!\n" );
 		exit(1);
@@ -47,7 +47,7 @@ void write_inst(int num){
 
 int main(int argc, char **argv){
 
-	read_inst("../inst.bin");
+	read_inst();
 
 	Verilated::commandArgs(argc, argv);
   	Verilated::traceEverOn(true);
