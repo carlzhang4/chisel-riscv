@@ -408,14 +408,24 @@ module Exe(
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
+  reg [63:0] _RAND_1;
+  reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
   wire  wb_en = 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
   wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 32:29]
+  reg  io_wb_en_REG; // @[Exe_stage.scala 38:56]
+  reg [63:0] io_wb_data_REG; // @[Exe_stage.scala 39:56]
   reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 40:56]
   assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 40:41]
-  assign io_wb_en = 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
-  assign io_wb_data = wb_en ? add_res : 64'h0; // @[Mux.scala 80:57]
+  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 38:41]
+  assign io_wb_data = io_wb_data_REG; // @[Exe_stage.scala 39:41]
   always @(posedge clock) begin
+    io_wb_en_REG <= 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
+    if (wb_en) begin // @[Mux.scala 80:57]
+      io_wb_data_REG <= add_res;
+    end else begin
+      io_wb_data_REG <= 64'h0;
+    end
     io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 40:56]
   end
 // Register and memory initialization
@@ -455,7 +465,11 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  io_wb_addr_REG = _RAND_0[4:0];
+  io_wb_en_REG = _RAND_0[0:0];
+  _RAND_1 = {2{`RANDOM}};
+  io_wb_data_REG = _RAND_1[63:0];
+  _RAND_2 = {1{`RANDOM}};
+  io_wb_addr_REG = _RAND_2[4:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
