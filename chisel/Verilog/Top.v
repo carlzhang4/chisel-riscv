@@ -260,10 +260,10 @@ module Id(
   wire [4:0] _GEN_5 = {{1'd0}, _insttype_T_24}; // @[Mux.scala 27:72]
   reg [4:0] io_inst_type_REG; // @[Id_stage.scala 122:40]
   reg [63:0] io_op1_REG; // @[Id_stage.scala 124:48]
-  reg [63:0] io_op2_REG; // @[Id_stage.scala 125:48]
+  reg [63:0] io_op2_REG; // @[Id_stage.scala 137:48]
   assign io_rs1_addr = io_inst[19:15]; // @[Id_stage.scala 86:40]
   assign io_op1 = io_op1_REG; // @[Id_stage.scala 124:33]
-  assign io_op2 = io_op2_REG; // @[Id_stage.scala 125:33]
+  assign io_op2 = io_op2_REG; // @[Id_stage.scala 137:33]
   assign io_rd_addr = io_rd_addr_REG; // @[Id_stage.scala 88:33]
   assign io_inst_type = io_inst_type_REG; // @[Id_stage.scala 122:25]
   always @(posedge clock) begin
