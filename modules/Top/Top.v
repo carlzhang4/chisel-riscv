@@ -423,23 +423,29 @@ module Exe(
 `endif // RANDOMIZE_REG_INIT
   wire [5:0] shamt = io_op2[5:0]; // @[Exe_stage.scala 25:27]
   wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 26:30]
-  wire [126:0] _GEN_0 = {{63'd0}, io_op1}; // @[Exe_stage.scala 27:30]
-  wire [126:0] sll_res = _GEN_0 << shamt; // @[Exe_stage.scala 27:30]
-  wire [63:0] _wb_data_T_2 = 7'h40 == io_fu_op_type ? add_res : 64'h0; // @[Mux.scala 80:57]
-  reg  io_wb_en_REG; // @[Exe_stage.scala 36:56]
-  reg [126:0] io_wb_data_REG; // @[Exe_stage.scala 37:56]
-  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 38:56]
-  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 38:41]
-  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 36:41]
-  assign io_wb_data = io_wb_data_REG[63:0]; // @[Exe_stage.scala 37:41]
+  wire [126:0] _GEN_0 = {{63'd0}, io_op1}; // @[Exe_stage.scala 30:57]
+  wire [126:0] _wb_data_T = _GEN_0 << shamt; // @[Exe_stage.scala 30:57]
+  wire [63:0] _wb_data_T_1 = io_op1 >> shamt; // @[Exe_stage.scala 31:57]
+  wire [63:0] _wb_data_T_4 = $signed(io_op1) >>> shamt; // @[Exe_stage.scala 32:74]
+  wire [63:0] _wb_data_T_6 = 7'h40 == io_fu_op_type ? add_res : 64'h0; // @[Mux.scala 80:57]
+  reg  io_wb_en_REG; // @[Exe_stage.scala 37:56]
+  reg [126:0] io_wb_data_REG; // @[Exe_stage.scala 38:56]
+  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 39:56]
+  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 39:41]
+  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 37:41]
+  assign io_wb_data = io_wb_data_REG[63:0]; // @[Exe_stage.scala 38:41]
   always @(posedge clock) begin
     io_wb_en_REG <= 7'h1 == io_fu_op_type | 7'h40 == io_fu_op_type; // @[Mux.scala 80:57]
-    if (7'h1 == io_fu_op_type) begin // @[Mux.scala 80:57]
-      io_wb_data_REG <= sll_res;
+    if (7'hd == io_fu_op_type) begin // @[Mux.scala 80:57]
+      io_wb_data_REG <= {{63'd0}, _wb_data_T_4};
+    end else if (7'h5 == io_fu_op_type) begin // @[Mux.scala 80:57]
+      io_wb_data_REG <= {{63'd0}, _wb_data_T_1};
+    end else if (7'h1 == io_fu_op_type) begin // @[Mux.scala 80:57]
+      io_wb_data_REG <= _wb_data_T;
     end else begin
-      io_wb_data_REG <= {{63'd0}, _wb_data_T_2};
+      io_wb_data_REG <= {{63'd0}, _wb_data_T_6};
     end
-    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 38:56]
+    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 39:56]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
