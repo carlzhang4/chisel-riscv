@@ -425,7 +425,7 @@ module Exe(
   wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 26:30]
   wire [126:0] _GEN_0 = {{63'd0}, io_op1}; // @[Exe_stage.scala 27:30]
   wire [126:0] sll_res = _GEN_0 << shamt; // @[Exe_stage.scala 27:30]
-  wire [63:0] _wb_data_T_1 = 7'h40 == io_fu_op_type ? add_res : 64'h0; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_T_2 = 7'h40 == io_fu_op_type ? add_res : 64'h0; // @[Mux.scala 80:57]
   reg  io_wb_en_REG; // @[Exe_stage.scala 36:56]
   reg [126:0] io_wb_data_REG; // @[Exe_stage.scala 37:56]
   reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 38:56]
@@ -437,7 +437,7 @@ module Exe(
     if (7'h1 == io_fu_op_type) begin // @[Mux.scala 80:57]
       io_wb_data_REG <= sll_res;
     end else begin
-      io_wb_data_REG <= {{63'd0}, _wb_data_T_1};
+      io_wb_data_REG <= {{63'd0}, _wb_data_T_2};
     end
     io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 38:56]
   end
