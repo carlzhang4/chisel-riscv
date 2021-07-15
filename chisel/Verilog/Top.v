@@ -418,25 +418,28 @@ module Exe(
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
-  reg [63:0] _RAND_1;
+  reg [127:0] _RAND_1;
   reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  wire  wb_en = 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
-  wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 23:29]
-  reg  io_wb_en_REG; // @[Exe_stage.scala 29:56]
-  reg [63:0] io_wb_data_REG; // @[Exe_stage.scala 30:56]
-  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 31:56]
-  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 31:41]
-  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 29:41]
-  assign io_wb_data = io_wb_data_REG; // @[Exe_stage.scala 30:41]
+  wire [5:0] shamt = io_op2[5:0]; // @[Exe_stage.scala 25:27]
+  wire [63:0] add_res = io_op1 + io_op2; // @[Exe_stage.scala 26:30]
+  wire [126:0] _GEN_0 = {{63'd0}, io_op1}; // @[Exe_stage.scala 27:30]
+  wire [126:0] sll_res = _GEN_0 << shamt; // @[Exe_stage.scala 27:30]
+  wire [63:0] _wb_data_T_1 = 7'h40 == io_fu_op_type ? add_res : 64'h0; // @[Mux.scala 80:57]
+  reg  io_wb_en_REG; // @[Exe_stage.scala 36:56]
+  reg [126:0] io_wb_data_REG; // @[Exe_stage.scala 37:56]
+  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 38:56]
+  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 38:41]
+  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 36:41]
+  assign io_wb_data = io_wb_data_REG[63:0]; // @[Exe_stage.scala 37:41]
   always @(posedge clock) begin
-    io_wb_en_REG <= 7'h40 == io_fu_op_type; // @[Mux.scala 80:60]
-    if (wb_en) begin // @[Mux.scala 80:57]
-      io_wb_data_REG <= add_res;
+    io_wb_en_REG <= 7'h1 == io_fu_op_type | 7'h40 == io_fu_op_type; // @[Mux.scala 80:57]
+    if (7'h1 == io_fu_op_type) begin // @[Mux.scala 80:57]
+      io_wb_data_REG <= sll_res;
     end else begin
-      io_wb_data_REG <= 64'h0;
+      io_wb_data_REG <= {{63'd0}, _wb_data_T_1};
     end
-    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 31:56]
+    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 38:56]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -476,8 +479,8 @@ initial begin
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
   io_wb_en_REG = _RAND_0[0:0];
-  _RAND_1 = {2{`RANDOM}};
-  io_wb_data_REG = _RAND_1[63:0];
+  _RAND_1 = {4{`RANDOM}};
+  io_wb_data_REG = _RAND_1[126:0];
   _RAND_2 = {1{`RANDOM}};
   io_wb_addr_REG = _RAND_2[4:0];
 `endif // RANDOMIZE_REG_INIT
