@@ -421,36 +421,38 @@ module Exe(
   reg [95:0] _RAND_1;
   reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  wire [5:0] shamt = io_op2[5:0]; // @[Exe_stage.scala 26:27]
-  wire  is_adder_sub = ~io_fu_op_type[6]; // @[Exe_stage.scala 28:28]
+  wire [5:0] shamt = io_op2[5:0]; // @[Exe_stage.scala 33:27]
+  wire  is_adder_sub = ~io_fu_op_type[6]; // @[Exe_stage.scala 35:28]
   wire [63:0] _adder_res_T_1 = is_adder_sub ? 64'hffffffffffffffff : 64'h0; // @[Bitwise.scala 72:12]
-  wire [63:0] _adder_res_T_2 = io_op2 ^ _adder_res_T_1; // @[Exe_stage.scala 29:44]
-  wire [64:0] _adder_res_T_3 = io_op1 + _adder_res_T_2; // @[Exe_stage.scala 29:33]
-  wire [64:0] _GEN_0 = {{64'd0}, is_adder_sub}; // @[Exe_stage.scala 29:72]
-  wire [64:0] adder_res = _adder_res_T_3 + _GEN_0; // @[Exe_stage.scala 29:72]
-  wire [63:0] xor_res = io_op1 ^ io_op2; // @[Exe_stage.scala 30:31]
-  wire  sltu_res = ~adder_res[64]; // @[Exe_stage.scala 32:24]
-  wire  slt_res = xor_res[63] ^ sltu_res; // @[Exe_stage.scala 33:39]
-  wire [126:0] _GEN_1 = {{63'd0}, io_op1}; // @[Exe_stage.scala 37:57]
-  wire [126:0] _wb_data_T = _GEN_1 << shamt; // @[Exe_stage.scala 37:57]
-  wire [63:0] _wb_data_T_2 = io_op1 >> shamt; // @[Exe_stage.scala 38:57]
-  wire [63:0] _wb_data_T_5 = $signed(io_op1) >>> shamt; // @[Exe_stage.scala 39:74]
-  wire [63:0] _wb_data_T_6 = io_op1 | io_op2; // @[Exe_stage.scala 41:57]
-  wire [63:0] _wb_data_T_7 = io_op1 & io_op2; // @[Exe_stage.scala 42:57]
+  wire [63:0] _adder_res_T_2 = io_op2 ^ _adder_res_T_1; // @[Exe_stage.scala 36:44]
+  wire [64:0] _adder_res_T_3 = io_op1 + _adder_res_T_2; // @[Exe_stage.scala 36:33]
+  wire [64:0] _GEN_0 = {{64'd0}, is_adder_sub}; // @[Exe_stage.scala 36:72]
+  wire [64:0] adder_res = _adder_res_T_3 + _GEN_0; // @[Exe_stage.scala 36:72]
+  wire [63:0] xor_res = io_op1 ^ io_op2; // @[Exe_stage.scala 37:31]
+  wire  sltu_res = ~adder_res[64]; // @[Exe_stage.scala 39:24]
+  wire  slt_res = xor_res[63] ^ sltu_res; // @[Exe_stage.scala 40:39]
+  wire [126:0] _GEN_1 = {{63'd0}, io_op1}; // @[Exe_stage.scala 43:57]
+  wire [126:0] _wb_data_T = _GEN_1 << shamt; // @[Exe_stage.scala 43:57]
+  wire [63:0] _wb_data_T_2 = io_op1 >> shamt; // @[Exe_stage.scala 44:57]
+  wire [63:0] _wb_data_T_5 = $signed(io_op1) >>> shamt; // @[Exe_stage.scala 45:74]
+  wire [63:0] _wb_data_T_6 = io_op1 | io_op2; // @[Exe_stage.scala 47:57]
+  wire [63:0] _wb_data_T_7 = io_op1 & io_op2; // @[Exe_stage.scala 48:57]
   wire [63:0] _wb_data_T_8 = {63'h0,slt_res}; // @[Cat.scala 30:58]
   wire [63:0] _wb_data_T_9 = {63'h0,sltu_res}; // @[Cat.scala 30:58]
-  wire [64:0] _wb_data_T_13 = 7'h1 == io_fu_op_type ? {{1'd0}, _wb_data_T[63:0]} : adder_res; // @[Mux.scala 80:57]
-  wire [64:0] _wb_data_T_15 = 7'h5 == io_fu_op_type ? {{1'd0}, _wb_data_T_2} : _wb_data_T_13; // @[Mux.scala 80:57]
-  wire [64:0] _wb_data_T_17 = 7'hd == io_fu_op_type ? {{1'd0}, _wb_data_T_5} : _wb_data_T_15; // @[Mux.scala 80:57]
-  wire [64:0] _wb_data_T_19 = 7'h6 == io_fu_op_type ? {{1'd0}, _wb_data_T_6} : _wb_data_T_17; // @[Mux.scala 80:57]
-  reg  io_wb_en_REG; // @[Exe_stage.scala 50:56]
-  reg [64:0] io_wb_data_REG; // @[Exe_stage.scala 51:56]
-  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 52:56]
-  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 52:41]
-  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 50:41]
-  assign io_wb_data = io_wb_data_REG[63:0]; // @[Exe_stage.scala 51:41]
+  wire [64:0] _wb_data_T_11 = 7'h1 == io_fu_op_type ? {{1'd0}, _wb_data_T[63:0]} : adder_res; // @[Mux.scala 80:57]
+  wire [64:0] _wb_data_T_13 = 7'h5 == io_fu_op_type ? {{1'd0}, _wb_data_T_2} : _wb_data_T_11; // @[Mux.scala 80:57]
+  wire [64:0] _wb_data_T_15 = 7'hd == io_fu_op_type ? {{1'd0}, _wb_data_T_5} : _wb_data_T_13; // @[Mux.scala 80:57]
+  wire [64:0] _wb_data_T_17 = 7'h6 == io_fu_op_type ? {{1'd0}, _wb_data_T_6} : _wb_data_T_15; // @[Mux.scala 80:57]
+  reg  io_wb_en_REG; // @[Exe_stage.scala 56:56]
+  reg [64:0] io_wb_data_REG; // @[Exe_stage.scala 57:56]
+  reg [4:0] io_wb_addr_REG; // @[Exe_stage.scala 58:56]
+  assign io_wb_addr = io_wb_addr_REG; // @[Exe_stage.scala 58:41]
+  assign io_wb_en = io_wb_en_REG; // @[Exe_stage.scala 56:41]
+  assign io_wb_data = io_wb_data_REG[63:0]; // @[Exe_stage.scala 57:41]
   always @(posedge clock) begin
-    io_wb_en_REG <= 7'h1 == io_fu_op_type | 7'h40 == io_fu_op_type; // @[Mux.scala 80:57]
+    io_wb_en_REG <= 7'h3 == io_fu_op_type | (7'h2 == io_fu_op_type | (7'h4 == io_fu_op_type | (7'h7 == io_fu_op_type | (7'h6
+       == io_fu_op_type | (7'hd == io_fu_op_type | (7'h5 == io_fu_op_type | (7'h1 == io_fu_op_type | 7'h40 ==
+      io_fu_op_type))))))); // @[Mux.scala 80:57]
     if (7'h3 == io_fu_op_type) begin // @[Mux.scala 80:57]
       io_wb_data_REG <= {{1'd0}, _wb_data_T_9};
     end else if (7'h2 == io_fu_op_type) begin // @[Mux.scala 80:57]
@@ -460,9 +462,9 @@ module Exe(
     end else if (7'h7 == io_fu_op_type) begin // @[Mux.scala 80:57]
       io_wb_data_REG <= {{1'd0}, _wb_data_T_7};
     end else begin
-      io_wb_data_REG <= _wb_data_T_19;
+      io_wb_data_REG <= _wb_data_T_17;
     end
-    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 52:56]
+    io_wb_addr_REG <= io_rd; // @[Exe_stage.scala 58:56]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -528,16 +530,16 @@ module MemStage(
   reg [31:0] _RAND_1;
   reg [63:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  reg [4:0] io_wb_addr_r_REG; // @[Mem_stage.scala 16:40]
-  reg  io_wb_en_r_REG; // @[Mem_stage.scala 17:48]
-  reg [63:0] io_wb_data_r_REG; // @[Mem_stage.scala 18:40]
-  assign io_wb_addr_r = io_wb_addr_r_REG; // @[Mem_stage.scala 16:25]
-  assign io_wb_en_r = io_wb_en_r_REG; // @[Mem_stage.scala 17:33]
-  assign io_wb_data_r = io_wb_data_r_REG; // @[Mem_stage.scala 18:25]
+  reg [4:0] io_wb_addr_r_REG; // @[Mem_stage.scala 17:40]
+  reg  io_wb_en_r_REG; // @[Mem_stage.scala 18:48]
+  reg [63:0] io_wb_data_r_REG; // @[Mem_stage.scala 19:40]
+  assign io_wb_addr_r = io_wb_addr_r_REG; // @[Mem_stage.scala 17:25]
+  assign io_wb_en_r = io_wb_en_r_REG; // @[Mem_stage.scala 18:33]
+  assign io_wb_data_r = io_wb_data_r_REG; // @[Mem_stage.scala 19:25]
   always @(posedge clock) begin
-    io_wb_addr_r_REG <= io_wb_addr; // @[Mem_stage.scala 16:40]
-    io_wb_en_r_REG <= io_wb_en; // @[Mem_stage.scala 17:48]
-    io_wb_data_r_REG <= io_wb_data; // @[Mem_stage.scala 18:40]
+    io_wb_addr_r_REG <= io_wb_addr; // @[Mem_stage.scala 17:40]
+    io_wb_en_r_REG <= io_wb_en; // @[Mem_stage.scala 18:48]
+    io_wb_data_r_REG <= io_wb_data; // @[Mem_stage.scala 19:40]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN

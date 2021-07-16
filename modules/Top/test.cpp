@@ -4,6 +4,9 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
+#include<string>
+#include <sstream>
+
 #include "VTop.h"
 
 using namespace std;
@@ -16,7 +19,32 @@ static VTop* dut;
 
 int inst_rom[65536];
 
-void read_inst(){
+void split(int idx,const string& s,char flag) {
+    istringstream iss(s);
+    string temp;
+    float label;
+
+	getline(iss, temp, flag);
+	int res = stoi(temp);
+	cout<<res<<endl;
+}
+
+void read_inst_txt(){
+	ifstream f("../inst.txt");
+	string s;
+	if(!f.is_open()){
+		printf( "Can not open this file!\n" );
+		exit(1);
+	}
+	int idx = 0;
+	while(!f.eof()){
+		getline(f,s);
+		split(idx,s,' ');
+	}
+	 
+        
+}
+void read_inst_bin(){
   FILE *fp = fopen("../inst.bin", "rb");
   if( fp == NULL ) {
 		printf( "Can not open this file!\n" );
@@ -47,7 +75,8 @@ void write_inst(int num){
 
 int main(int argc, char **argv){
 
-	read_inst();
+	read_inst_bin();
+	return 0;
 
 	Verilated::commandArgs(argc, argv);
   	Verilated::traceEverOn(true);
