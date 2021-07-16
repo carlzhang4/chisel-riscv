@@ -26,7 +26,7 @@ void split(int idx,const string& s,char flag) {
 	int res;
 
 	getline(iss, temp, flag);
-	cout<<temp;
+	cout<<temp<<endl;
 	ss<<hex<<temp;
 	ss>>res;
 	cout<<res<<endl;
