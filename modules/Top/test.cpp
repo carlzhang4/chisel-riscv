@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	dut->io_wr_data = 0;
 	write_inst(inst_num);
 	dut->io_start = 1;
-	for(int i=inst_num;i<20;i++){
+	for(int i=inst_num;i<30;i++){
 		dut->clock = !dut->clock;
 		dut->eval();
 		tfp->dump(i*2);
