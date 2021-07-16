@@ -41,7 +41,6 @@ int main(int argc, char **argv){
 		cout<<hex<<inst_rom[i]<<endl;
 	}
 	inst_num+=1;
-	return 0;
 
 	Verilated::commandArgs(argc, argv);
   	Verilated::traceEverOn(true);
