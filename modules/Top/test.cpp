@@ -25,9 +25,9 @@ void split(int idx,const string& s,char flag) {
     float label;
 
 	getline(iss, temp, flag);
+	cout<<temp;
 	int res = stoi(temp);
 	cout<<res<<endl;
-	cout<<"done"<<endl;
 }
 
 void read_inst_txt(){
