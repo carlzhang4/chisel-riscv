@@ -19,7 +19,7 @@ void split(int idx,int * inst_rom,const string& s,char flag) {
 	inst_rom[idx] = res;
 }
 
-void read_inst_txt(int *inst_rom){
+int read_inst_txt(int *inst_rom){
 	ifstream f("../inst.txt");
 	string s;
 	if(!f.is_open()){
@@ -32,6 +32,7 @@ void read_inst_txt(int *inst_rom){
 		split(idx,inst_rom,s,' ');
 		idx++;
 	}  
+	return idx;
 }
 
 void read_inst_bin(int *inst_rom){

@@ -35,7 +35,8 @@ void write_inst(int num){
 
 int main(int argc, char **argv){
 
-	read_inst_txt(inst_rom);
+	int inst_num = read_inst_txt(inst_rom);
+	inst_num+=1;
 	return 0;
 
 	Verilated::commandArgs(argc, argv);
@@ -52,7 +53,6 @@ int main(int argc, char **argv){
 	dut->io_wr_en = 0;
 	dut->io_wr_addr = -1;
 	dut->io_wr_data = 0;
-	int inst_num = 4;
 	write_inst(inst_num);
 	dut->io_start = 1;
 	for(int i=inst_num;i<20;i++){
