@@ -37,6 +37,9 @@ int main(int argc, char **argv){
 
 	int inst_num = read_inst_txt(inst_rom);
 	cout<<inst_num<<" instructions read into rom\n";
+	for(int i=0;i<inst_num;i++){
+		cout<<hex<<inst_rom[i]<<endl;
+	}
 	inst_num+=1;
 	return 0;
 
