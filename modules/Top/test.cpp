@@ -16,41 +16,7 @@ static VerilatedVcdC* tfp;
 
 static VTop* dut;
 
-
-
 int inst_rom[65536];
-
-
-
-void read_inst_txt(){
-	ifstream f("../inst.txt");
-	string s;
-	if(!f.is_open()){
-		printf( "Can not open this file!\n" );
-		exit(1);
-	}
-	int idx = 0;
-	while(!f.eof()){
-		getline(f,s);
-		split(idx,inst_rom,s,' ');
-		idx++;
-	}
-	 
-        
-}
-void read_inst_bin(){
-  FILE *fp = fopen("../inst.bin", "rb");
-  if( fp == NULL ) {
-		printf( "Can not open this file!\n" );
-		exit(1);
-  }
-  
-  fseek(fp, 0, SEEK_END);
-  size_t size = ftell(fp);
-  fseek(fp, 0, SEEK_SET);
-  size = fread(inst_rom, size, 1, fp);
-  fclose(fp);
-}
 
 void write_inst(int num){
 	for(int i=0;i<num;i++){
@@ -69,7 +35,7 @@ void write_inst(int num){
 
 int main(int argc, char **argv){
 
-	read_inst_txt();
+	read_inst_txt(inst_rom);
 	return 0;
 
 	Verilated::commandArgs(argc, argv);
