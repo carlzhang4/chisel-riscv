@@ -36,6 +36,7 @@ void write_inst(int num){
 int main(int argc, char **argv){
 
 	int inst_num = read_inst_txt(inst_rom);
+	cout<<inst_num<<" instructions read into rom\n";
 	inst_num+=1;
 	return 0;
 
