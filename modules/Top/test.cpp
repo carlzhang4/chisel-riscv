@@ -29,7 +29,7 @@ void split(int idx,const string& s,char flag) {
 	cout<<temp<<endl;
 	ss<<hex<<temp;
 	ss>>res;
-	cout<<hex<<res<<endl;
+	inst_rom[idx] = res;
 }
 
 void read_inst_txt(){
