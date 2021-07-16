@@ -22,11 +22,13 @@ int inst_rom[65536];
 void split(int idx,const string& s,char flag) {
     istringstream iss(s);
     string temp;
-    float label;
+	stringstream ss;
+	int res;
 
 	getline(iss, temp, flag);
 	cout<<temp;
-	int res = stoi(temp);
+	ss<<hex<<temp;
+	ss>>res;
 	cout<<res<<endl;
 }
 
