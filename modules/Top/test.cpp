@@ -76,7 +76,7 @@ void write_inst(int num){
 
 int main(int argc, char **argv){
 
-	read_inst_bin();
+	read_inst_txt();
 	return 0;
 
 	Verilated::commandArgs(argc, argv);
