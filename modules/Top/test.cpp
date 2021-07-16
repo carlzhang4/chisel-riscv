@@ -7,6 +7,7 @@
 #include<string>
 #include <sstream>
 
+#include "util.h"
 #include "VTop.h"
 
 using namespace std;
@@ -19,17 +20,7 @@ static VTop* dut;
 
 int inst_rom[65536];
 
-void split(int idx,const string& s,char flag) {
-    istringstream iss(s);
-    string temp;
-	stringstream ss;
-	int res;
 
-	getline(iss, temp, flag);
-	ss<<hex<<temp;
-	ss>>res;
-	inst_rom[idx] = res;
-}
 
 void read_inst_txt(){
 	ifstream f("../inst.txt");
@@ -41,7 +32,8 @@ void read_inst_txt(){
 	int idx = 0;
 	while(!f.eof()){
 		getline(f,s);
-		split(idx,s,' ');
+		split(idx,inst_rom,s,' ');
+		idx++;
 	}
 	 
         
