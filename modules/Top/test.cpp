@@ -26,7 +26,6 @@ void split(int idx,const string& s,char flag) {
 	int res;
 
 	getline(iss, temp, flag);
-	cout<<temp<<endl;
 	ss<<hex<<temp;
 	ss>>res;
 	inst_rom[idx] = res;
