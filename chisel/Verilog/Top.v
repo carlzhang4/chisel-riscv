@@ -174,14 +174,12 @@ module Id(
   output [6:0]  io_fu_op_type
 );
 `ifdef RANDOMIZE_REG_INIT
-  reg [31:0] _RAND_0;
-  reg [31:0] _RAND_1;
+  reg [63:0] _RAND_0;
+  reg [63:0] _RAND_1;
   reg [63:0] _RAND_2;
-  reg [63:0] _RAND_3;
-  reg [63:0] _RAND_4;
+  reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
   reg [31:0] _RAND_5;
-  reg [31:0] _RAND_6;
-  reg [31:0] _RAND_7;
 `endif // RANDOMIZE_REG_INIT
   wire [31:0] _decode_list_T = io_inst & 32'h7f; // @[Lookup.scala 31:38]
   wire  _decode_list_T_1 = 32'h37 == _decode_list_T; // @[Lookup.scala 31:38]
@@ -337,17 +335,15 @@ module Id(
   wire [63:0] _imm_T_21 = _imm_T_20 | _imm_T_17; // @[Mux.scala 27:72]
   wire [63:0] _imm_T_22 = _imm_T_21 | _imm_T_18; // @[Mux.scala 27:72]
   wire [63:0] imm = _imm_T_22 | _imm_T_19; // @[Mux.scala 27:72]
-  reg [4:0] io_rs1_REG; // @[Id_stage.scala 60:48]
-  wire  _io_rs2_T = ~src2_type; // @[Id_stage.scala 61:63]
-  reg [4:0] io_rs2_REG; // @[Id_stage.scala 61:48]
+  wire  _io_rs2_T = ~src2_type; // @[Id_stage.scala 61:56]
   reg [63:0] io_op1_REG; // @[Id_stage.scala 62:48]
   reg [63:0] io_op2_REG; // @[Id_stage.scala 63:48]
   reg [63:0] io_imm_REG; // @[Id_stage.scala 64:48]
   reg [6:0] io_fu_op_type_REG; // @[Id_stage.scala 65:40]
   reg [2:0] io_fu_type_REG; // @[Id_stage.scala 66:48]
   reg [4:0] io_rd_REG; // @[Id_stage.scala 67:48]
-  assign io_rs1 = io_rs1_REG; // @[Id_stage.scala 60:33]
-  assign io_rs2 = io_rs2_REG; // @[Id_stage.scala 61:33]
+  assign io_rs1 = src1_type ? 5'h0 : io_inst[19:15]; // @[Id_stage.scala 60:45]
+  assign io_rs2 = ~src2_type ? io_inst[24:20] : 5'h0; // @[Id_stage.scala 61:45]
   assign io_op1 = io_op1_REG; // @[Id_stage.scala 62:33]
   assign io_op2 = io_op2_REG; // @[Id_stage.scala 63:33]
   assign io_imm = io_imm_REG; // @[Id_stage.scala 64:33]
@@ -355,16 +351,6 @@ module Id(
   assign io_fu_type = io_fu_type_REG; // @[Id_stage.scala 66:33]
   assign io_fu_op_type = io_fu_op_type_REG; // @[Id_stage.scala 65:25]
   always @(posedge clock) begin
-    if (src1_type) begin // @[Id_stage.scala 60:52]
-      io_rs1_REG <= 5'h0;
-    end else begin
-      io_rs1_REG <= io_inst[19:15];
-    end
-    if (~src2_type) begin // @[Id_stage.scala 61:52]
-      io_rs2_REG <= io_inst[24:20];
-    end else begin
-      io_rs2_REG <= 5'h0;
-    end
     io_op1_REG <= io_rs1_data; // @[Id_stage.scala 62:48]
     if (_io_rs2_T) begin // @[Id_stage.scala 63:52]
       io_op2_REG <= io_rs2_data;
@@ -432,22 +418,18 @@ initial begin
       `endif
     `endif
 `ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {1{`RANDOM}};
-  io_rs1_REG = _RAND_0[4:0];
-  _RAND_1 = {1{`RANDOM}};
-  io_rs2_REG = _RAND_1[4:0];
+  _RAND_0 = {2{`RANDOM}};
+  io_op1_REG = _RAND_0[63:0];
+  _RAND_1 = {2{`RANDOM}};
+  io_op2_REG = _RAND_1[63:0];
   _RAND_2 = {2{`RANDOM}};
-  io_op1_REG = _RAND_2[63:0];
-  _RAND_3 = {2{`RANDOM}};
-  io_op2_REG = _RAND_3[63:0];
-  _RAND_4 = {2{`RANDOM}};
-  io_imm_REG = _RAND_4[63:0];
+  io_imm_REG = _RAND_2[63:0];
+  _RAND_3 = {1{`RANDOM}};
+  io_fu_op_type_REG = _RAND_3[6:0];
+  _RAND_4 = {1{`RANDOM}};
+  io_fu_type_REG = _RAND_4[2:0];
   _RAND_5 = {1{`RANDOM}};
-  io_fu_op_type_REG = _RAND_5[6:0];
-  _RAND_6 = {1{`RANDOM}};
-  io_fu_type_REG = _RAND_6[2:0];
-  _RAND_7 = {1{`RANDOM}};
-  io_rd_REG = _RAND_7[4:0];
+  io_rd_REG = _RAND_5[4:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
