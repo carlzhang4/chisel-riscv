@@ -606,9 +606,10 @@ module MemStage(
   input         io_mem_data_en
 );
 `ifdef RANDOMIZE_REG_INIT
-  reg [63:0] _RAND_0;
-  reg [31:0] _RAND_1;
+  reg [31:0] _RAND_0;
+  reg [63:0] _RAND_1;
   reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
 `endif // RANDOMIZE_REG_INIT
   wire [63:0] load_addr = io_op1 + io_op2; // @[Mem_stage.scala 32:32]
   wire [63:0] _mem_addr_T_1 = io_op1 + io_imm; // @[Mem_stage.scala 41:57]
@@ -622,7 +623,8 @@ module MemStage(
   wire [63:0] _mem_data_s_T_2 = {32'h0,mem_data_s_lo_2}; // @[Cat.scala 30:58]
   wire [63:0] _mem_data_s_T_4 = 7'h25 == io_fu_op_type ? _mem_data_s_T : 64'h0; // @[Mux.scala 80:57]
   wire [63:0] _mem_data_s_T_6 = 7'h26 == io_fu_op_type ? _mem_data_s_T_1 : _mem_data_s_T_4; // @[Mux.scala 80:57]
-  reg [63:0] wb_data_r_REG; // @[Mem_stage.scala 62:64]
+  reg [6:0] wb_data_r_REG; // @[Mem_stage.scala 62:50]
+  reg [63:0] wb_data_r_REG_1; // @[Mem_stage.scala 62:73]
   wire [7:0] wb_data_r_lo = io_mem_data_l[7:0]; // @[Mem_stage.scala 63:79]
   wire  wb_data_r_signBit = wb_data_r_lo[7]; // @[BitUtil.scala 9:20]
   wire [55:0] wb_data_r_hi = wb_data_r_signBit ? 56'hffffffffffffff : 56'h0; // @[Bitwise.scala 72:12]
@@ -637,21 +639,22 @@ module MemStage(
   wire [63:0] _wb_data_r_T_5 = {wb_data_r_hi_2,wb_data_r_lo_2}; // @[Cat.scala 30:58]
   wire [63:0] _wb_data_r_T_6 = {56'h0,wb_data_r_lo}; // @[Cat.scala 30:58]
   wire [63:0] _wb_data_r_T_7 = {48'h0,wb_data_r_lo_1}; // @[Cat.scala 30:58]
-  wire [63:0] _wb_data_r_T_9 = 7'h20 == io_fu_op_type ? _wb_data_r_T_1 : wb_data_r_REG; // @[Mux.scala 80:57]
-  wire [63:0] _wb_data_r_T_11 = 7'h21 == io_fu_op_type ? _wb_data_r_T_3 : _wb_data_r_T_9; // @[Mux.scala 80:57]
-  wire [63:0] _wb_data_r_T_13 = 7'h22 == io_fu_op_type ? _wb_data_r_T_5 : _wb_data_r_T_11; // @[Mux.scala 80:57]
-  wire [63:0] _wb_data_r_T_15 = 7'h23 == io_fu_op_type ? _wb_data_r_T_6 : _wb_data_r_T_13; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_9 = 7'h20 == wb_data_r_REG ? _wb_data_r_T_1 : wb_data_r_REG_1; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_11 = 7'h21 == wb_data_r_REG ? _wb_data_r_T_3 : _wb_data_r_T_9; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_13 = 7'h22 == wb_data_r_REG ? _wb_data_r_T_5 : _wb_data_r_T_11; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_15 = 7'h23 == wb_data_r_REG ? _wb_data_r_T_6 : _wb_data_r_T_13; // @[Mux.scala 80:57]
   reg [4:0] io_wb_addr_r_REG; // @[Mem_stage.scala 74:40]
   reg  io_wb_en_r_REG; // @[Mem_stage.scala 75:49]
   assign io_wb_addr_r = io_wb_addr_r_REG; // @[Mem_stage.scala 74:25]
   assign io_wb_en_r = io_wb_en_r_REG | io_mem_data_en; // @[Mem_stage.scala 75:61]
-  assign io_wb_data_r = 7'h24 == io_fu_op_type ? _wb_data_r_T_7 : _wb_data_r_T_15; // @[Mux.scala 80:57]
+  assign io_wb_data_r = 7'h24 == wb_data_r_REG ? _wb_data_r_T_7 : _wb_data_r_T_15; // @[Mux.scala 80:57]
   assign io_mem_addr = 7'h27 == io_fu_op_type ? _mem_addr_T_1 : _mem_addr_T_9; // @[Mux.scala 80:57]
   assign io_mem_en = 3'h1 == io_fu_type; // @[Mux.scala 80:60]
   assign io_mem_wr_en = 7'h27 == io_fu_op_type | (7'h26 == io_fu_op_type | 7'h25 == io_fu_op_type); // @[Mux.scala 80:57]
   assign io_mem_data_s = 7'h27 == io_fu_op_type ? _mem_data_s_T_2 : _mem_data_s_T_6; // @[Mux.scala 80:57]
   always @(posedge clock) begin
-    wb_data_r_REG <= io_wb_data; // @[Mem_stage.scala 62:64]
+    wb_data_r_REG <= io_fu_op_type; // @[Mem_stage.scala 62:50]
+    wb_data_r_REG_1 <= io_wb_data; // @[Mem_stage.scala 62:73]
     io_wb_addr_r_REG <= io_wb_addr; // @[Mem_stage.scala 74:40]
     io_wb_en_r_REG <= io_wb_en; // @[Mem_stage.scala 75:49]
   end
@@ -691,12 +694,14 @@ initial begin
       `endif
     `endif
 `ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {2{`RANDOM}};
-  wb_data_r_REG = _RAND_0[63:0];
-  _RAND_1 = {1{`RANDOM}};
-  io_wb_addr_r_REG = _RAND_1[4:0];
+  _RAND_0 = {1{`RANDOM}};
+  wb_data_r_REG = _RAND_0[6:0];
+  _RAND_1 = {2{`RANDOM}};
+  wb_data_r_REG_1 = _RAND_1[63:0];
   _RAND_2 = {1{`RANDOM}};
-  io_wb_en_r_REG = _RAND_2[0:0];
+  io_wb_addr_r_REG = _RAND_2[4:0];
+  _RAND_3 = {1{`RANDOM}};
+  io_wb_en_r_REG = _RAND_3[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
