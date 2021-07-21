@@ -720,6 +720,8 @@ module Mem_ram(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_1;
   reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] mem [0:1023]; // @[Mem_ram.scala 17:30]
   wire [31:0] mem_io_rd_data_MPORT_data; // @[Mem_ram.scala 17:30]
@@ -730,17 +732,19 @@ module Mem_ram(
   wire  mem_MPORT_en; // @[Mem_ram.scala 17:30]
   reg  mem_io_rd_data_MPORT_en_pipe_0;
   reg [9:0] mem_io_rd_data_MPORT_addr_pipe_0;
-  wire  _T = io_wr_en & io_mem_en; // @[Mem_ram.scala 22:23]
-  wire [31:0] _GEN_3 = io_mem_en ? mem_io_rd_data_MPORT_data : 32'h0; // @[Mem_ram.scala 24:30 Mem_ram.scala 25:29 Mem_ram.scala 20:33]
-  wire [31:0] _GEN_13 = io_wr_en & io_mem_en ? 32'h0 : _GEN_3; // @[Mem_ram.scala 22:35 Mem_ram.scala 20:33]
+  reg  rd_valid; // @[Mem_ram.scala 19:30]
+  reg  io_rd_valid_REG; // @[Mem_ram.scala 22:35]
+  wire  _T = io_wr_en & io_mem_en; // @[Mem_ram.scala 23:23]
+  wire [31:0] _GEN_3 = io_mem_en ? mem_io_rd_data_MPORT_data : 32'h0; // @[Mem_ram.scala 25:30 Mem_ram.scala 26:29 Mem_ram.scala 21:33]
+  wire [31:0] _GEN_12 = io_wr_en & io_mem_en ? 32'h0 : _GEN_3; // @[Mem_ram.scala 23:35 Mem_ram.scala 21:33]
   assign mem_io_rd_data_MPORT_addr = mem_io_rd_data_MPORT_addr_pipe_0;
   assign mem_io_rd_data_MPORT_data = mem[mem_io_rd_data_MPORT_addr]; // @[Mem_ram.scala 17:30]
   assign mem_MPORT_data = io_wr_data[31:0];
   assign mem_MPORT_addr = io_addr[9:0];
   assign mem_MPORT_mask = 1'h1;
   assign mem_MPORT_en = io_wr_en & io_mem_en;
-  assign io_rd_valid = io_wr_en & io_mem_en ? 1'h0 : io_mem_en; // @[Mem_ram.scala 22:35 Mem_ram.scala 21:25]
-  assign io_rd_data = {{32'd0}, _GEN_13}; // @[Mem_ram.scala 22:35 Mem_ram.scala 20:33]
+  assign io_rd_valid = io_rd_valid_REG; // @[Mem_ram.scala 22:25]
+  assign io_rd_data = {{32'd0}, _GEN_12}; // @[Mem_ram.scala 23:35 Mem_ram.scala 21:33]
   always @(posedge clock) begin
     if(mem_MPORT_en & mem_MPORT_mask) begin
       mem[mem_MPORT_addr] <= mem_MPORT_data; // @[Mem_ram.scala 17:30]
@@ -753,6 +757,10 @@ module Mem_ram(
     if (_T ? 1'h0 : io_mem_en) begin
       mem_io_rd_data_MPORT_addr_pipe_0 <= io_addr[9:0];
     end
+    if (!(io_wr_en & io_mem_en)) begin // @[Mem_ram.scala 23:35]
+      rd_valid <= io_mem_en;
+    end
+    io_rd_valid_REG <= rd_valid; // @[Mem_ram.scala 22:35]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -799,6 +807,10 @@ initial begin
   mem_io_rd_data_MPORT_en_pipe_0 = _RAND_1[0:0];
   _RAND_2 = {1{`RANDOM}};
   mem_io_rd_data_MPORT_addr_pipe_0 = _RAND_2[9:0];
+  _RAND_3 = {1{`RANDOM}};
+  rd_valid = _RAND_3[0:0];
+  _RAND_4 = {1{`RANDOM}};
+  io_rd_valid_REG = _RAND_4[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
