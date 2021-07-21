@@ -11,12 +11,12 @@ void split(int idx,int * inst_rom,const string& s,char flag) {
     istringstream iss(s);
     string temp;
 	stringstream ss;
-	int res;
+	unsigned int res;
 
 	getline(iss, temp, flag);
 	ss<<hex<<temp;
 	ss>>res;
-	inst_rom[idx] = res;
+	inst_rom[idx] = (int)res;
 }
 
 int read_inst_txt(int *inst_rom){
