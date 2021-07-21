@@ -732,15 +732,15 @@ module Mem_ram(
   reg [9:0] mem_io_rd_data_MPORT_addr_pipe_0;
   wire  _T = io_wr_en & io_mem_en; // @[Mem_ram.scala 22:23]
   wire [31:0] _GEN_3 = io_mem_en ? mem_io_rd_data_MPORT_data : 32'h0; // @[Mem_ram.scala 24:30 Mem_ram.scala 25:29 Mem_ram.scala 20:33]
-  wire [31:0] _GEN_12 = io_wr_en & io_mem_en ? 32'h0 : _GEN_3; // @[Mem_ram.scala 22:35 Mem_ram.scala 20:33]
+  wire [31:0] _GEN_13 = io_wr_en & io_mem_en ? 32'h0 : _GEN_3; // @[Mem_ram.scala 22:35 Mem_ram.scala 20:33]
   assign mem_io_rd_data_MPORT_addr = mem_io_rd_data_MPORT_addr_pipe_0;
   assign mem_io_rd_data_MPORT_data = mem[mem_io_rd_data_MPORT_addr]; // @[Mem_ram.scala 17:30]
   assign mem_MPORT_data = io_wr_data[31:0];
   assign mem_MPORT_addr = io_addr[9:0];
   assign mem_MPORT_mask = 1'h1;
   assign mem_MPORT_en = io_wr_en & io_mem_en;
-  assign io_rd_valid = io_wr_en & io_mem_en ? 1'h0 : io_mem_en; // @[Mem_ram.scala 22:35 Mem_ram.scala 17:30]
-  assign io_rd_data = {{32'd0}, _GEN_12}; // @[Mem_ram.scala 22:35 Mem_ram.scala 20:33]
+  assign io_rd_valid = io_wr_en & io_mem_en ? 1'h0 : io_mem_en; // @[Mem_ram.scala 22:35 Mem_ram.scala 21:25]
+  assign io_rd_data = {{32'd0}, _GEN_13}; // @[Mem_ram.scala 22:35 Mem_ram.scala 20:33]
   always @(posedge clock) begin
     if(mem_MPORT_en & mem_MPORT_mask) begin
       mem[mem_MPORT_addr] <= mem_MPORT_data; // @[Mem_ram.scala 17:30]
