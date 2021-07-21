@@ -632,7 +632,6 @@ module MemStage(
   reg [63:0] _RAND_5;
   reg [31:0] _RAND_6;
   reg [31:0] _RAND_7;
-  reg [63:0] _RAND_8;
 `endif // RANDOMIZE_REG_INIT
   wire [63:0] load_addr = io_op1 + io_op2; // @[Mem_stage.scala 32:32]
   wire [63:0] _mem_addr_T_1 = io_op1 + io_imm; // @[Mem_stage.scala 41:57]
@@ -662,12 +661,14 @@ module MemStage(
   reg [63:0] wb_data_r_REG_4; // @[Mem_stage.scala 67:56]
   reg [63:0] wb_data_r_REG_5; // @[Mem_stage.scala 68:56]
   wire [63:0] _wb_data_r_T_9 = 7'h20 == io_fu_op_type ? wb_data_r_REG_1 : wb_data_r_REG; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_11 = 7'h21 == io_fu_op_type ? wb_data_r_REG_2 : _wb_data_r_T_9; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_13 = 7'h22 == io_fu_op_type ? wb_data_r_REG_3 : _wb_data_r_T_11; // @[Mux.scala 80:57]
+  wire [63:0] _wb_data_r_T_15 = 7'h23 == io_fu_op_type ? wb_data_r_REG_4 : _wb_data_r_T_13; // @[Mux.scala 80:57]
   reg [4:0] io_wb_addr_r_REG; // @[Mem_stage.scala 74:40]
   reg  io_wb_en_r_REG; // @[Mem_stage.scala 75:48]
-  reg [63:0] io_wb_data_r_REG; // @[Mem_stage.scala 80:40]
   assign io_wb_addr_r = io_wb_addr_r_REG; // @[Mem_stage.scala 74:25]
   assign io_wb_en_r = io_wb_en_r_REG; // @[Mem_stage.scala 75:33]
-  assign io_wb_data_r = io_wb_data_r_REG; // @[Mem_stage.scala 80:25]
+  assign io_wb_data_r = 7'h24 == io_fu_op_type ? wb_data_r_REG_5 : _wb_data_r_T_15; // @[Mux.scala 80:57]
   assign io_mem_addr = 7'h27 == io_fu_op_type ? _mem_addr_T_1 : _mem_addr_T_9; // @[Mux.scala 80:57]
   assign io_mem_en = 3'h1 == io_fu_type; // @[Mux.scala 80:60]
   assign io_mem_wr_en = 7'h27 == io_fu_op_type | (7'h26 == io_fu_op_type | 7'h25 == io_fu_op_type); // @[Mux.scala 80:57]
@@ -681,17 +682,6 @@ module MemStage(
     wb_data_r_REG_5 <= {48'h0,wb_data_r_lo_1}; // @[Cat.scala 30:58]
     io_wb_addr_r_REG <= io_wb_addr; // @[Mem_stage.scala 74:40]
     io_wb_en_r_REG <= io_wb_en | io_mem_data_en; // @[Mem_stage.scala 75:58]
-    if (7'h24 == io_fu_op_type) begin // @[Mux.scala 80:57]
-      io_wb_data_r_REG <= wb_data_r_REG_5;
-    end else if (7'h23 == io_fu_op_type) begin // @[Mux.scala 80:57]
-      io_wb_data_r_REG <= wb_data_r_REG_4;
-    end else if (7'h22 == io_fu_op_type) begin // @[Mux.scala 80:57]
-      io_wb_data_r_REG <= wb_data_r_REG_3;
-    end else if (7'h21 == io_fu_op_type) begin // @[Mux.scala 80:57]
-      io_wb_data_r_REG <= wb_data_r_REG_2;
-    end else begin
-      io_wb_data_r_REG <= _wb_data_r_T_9;
-    end
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -745,8 +735,6 @@ initial begin
   io_wb_addr_r_REG = _RAND_6[4:0];
   _RAND_7 = {1{`RANDOM}};
   io_wb_en_r_REG = _RAND_7[0:0];
-  _RAND_8 = {2{`RANDOM}};
-  io_wb_data_r_REG = _RAND_8[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
