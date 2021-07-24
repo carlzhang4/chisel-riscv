@@ -1229,80 +1229,89 @@ module Top(
   input         io_wr_en,
   input  [9:0]  io_wr_addr,
   input  [31:0] io_wr_data,
-  output [63:0] io_wb_data_r
+  output [63:0] io_wb_data_r,
+  input  [63:0] io_logCtrl_log_begin,
+  input  [63:0] io_logCtrl_log_end,
+  input  [63:0] io_logCtrl_log_level,
+  input         io_perfInfo_clean,
+  input         io_perfInfo_dump,
+  output        io_uart_out_valid,
+  output [7:0]  io_uart_out_ch,
+  output        io_uart_in_valid,
+  input  [7:0]  io_uart_in_ch
 );
-  wire  m_inst_ram_clock; // @[Top.scala 17:39]
-  wire [9:0] m_inst_ram_io_inst_addr; // @[Top.scala 17:39]
-  wire [31:0] m_inst_ram_io_inst; // @[Top.scala 17:39]
-  wire  m_inst_ram_io_wr_en; // @[Top.scala 17:39]
-  wire [9:0] m_inst_ram_io_wr_addr; // @[Top.scala 17:39]
-  wire [31:0] m_inst_ram_io_wr_data; // @[Top.scala 17:39]
-  wire  m_if_clock; // @[Top.scala 18:47]
-  wire  m_if_io_start; // @[Top.scala 18:47]
-  wire [63:0] m_if_io_inst_addr; // @[Top.scala 18:47]
-  wire [63:0] m_if_io_pc; // @[Top.scala 18:47]
-  wire  m_id_clock; // @[Top.scala 19:47]
-  wire [31:0] m_id_io_inst; // @[Top.scala 19:47]
-  wire [63:0] m_id_io_pc; // @[Top.scala 19:47]
-  wire [4:0] m_id_io_rs1; // @[Top.scala 19:47]
-  wire [4:0] m_id_io_rs2; // @[Top.scala 19:47]
-  wire [63:0] m_id_io_rs1_data; // @[Top.scala 19:47]
-  wire [63:0] m_id_io_rs2_data; // @[Top.scala 19:47]
-  wire [63:0] m_id_io_op1; // @[Top.scala 19:47]
-  wire [63:0] m_id_io_op2; // @[Top.scala 19:47]
-  wire [63:0] m_id_io_imm; // @[Top.scala 19:47]
-  wire [4:0] m_id_io_rd; // @[Top.scala 19:47]
-  wire [2:0] m_id_io_fu_type; // @[Top.scala 19:47]
-  wire [6:0] m_id_io_fu_op_type; // @[Top.scala 19:47]
-  wire  m_exe_clock; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_op1; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_op2; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_imm; // @[Top.scala 20:47]
-  wire [4:0] m_exe_io_rd; // @[Top.scala 20:47]
-  wire [2:0] m_exe_io_fu_type; // @[Top.scala 20:47]
-  wire [6:0] m_exe_io_fu_op_type; // @[Top.scala 20:47]
-  wire [2:0] m_exe_io_fu_type_o; // @[Top.scala 20:47]
-  wire [6:0] m_exe_io_fu_op_type_o; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_op1_o; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_op2_o; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_imm_o; // @[Top.scala 20:47]
-  wire [4:0] m_exe_io_wb_addr; // @[Top.scala 20:47]
-  wire  m_exe_io_wb_en; // @[Top.scala 20:47]
-  wire [63:0] m_exe_io_wb_data; // @[Top.scala 20:47]
-  wire  m_mem_clock; // @[Top.scala 21:47]
-  wire [4:0] m_mem_io_wb_addr; // @[Top.scala 21:47]
-  wire  m_mem_io_wb_en; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_wb_data; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_op1; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_op2; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_imm; // @[Top.scala 21:47]
-  wire [2:0] m_mem_io_fu_type; // @[Top.scala 21:47]
-  wire [6:0] m_mem_io_fu_op_type; // @[Top.scala 21:47]
-  wire [4:0] m_mem_io_wb_addr_r; // @[Top.scala 21:47]
-  wire  m_mem_io_wb_en_r; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_wb_data_r; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_mem_addr; // @[Top.scala 21:47]
-  wire  m_mem_io_mem_en; // @[Top.scala 21:47]
-  wire  m_mem_io_mem_wr_en; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_mem_data_s; // @[Top.scala 21:47]
-  wire [63:0] m_mem_io_mem_data_l; // @[Top.scala 21:47]
-  wire  m_mem_io_mem_data_en; // @[Top.scala 21:47]
-  wire  m_mem_ram_clock; // @[Top.scala 22:39]
-  wire  m_mem_ram_io_rd_valid; // @[Top.scala 22:39]
-  wire [63:0] m_mem_ram_io_addr; // @[Top.scala 22:39]
-  wire [63:0] m_mem_ram_io_rd_data; // @[Top.scala 22:39]
-  wire  m_mem_ram_io_mem_en; // @[Top.scala 22:39]
-  wire  m_mem_ram_io_wr_en; // @[Top.scala 22:39]
-  wire [63:0] m_mem_ram_io_wr_data; // @[Top.scala 22:39]
-  wire  m_regfile_clock; // @[Top.scala 23:39]
-  wire [4:0] m_regfile_io_w_addr; // @[Top.scala 23:39]
-  wire [63:0] m_regfile_io_w_data; // @[Top.scala 23:39]
-  wire  m_regfile_io_w_en; // @[Top.scala 23:39]
-  wire [4:0] m_regfile_io_r1_addr; // @[Top.scala 23:39]
-  wire [63:0] m_regfile_io_r1_data; // @[Top.scala 23:39]
-  wire [4:0] m_regfile_io_r2_addr; // @[Top.scala 23:39]
-  wire [63:0] m_regfile_io_r2_data; // @[Top.scala 23:39]
-  Inst_ram m_inst_ram ( // @[Top.scala 17:39]
+  wire  m_inst_ram_clock; // @[Top.scala 36:39]
+  wire [9:0] m_inst_ram_io_inst_addr; // @[Top.scala 36:39]
+  wire [31:0] m_inst_ram_io_inst; // @[Top.scala 36:39]
+  wire  m_inst_ram_io_wr_en; // @[Top.scala 36:39]
+  wire [9:0] m_inst_ram_io_wr_addr; // @[Top.scala 36:39]
+  wire [31:0] m_inst_ram_io_wr_data; // @[Top.scala 36:39]
+  wire  m_if_clock; // @[Top.scala 37:47]
+  wire  m_if_io_start; // @[Top.scala 37:47]
+  wire [63:0] m_if_io_inst_addr; // @[Top.scala 37:47]
+  wire [63:0] m_if_io_pc; // @[Top.scala 37:47]
+  wire  m_id_clock; // @[Top.scala 38:47]
+  wire [31:0] m_id_io_inst; // @[Top.scala 38:47]
+  wire [63:0] m_id_io_pc; // @[Top.scala 38:47]
+  wire [4:0] m_id_io_rs1; // @[Top.scala 38:47]
+  wire [4:0] m_id_io_rs2; // @[Top.scala 38:47]
+  wire [63:0] m_id_io_rs1_data; // @[Top.scala 38:47]
+  wire [63:0] m_id_io_rs2_data; // @[Top.scala 38:47]
+  wire [63:0] m_id_io_op1; // @[Top.scala 38:47]
+  wire [63:0] m_id_io_op2; // @[Top.scala 38:47]
+  wire [63:0] m_id_io_imm; // @[Top.scala 38:47]
+  wire [4:0] m_id_io_rd; // @[Top.scala 38:47]
+  wire [2:0] m_id_io_fu_type; // @[Top.scala 38:47]
+  wire [6:0] m_id_io_fu_op_type; // @[Top.scala 38:47]
+  wire  m_exe_clock; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_op1; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_op2; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_imm; // @[Top.scala 39:47]
+  wire [4:0] m_exe_io_rd; // @[Top.scala 39:47]
+  wire [2:0] m_exe_io_fu_type; // @[Top.scala 39:47]
+  wire [6:0] m_exe_io_fu_op_type; // @[Top.scala 39:47]
+  wire [2:0] m_exe_io_fu_type_o; // @[Top.scala 39:47]
+  wire [6:0] m_exe_io_fu_op_type_o; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_op1_o; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_op2_o; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_imm_o; // @[Top.scala 39:47]
+  wire [4:0] m_exe_io_wb_addr; // @[Top.scala 39:47]
+  wire  m_exe_io_wb_en; // @[Top.scala 39:47]
+  wire [63:0] m_exe_io_wb_data; // @[Top.scala 39:47]
+  wire  m_mem_clock; // @[Top.scala 40:47]
+  wire [4:0] m_mem_io_wb_addr; // @[Top.scala 40:47]
+  wire  m_mem_io_wb_en; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_wb_data; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_op1; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_op2; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_imm; // @[Top.scala 40:47]
+  wire [2:0] m_mem_io_fu_type; // @[Top.scala 40:47]
+  wire [6:0] m_mem_io_fu_op_type; // @[Top.scala 40:47]
+  wire [4:0] m_mem_io_wb_addr_r; // @[Top.scala 40:47]
+  wire  m_mem_io_wb_en_r; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_wb_data_r; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_mem_addr; // @[Top.scala 40:47]
+  wire  m_mem_io_mem_en; // @[Top.scala 40:47]
+  wire  m_mem_io_mem_wr_en; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_mem_data_s; // @[Top.scala 40:47]
+  wire [63:0] m_mem_io_mem_data_l; // @[Top.scala 40:47]
+  wire  m_mem_io_mem_data_en; // @[Top.scala 40:47]
+  wire  m_mem_ram_clock; // @[Top.scala 41:39]
+  wire  m_mem_ram_io_rd_valid; // @[Top.scala 41:39]
+  wire [63:0] m_mem_ram_io_addr; // @[Top.scala 41:39]
+  wire [63:0] m_mem_ram_io_rd_data; // @[Top.scala 41:39]
+  wire  m_mem_ram_io_mem_en; // @[Top.scala 41:39]
+  wire  m_mem_ram_io_wr_en; // @[Top.scala 41:39]
+  wire [63:0] m_mem_ram_io_wr_data; // @[Top.scala 41:39]
+  wire  m_regfile_clock; // @[Top.scala 42:39]
+  wire [4:0] m_regfile_io_w_addr; // @[Top.scala 42:39]
+  wire [63:0] m_regfile_io_w_data; // @[Top.scala 42:39]
+  wire  m_regfile_io_w_en; // @[Top.scala 42:39]
+  wire [4:0] m_regfile_io_r1_addr; // @[Top.scala 42:39]
+  wire [63:0] m_regfile_io_r1_data; // @[Top.scala 42:39]
+  wire [4:0] m_regfile_io_r2_addr; // @[Top.scala 42:39]
+  wire [63:0] m_regfile_io_r2_data; // @[Top.scala 42:39]
+  Inst_ram m_inst_ram ( // @[Top.scala 36:39]
     .clock(m_inst_ram_clock),
     .io_inst_addr(m_inst_ram_io_inst_addr),
     .io_inst(m_inst_ram_io_inst),
@@ -1310,13 +1319,13 @@ module Top(
     .io_wr_addr(m_inst_ram_io_wr_addr),
     .io_wr_data(m_inst_ram_io_wr_data)
   );
-  If m_if ( // @[Top.scala 18:47]
+  If m_if ( // @[Top.scala 37:47]
     .clock(m_if_clock),
     .io_start(m_if_io_start),
     .io_inst_addr(m_if_io_inst_addr),
     .io_pc(m_if_io_pc)
   );
-  Id m_id ( // @[Top.scala 19:47]
+  Id m_id ( // @[Top.scala 38:47]
     .clock(m_id_clock),
     .io_inst(m_id_io_inst),
     .io_pc(m_id_io_pc),
@@ -1331,7 +1340,7 @@ module Top(
     .io_fu_type(m_id_io_fu_type),
     .io_fu_op_type(m_id_io_fu_op_type)
   );
-  Exe m_exe ( // @[Top.scala 20:47]
+  Exe m_exe ( // @[Top.scala 39:47]
     .clock(m_exe_clock),
     .io_op1(m_exe_io_op1),
     .io_op2(m_exe_io_op2),
@@ -1348,7 +1357,7 @@ module Top(
     .io_wb_en(m_exe_io_wb_en),
     .io_wb_data(m_exe_io_wb_data)
   );
-  MemStage m_mem ( // @[Top.scala 21:47]
+  MemStage m_mem ( // @[Top.scala 40:47]
     .clock(m_mem_clock),
     .io_wb_addr(m_mem_io_wb_addr),
     .io_wb_en(m_mem_io_wb_en),
@@ -1368,7 +1377,7 @@ module Top(
     .io_mem_data_l(m_mem_io_mem_data_l),
     .io_mem_data_en(m_mem_io_mem_data_en)
   );
-  Mem_ram m_mem_ram ( // @[Top.scala 22:39]
+  Mem_ram m_mem_ram ( // @[Top.scala 41:39]
     .clock(m_mem_ram_clock),
     .io_rd_valid(m_mem_ram_io_rd_valid),
     .io_addr(m_mem_ram_io_addr),
@@ -1377,7 +1386,7 @@ module Top(
     .io_wr_en(m_mem_ram_io_wr_en),
     .io_wr_data(m_mem_ram_io_wr_data)
   );
-  Regfile m_regfile ( // @[Top.scala 23:39]
+  Regfile m_regfile ( // @[Top.scala 42:39]
     .clock(m_regfile_clock),
     .io_w_addr(m_regfile_io_w_addr),
     .io_w_data(m_regfile_io_w_data),
@@ -1387,46 +1396,49 @@ module Top(
     .io_r2_addr(m_regfile_io_r2_addr),
     .io_r2_data(m_regfile_io_r2_data)
   );
-  assign io_wb_data_r = m_mem_io_wb_data_r; // @[Top.scala 68:49]
+  assign io_wb_data_r = m_mem_io_wb_data_r; // @[Top.scala 87:49]
+  assign io_uart_out_valid = 1'h0; // @[Top.scala 31:21]
+  assign io_uart_out_ch = 8'h0; // @[Top.scala 32:18]
+  assign io_uart_in_valid = 1'h0; // @[Top.scala 30:20]
   assign m_inst_ram_clock = clock;
-  assign m_inst_ram_io_inst_addr = m_if_io_inst_addr[9:0]; // @[Top.scala 29:41]
-  assign m_inst_ram_io_wr_en = io_wr_en; // @[Top.scala 25:49]
-  assign m_inst_ram_io_wr_addr = io_wr_addr; // @[Top.scala 26:41]
-  assign m_inst_ram_io_wr_data = io_wr_data; // @[Top.scala 27:41]
+  assign m_inst_ram_io_inst_addr = m_if_io_inst_addr[9:0]; // @[Top.scala 48:41]
+  assign m_inst_ram_io_wr_en = io_wr_en; // @[Top.scala 44:49]
+  assign m_inst_ram_io_wr_addr = io_wr_addr; // @[Top.scala 45:41]
+  assign m_inst_ram_io_wr_data = io_wr_data; // @[Top.scala 46:41]
   assign m_if_clock = clock;
-  assign m_if_io_start = io_start; // @[Top.scala 30:49]
+  assign m_if_io_start = io_start; // @[Top.scala 49:49]
   assign m_id_clock = clock;
-  assign m_id_io_inst = m_inst_ram_io_inst; // @[Top.scala 32:49]
-  assign m_id_io_pc = m_if_io_pc; // @[Top.scala 33:57]
-  assign m_id_io_rs1_data = m_regfile_io_r1_data; // @[Top.scala 38:49]
-  assign m_id_io_rs2_data = m_regfile_io_r2_data; // @[Top.scala 39:49]
+  assign m_id_io_inst = m_inst_ram_io_inst; // @[Top.scala 51:49]
+  assign m_id_io_pc = m_if_io_pc; // @[Top.scala 52:57]
+  assign m_id_io_rs1_data = m_regfile_io_r1_data; // @[Top.scala 57:49]
+  assign m_id_io_rs2_data = m_regfile_io_r2_data; // @[Top.scala 58:49]
   assign m_exe_clock = clock;
-  assign m_exe_io_op1 = m_id_io_op1; // @[Top.scala 41:49]
-  assign m_exe_io_op2 = m_id_io_op2; // @[Top.scala 42:49]
-  assign m_exe_io_imm = m_id_io_imm; // @[Top.scala 43:49]
-  assign m_exe_io_rd = m_id_io_rd; // @[Top.scala 44:49]
-  assign m_exe_io_fu_type = m_id_io_fu_type; // @[Top.scala 46:49]
-  assign m_exe_io_fu_op_type = m_id_io_fu_op_type; // @[Top.scala 45:41]
+  assign m_exe_io_op1 = m_id_io_op1; // @[Top.scala 60:49]
+  assign m_exe_io_op2 = m_id_io_op2; // @[Top.scala 61:49]
+  assign m_exe_io_imm = m_id_io_imm; // @[Top.scala 62:49]
+  assign m_exe_io_rd = m_id_io_rd; // @[Top.scala 63:49]
+  assign m_exe_io_fu_type = m_id_io_fu_type; // @[Top.scala 65:49]
+  assign m_exe_io_fu_op_type = m_id_io_fu_op_type; // @[Top.scala 64:41]
   assign m_mem_clock = clock;
-  assign m_mem_io_wb_addr = m_exe_io_wb_addr; // @[Top.scala 48:49]
-  assign m_mem_io_wb_en = m_exe_io_wb_en; // @[Top.scala 49:49]
-  assign m_mem_io_wb_data = m_exe_io_wb_data; // @[Top.scala 50:49]
-  assign m_mem_io_op1 = m_exe_io_op1_o; // @[Top.scala 51:49]
-  assign m_mem_io_op2 = m_exe_io_op2_o; // @[Top.scala 52:49]
-  assign m_mem_io_imm = m_exe_io_imm_o; // @[Top.scala 53:49]
-  assign m_mem_io_fu_type = m_exe_io_fu_type_o; // @[Top.scala 54:49]
-  assign m_mem_io_fu_op_type = m_exe_io_fu_op_type_o; // @[Top.scala 55:49]
-  assign m_mem_io_mem_data_l = m_mem_ram_io_rd_data; // @[Top.scala 61:49]
-  assign m_mem_io_mem_data_en = m_mem_ram_io_rd_valid; // @[Top.scala 62:41]
+  assign m_mem_io_wb_addr = m_exe_io_wb_addr; // @[Top.scala 67:49]
+  assign m_mem_io_wb_en = m_exe_io_wb_en; // @[Top.scala 68:49]
+  assign m_mem_io_wb_data = m_exe_io_wb_data; // @[Top.scala 69:49]
+  assign m_mem_io_op1 = m_exe_io_op1_o; // @[Top.scala 70:49]
+  assign m_mem_io_op2 = m_exe_io_op2_o; // @[Top.scala 71:49]
+  assign m_mem_io_imm = m_exe_io_imm_o; // @[Top.scala 72:49]
+  assign m_mem_io_fu_type = m_exe_io_fu_type_o; // @[Top.scala 73:49]
+  assign m_mem_io_fu_op_type = m_exe_io_fu_op_type_o; // @[Top.scala 74:49]
+  assign m_mem_io_mem_data_l = m_mem_ram_io_rd_data; // @[Top.scala 80:49]
+  assign m_mem_io_mem_data_en = m_mem_ram_io_rd_valid; // @[Top.scala 81:41]
   assign m_mem_ram_clock = clock;
-  assign m_mem_ram_io_addr = m_mem_io_mem_addr; // @[Top.scala 57:49]
-  assign m_mem_ram_io_mem_en = m_mem_io_mem_en; // @[Top.scala 58:49]
-  assign m_mem_ram_io_wr_en = m_mem_io_mem_wr_en; // @[Top.scala 59:49]
-  assign m_mem_ram_io_wr_data = m_mem_io_mem_data_s; // @[Top.scala 60:41]
+  assign m_mem_ram_io_addr = m_mem_io_mem_addr; // @[Top.scala 76:49]
+  assign m_mem_ram_io_mem_en = m_mem_io_mem_en; // @[Top.scala 77:49]
+  assign m_mem_ram_io_wr_en = m_mem_io_mem_wr_en; // @[Top.scala 78:49]
+  assign m_mem_ram_io_wr_data = m_mem_io_mem_data_s; // @[Top.scala 79:41]
   assign m_regfile_clock = clock;
-  assign m_regfile_io_w_addr = m_mem_io_wb_addr_r; // @[Top.scala 64:49]
-  assign m_regfile_io_w_data = m_mem_io_wb_data_r; // @[Top.scala 65:49]
-  assign m_regfile_io_w_en = m_mem_io_wb_en_r; // @[Top.scala 66:49]
-  assign m_regfile_io_r1_addr = m_id_io_rs1; // @[Top.scala 35:41]
-  assign m_regfile_io_r2_addr = m_id_io_rs2; // @[Top.scala 36:41]
+  assign m_regfile_io_w_addr = m_mem_io_wb_addr_r; // @[Top.scala 83:49]
+  assign m_regfile_io_w_data = m_mem_io_wb_data_r; // @[Top.scala 84:49]
+  assign m_regfile_io_w_en = m_mem_io_wb_en_r; // @[Top.scala 85:49]
+  assign m_regfile_io_r1_addr = m_id_io_rs1; // @[Top.scala 54:41]
+  assign m_regfile_io_r2_addr = m_id_io_rs2; // @[Top.scala 55:41]
 endmodule

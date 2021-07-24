@@ -1222,7 +1222,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
-module Top(
+module SimTop(
   input         clock,
   input         reset,
   input         io_start,

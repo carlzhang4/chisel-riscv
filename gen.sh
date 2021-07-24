@@ -24,7 +24,7 @@ GEN_VERILOG="false"
 BUILD="false"
 SIMULATE="false"
 CHECK_WAVE="false"
-V_TOP_FILE="top.v"
+V_TOP_FILE="Top.v"
 CFLAGS=
 PARAMETERS=
 WAVE_FILE="vlt_dump.vcd"
@@ -51,7 +51,8 @@ echo $BUILD_PATH
 # generate verilog
 if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd "chisel"
-	sbt 'runMain top.elaborate'$MODULE_NAME
+	mill ysyx
+    # sbt 'runMain top.elaborate'$MODULE_NAME
 	cp "Verilog/"$MODULE_NAME".v" ../modules/$MODULE_NAME
 
 fi
