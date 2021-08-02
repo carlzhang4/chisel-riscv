@@ -12,7 +12,7 @@ GEN_VERILOG="false"
 BUILD="false"
 SIMULATE="false"
 CHECK_WAVE="false"
-WAVE_FILE="hhj_666.vcd"
+WAVE_FILE="hhj.vcd"
 
 while getopts 'vbswf:' OPT; do
     case $OPT in
@@ -59,7 +59,7 @@ if [[ "$SIMULATE" == "true" ]]; then
     fi
 fi
 
-if [[ "$CHECK_WARE" == "true" ]]; then
+if [[ "$CHECK_WAVE" == "true" ]]; then
 	cd $CHISEL_HOME/build
 	gtkwave $WAVE_FILE
 fi
