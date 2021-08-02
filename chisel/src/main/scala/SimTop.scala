@@ -26,18 +26,10 @@ class SimTop extends Module {
     val logCtrl = new LogCtrlIO
     val perfInfo = new PerfInfoIO
     val uart = new UARTIO
-	// val start = Input(Bool())
-	// val wr_en = Input(Bool())
-	// val wr_addr = Input(UInt(10.W))
-	// val wr_data = Input(UInt(32.W))
   })
 
   val rcore = Module(new Top(64))
 
-  		// rcore.io.start := io.start
-		// rcore.io.wr_en := io.wr_en
-		// rcore.io.wr_addr := io.wr_addr
-		// rcore.io.wr_data := io.wr_data
 
   // rvcore 访问内存的端口，下个步骤会说明，此处暂不连接
 

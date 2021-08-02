@@ -115,9 +115,6 @@ class Top(XLEN:Int) extends Module{
 	trap.io.cycleCnt := cycleCnt
 	trap.io.instrCnt := 0.U
 
-
-
-
 }
 
 

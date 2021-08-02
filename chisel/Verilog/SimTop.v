@@ -428,7 +428,8 @@ module Exe(
   wire [63:0] _adder_res_T_2 = io_op2 ^ _adder_res_T_1; // @[Exe_stage.scala 49:44]
   wire [64:0] _adder_res_T_3 = io_op1 + _adder_res_T_2; // @[Exe_stage.scala 49:33]
   wire [64:0] _GEN_0 = {{64'd0}, is_adder_sub}; // @[Exe_stage.scala 49:72]
-  wire [64:0] adder_res = _adder_res_T_3 + _GEN_0; // @[Exe_stage.scala 49:72]
+  wire [64:0] _adder_res_T_5 = _adder_res_T_3 + _GEN_0; // @[Exe_stage.scala 49:72]
+  wire [64:0] adder_res = _adder_res_T_5 + 65'h1; // @[Exe_stage.scala 49:87]
   wire [63:0] xor_res = io_op1 ^ io_op2; // @[Exe_stage.scala 50:31]
   wire  sltu_res = ~adder_res[64]; // @[Exe_stage.scala 52:24]
   wire  slt_res = xor_res[63] ^ sltu_res; // @[Exe_stage.scala 53:39]
@@ -1687,38 +1688,38 @@ module SimTop(
   output        io_uart_in_valid,
   input  [7:0]  io_uart_in_ch
 );
-  wire  rcore_clock; // @[SimTop.scala 35:21]
-  wire  rcore_reset; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_inst_ram_rIdx; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_inst_ram_rdata; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_inst_ram_wIdx; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_inst_ram_wdata; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_inst_ram_wmask; // @[SimTop.scala 35:21]
-  wire  rcore_io_inst_ram_wen; // @[SimTop.scala 35:21]
-  wire  rcore_io_data_ram_en; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_data_ram_rIdx; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_data_ram_rdata; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_data_ram_wIdx; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_data_ram_wdata; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_data_ram_wmask; // @[SimTop.scala 35:21]
-  wire  rcore_io_data_ram_wen; // @[SimTop.scala 35:21]
-  wire  inst_ram_clk; // @[SimTop.scala 51:24]
-  wire  inst_ram_en; // @[SimTop.scala 51:24]
-  wire [63:0] inst_ram_rIdx; // @[SimTop.scala 51:24]
-  wire [63:0] inst_ram_rdata; // @[SimTop.scala 51:24]
-  wire [63:0] inst_ram_wIdx; // @[SimTop.scala 51:24]
-  wire [63:0] inst_ram_wdata; // @[SimTop.scala 51:24]
-  wire [63:0] inst_ram_wmask; // @[SimTop.scala 51:24]
-  wire  inst_ram_wen; // @[SimTop.scala 51:24]
-  wire  data_ram_clk; // @[SimTop.scala 52:24]
-  wire  data_ram_en; // @[SimTop.scala 52:24]
-  wire [63:0] data_ram_rIdx; // @[SimTop.scala 52:24]
-  wire [63:0] data_ram_rdata; // @[SimTop.scala 52:24]
-  wire [63:0] data_ram_wIdx; // @[SimTop.scala 52:24]
-  wire [63:0] data_ram_wdata; // @[SimTop.scala 52:24]
-  wire [63:0] data_ram_wmask; // @[SimTop.scala 52:24]
-  wire  data_ram_wen; // @[SimTop.scala 52:24]
-  Top rcore ( // @[SimTop.scala 35:21]
+  wire  rcore_clock; // @[SimTop.scala 31:21]
+  wire  rcore_reset; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_inst_ram_rIdx; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_inst_ram_rdata; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_inst_ram_wIdx; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_inst_ram_wdata; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_inst_ram_wmask; // @[SimTop.scala 31:21]
+  wire  rcore_io_inst_ram_wen; // @[SimTop.scala 31:21]
+  wire  rcore_io_data_ram_en; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_data_ram_rIdx; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_data_ram_rdata; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_data_ram_wIdx; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_data_ram_wdata; // @[SimTop.scala 31:21]
+  wire [63:0] rcore_io_data_ram_wmask; // @[SimTop.scala 31:21]
+  wire  rcore_io_data_ram_wen; // @[SimTop.scala 31:21]
+  wire  inst_ram_clk; // @[SimTop.scala 43:24]
+  wire  inst_ram_en; // @[SimTop.scala 43:24]
+  wire [63:0] inst_ram_rIdx; // @[SimTop.scala 43:24]
+  wire [63:0] inst_ram_rdata; // @[SimTop.scala 43:24]
+  wire [63:0] inst_ram_wIdx; // @[SimTop.scala 43:24]
+  wire [63:0] inst_ram_wdata; // @[SimTop.scala 43:24]
+  wire [63:0] inst_ram_wmask; // @[SimTop.scala 43:24]
+  wire  inst_ram_wen; // @[SimTop.scala 43:24]
+  wire  data_ram_clk; // @[SimTop.scala 44:24]
+  wire  data_ram_en; // @[SimTop.scala 44:24]
+  wire [63:0] data_ram_rIdx; // @[SimTop.scala 44:24]
+  wire [63:0] data_ram_rdata; // @[SimTop.scala 44:24]
+  wire [63:0] data_ram_wIdx; // @[SimTop.scala 44:24]
+  wire [63:0] data_ram_wdata; // @[SimTop.scala 44:24]
+  wire [63:0] data_ram_wmask; // @[SimTop.scala 44:24]
+  wire  data_ram_wen; // @[SimTop.scala 44:24]
+  Top rcore ( // @[SimTop.scala 31:21]
     .clock(rcore_clock),
     .reset(rcore_reset),
     .io_inst_ram_rIdx(rcore_io_inst_ram_rIdx),
@@ -1735,7 +1736,7 @@ module SimTop(
     .io_data_ram_wmask(rcore_io_data_ram_wmask),
     .io_data_ram_wen(rcore_io_data_ram_wen)
   );
-  RAMHelper inst_ram ( // @[SimTop.scala 51:24]
+  RAMHelper inst_ram ( // @[SimTop.scala 43:24]
     .clk(inst_ram_clk),
     .en(inst_ram_en),
     .rIdx(inst_ram_rIdx),
@@ -1745,7 +1746,7 @@ module SimTop(
     .wmask(inst_ram_wmask),
     .wen(inst_ram_wen)
   );
-  RAMHelper data_ram ( // @[SimTop.scala 52:24]
+  RAMHelper data_ram ( // @[SimTop.scala 44:24]
     .clk(data_ram_clk),
     .en(data_ram_en),
     .rIdx(data_ram_rIdx),
@@ -1755,25 +1756,25 @@ module SimTop(
     .wmask(data_ram_wmask),
     .wen(data_ram_wen)
   );
-  assign io_uart_out_valid = 1'h0; // @[SimTop.scala 46:21]
-  assign io_uart_out_ch = 8'h0; // @[SimTop.scala 47:18]
-  assign io_uart_in_valid = 1'h0; // @[SimTop.scala 45:20]
+  assign io_uart_out_valid = 1'h0; // @[SimTop.scala 38:21]
+  assign io_uart_out_ch = 8'h0; // @[SimTop.scala 39:18]
+  assign io_uart_in_valid = 1'h0; // @[SimTop.scala 37:20]
   assign rcore_clock = clock;
   assign rcore_reset = reset;
-  assign rcore_io_inst_ram_rdata = inst_ram_rdata; // @[SimTop.scala 61:41]
-  assign rcore_io_data_ram_rdata = data_ram_rdata; // @[SimTop.scala 70:41]
-  assign inst_ram_clk = clock; // @[SimTop.scala 54:49]
-  assign inst_ram_en = 1'h1; // @[SimTop.scala 55:49]
-  assign inst_ram_rIdx = rcore_io_inst_ram_rIdx - 64'h10000000; // @[SimTop.scala 56:75]
-  assign inst_ram_wIdx = rcore_io_inst_ram_wIdx; // @[SimTop.scala 57:49]
-  assign inst_ram_wdata = rcore_io_inst_ram_wdata; // @[SimTop.scala 58:49]
-  assign inst_ram_wmask = rcore_io_inst_ram_wmask; // @[SimTop.scala 59:49]
-  assign inst_ram_wen = rcore_io_inst_ram_wen; // @[SimTop.scala 60:49]
-  assign data_ram_clk = clock; // @[SimTop.scala 63:49]
-  assign data_ram_en = rcore_io_data_ram_en; // @[SimTop.scala 64:49]
-  assign data_ram_rIdx = rcore_io_data_ram_rIdx; // @[SimTop.scala 65:49]
-  assign data_ram_wIdx = rcore_io_data_ram_wIdx; // @[SimTop.scala 66:49]
-  assign data_ram_wdata = rcore_io_data_ram_wdata; // @[SimTop.scala 67:49]
-  assign data_ram_wmask = rcore_io_data_ram_wmask; // @[SimTop.scala 68:49]
-  assign data_ram_wen = rcore_io_data_ram_wen; // @[SimTop.scala 69:49]
+  assign rcore_io_inst_ram_rdata = inst_ram_rdata; // @[SimTop.scala 53:41]
+  assign rcore_io_data_ram_rdata = data_ram_rdata; // @[SimTop.scala 62:41]
+  assign inst_ram_clk = clock; // @[SimTop.scala 46:49]
+  assign inst_ram_en = 1'h1; // @[SimTop.scala 47:49]
+  assign inst_ram_rIdx = rcore_io_inst_ram_rIdx - 64'h10000000; // @[SimTop.scala 48:75]
+  assign inst_ram_wIdx = rcore_io_inst_ram_wIdx; // @[SimTop.scala 49:49]
+  assign inst_ram_wdata = rcore_io_inst_ram_wdata; // @[SimTop.scala 50:49]
+  assign inst_ram_wmask = rcore_io_inst_ram_wmask; // @[SimTop.scala 51:49]
+  assign inst_ram_wen = rcore_io_inst_ram_wen; // @[SimTop.scala 52:49]
+  assign data_ram_clk = clock; // @[SimTop.scala 55:49]
+  assign data_ram_en = rcore_io_data_ram_en; // @[SimTop.scala 56:49]
+  assign data_ram_rIdx = rcore_io_data_ram_rIdx; // @[SimTop.scala 57:49]
+  assign data_ram_wIdx = rcore_io_data_ram_wIdx; // @[SimTop.scala 58:49]
+  assign data_ram_wdata = rcore_io_data_ram_wdata; // @[SimTop.scala 59:49]
+  assign data_ram_wmask = rcore_io_data_ram_wmask; // @[SimTop.scala 60:49]
+  assign data_ram_wen = rcore_io_data_ram_wen; // @[SimTop.scala 61:49]
 endmodule
