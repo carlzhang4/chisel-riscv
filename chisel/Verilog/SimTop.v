@@ -1300,7 +1300,6 @@ module Top(
   input         reset,
   output [63:0] io_inst_ram_rIdx,
   input  [63:0] io_inst_ram_rdata,
-  output [63:0] io_inst_ram_wIdx,
   output [63:0] io_inst_ram_wdata,
   output [63:0] io_inst_ram_wmask,
   output        io_inst_ram_wen,
@@ -1510,7 +1509,6 @@ module Top(
     .instrCnt(trap_instrCnt)
   );
   assign io_inst_ram_rIdx = m_if_io_inst_addr; // @[Top.scala 95:57]
-  assign io_inst_ram_wIdx = m_mem_io_mem_addr; // @[Top.scala 97:57]
   assign io_inst_ram_wdata = m_mem_io_mem_data_s; // @[Top.scala 98:57]
   assign io_inst_ram_wmask = m_mem_io_mem_data_s; // @[Top.scala 99:57]
   assign io_inst_ram_wen = m_mem_io_mem_wr_en; // @[Top.scala 100:57]
@@ -1684,7 +1682,6 @@ module SimTop(
   wire  rcore_reset; // @[SimTop.scala 35:21]
   wire [63:0] rcore_io_inst_ram_rIdx; // @[SimTop.scala 35:21]
   wire [63:0] rcore_io_inst_ram_rdata; // @[SimTop.scala 35:21]
-  wire [63:0] rcore_io_inst_ram_wIdx; // @[SimTop.scala 35:21]
   wire [63:0] rcore_io_inst_ram_wdata; // @[SimTop.scala 35:21]
   wire [63:0] rcore_io_inst_ram_wmask; // @[SimTop.scala 35:21]
   wire  rcore_io_inst_ram_wen; // @[SimTop.scala 35:21]
@@ -1716,7 +1713,6 @@ module SimTop(
     .reset(rcore_reset),
     .io_inst_ram_rIdx(rcore_io_inst_ram_rIdx),
     .io_inst_ram_rdata(rcore_io_inst_ram_rdata),
-    .io_inst_ram_wIdx(rcore_io_inst_ram_wIdx),
     .io_inst_ram_wdata(rcore_io_inst_ram_wdata),
     .io_inst_ram_wmask(rcore_io_inst_ram_wmask),
     .io_inst_ram_wen(rcore_io_inst_ram_wen),
@@ -1758,7 +1754,7 @@ module SimTop(
   assign inst_ram_clk = clock; // @[SimTop.scala 54:49]
   assign inst_ram_en = 1'h1; // @[SimTop.scala 55:49]
   assign inst_ram_rIdx = rcore_io_inst_ram_rIdx - 64'h10000000; // @[SimTop.scala 56:75]
-  assign inst_ram_wIdx = rcore_io_inst_ram_wIdx - 64'h10000000; // @[SimTop.scala 57:75]
+  assign inst_ram_wIdx = 64'h0 - 64'h10000000; // @[SimTop.scala 57:75]
   assign inst_ram_wdata = rcore_io_inst_ram_wdata; // @[SimTop.scala 58:49]
   assign inst_ram_wmask = rcore_io_inst_ram_wmask; // @[SimTop.scala 59:49]
   assign inst_ram_wen = rcore_io_inst_ram_wen; // @[SimTop.scala 60:49]
