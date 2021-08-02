@@ -1558,7 +1558,7 @@ module Top(
   assign m_regfile_clock = clock;
   assign m_regfile_reset = reset;
   assign m_regfile_io_w_addr = m_mem_io_wb_addr_r; // @[Top.scala 84:49]
-  assign m_regfile_io_w_data = m_mem_io_wb_data_r + 64'ha; // @[Top.scala 85:75]
+  assign m_regfile_io_w_data = m_mem_io_wb_data_r; // @[Top.scala 85:49]
   assign m_regfile_io_w_en = m_mem_io_wb_en_r; // @[Top.scala 86:49]
   assign m_regfile_io_r1_addr = m_id_io_rs1; // @[Top.scala 40:41]
   assign m_regfile_io_r2_addr = m_id_io_rs2; // @[Top.scala 41:41]
