@@ -1,5 +1,13 @@
 #!/bin/bash
 
+PROJECT_HOME="/home/amax/share/riscv/oscpu-framework"
+CHISEL_HOME=$PROJECT_HOME/chisel
+
+# ID=`sed '/^ID=/!d;s/.*=//' $MYINFO_FILE`
+# NAME=`sed '/^Name=/!d;s/.*=//' $MYINFO_FILE`
+# ID="${ID##*\r}"
+# NAME="${NAME##*\r}"
+
 GEN_VERILOG="false"
 BUILD="false"
 SIMULATE="false"
@@ -19,38 +27,39 @@ done
 
 # gen verilog
 if [[ "$GEN_VERILOG" == "true" ]]; then
-	cd "chisel"
+	cd $CHISEL_HOME
 	mill -i __.test.runMain top.topMain -td ./build
 	cp Verilog/SimTop.v ./difftest/build
 fi
 
 # build emu
 if [[ "$BUILD" == "true" ]]; then
-	cd /home/amax/share/riscv/oscpu-framework/chisel
+	cd $CHISEL_HOME
 	make -C difftest clean emu
 
-	cd /home/amax/share/riscv/oscpu-framework
+	cd $PROJECT_HOME
 	git add . -A --ignore-errors
-	(echo $NAME && echo $ID && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
+	(echo "ZhangJie HuangHongjing" && echo "20210230 20210300" && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
     sync
 fi
 
 # simulate
 if [[ "$SIMULATE" == "true" ]]; then
-    cd /home/amax/share/riscv/oscpu-framework/chisel
+    cd $CHISEL_HOME
+	cd build
     if [[ "$GBD" == "true" ]]; then
         gdb -s $EMU_FILE --args ./$EMU_FILE $PARAMETERS
     else
-        ./build/emu -b 0 -e 30 --dump-wave -i ./difftest/build/inst.txt
+        ./emu -b 0 -e 30 --dump-wave -i ./difftest/build/inst.txt
     fi
 
     if [ $? -ne 0 ]; then
         echo "Failed to simulate!!!"
         exit 1
     fi
-    cd $SHELL_PATH
 fi
 
 if [[ "$CHECK_WARE" == "true" ]]; then
+	cd $CHISEL_HOME/build
 	gtkwave $WAVE_FILE
 fi
