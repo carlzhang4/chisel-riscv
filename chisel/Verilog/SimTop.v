@@ -1323,18 +1323,17 @@ module Top(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
-  reg [31:0] _RAND_2;
+  reg [63:0] _RAND_2;
   reg [63:0] _RAND_3;
   reg [63:0] _RAND_4;
   reg [63:0] _RAND_5;
-  reg [63:0] _RAND_6;
+  reg [31:0] _RAND_6;
   reg [31:0] _RAND_7;
   reg [31:0] _RAND_8;
   reg [31:0] _RAND_9;
-  reg [31:0] _RAND_10;
-  reg [63:0] _RAND_11;
+  reg [63:0] _RAND_10;
+  reg [31:0] _RAND_11;
   reg [31:0] _RAND_12;
-  reg [31:0] _RAND_13;
 `endif // RANDOMIZE_REG_INIT
   wire  m_if_clock; // @[Top.scala 29:47]
   wire  m_if_reset; // @[Top.scala 29:47]
@@ -1414,7 +1413,7 @@ module Top(
   wire [63:0] trap_pc; // @[Top.scala 109:26]
   wire [63:0] trap_cycleCnt; // @[Top.scala 109:26]
   wire [63:0] trap_instrCnt; // @[Top.scala 109:26]
-  reg  word_select; // @[Top.scala 35:64]
+  wire  word_select = m_if_io_pc[2]; // @[Top.scala 35:67]
   reg [31:0] m_id_io_inst_REG; // @[Top.scala 37:64]
   reg  REG; // @[Top.scala 96:35]
   reg [63:0] REG_1; // @[Top.scala 97:56]
@@ -1583,7 +1582,6 @@ module Top(
   assign trap_cycleCnt = {{32'd0}, cycleCnt}; // @[Top.scala 115:26]
   assign trap_instrCnt = 64'h0; // @[Top.scala 116:26]
   always @(posedge clock) begin
-    word_select <= m_if_io_pc[2]; // @[Top.scala 35:75]
     if (word_select) begin // @[Top.scala 37:68]
       m_id_io_inst_REG <= io_inst_ram_rdata[63:32];
     end else begin
@@ -1643,33 +1641,31 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  word_select = _RAND_0[0:0];
+  m_id_io_inst_REG = _RAND_0[31:0];
   _RAND_1 = {1{`RANDOM}};
-  m_id_io_inst_REG = _RAND_1[31:0];
-  _RAND_2 = {1{`RANDOM}};
-  REG = _RAND_2[0:0];
+  REG = _RAND_1[0:0];
+  _RAND_2 = {2{`RANDOM}};
+  REG_1 = _RAND_2[63:0];
   _RAND_3 = {2{`RANDOM}};
-  REG_1 = _RAND_3[63:0];
+  REG_2 = _RAND_3[63:0];
   _RAND_4 = {2{`RANDOM}};
-  REG_2 = _RAND_4[63:0];
+  REG_3 = _RAND_4[63:0];
   _RAND_5 = {2{`RANDOM}};
-  REG_3 = _RAND_5[63:0];
-  _RAND_6 = {2{`RANDOM}};
-  REG_4 = _RAND_6[63:0];
+  REG_4 = _RAND_5[63:0];
+  _RAND_6 = {1{`RANDOM}};
+  REG_5 = _RAND_6[31:0];
   _RAND_7 = {1{`RANDOM}};
-  REG_5 = _RAND_7[31:0];
+  REG_6 = _RAND_7[31:0];
   _RAND_8 = {1{`RANDOM}};
-  REG_6 = _RAND_8[31:0];
+  REG_7 = _RAND_8[31:0];
   _RAND_9 = {1{`RANDOM}};
-  REG_7 = _RAND_9[31:0];
-  _RAND_10 = {1{`RANDOM}};
-  REG_8 = _RAND_10[0:0];
-  _RAND_11 = {2{`RANDOM}};
-  REG_9 = _RAND_11[63:0];
+  REG_8 = _RAND_9[0:0];
+  _RAND_10 = {2{`RANDOM}};
+  REG_9 = _RAND_10[63:0];
+  _RAND_11 = {1{`RANDOM}};
+  REG_10 = _RAND_11[4:0];
   _RAND_12 = {1{`RANDOM}};
-  REG_10 = _RAND_12[4:0];
-  _RAND_13 = {1{`RANDOM}};
-  cycleCnt = _RAND_13[31:0];
+  cycleCnt = _RAND_12[31:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
