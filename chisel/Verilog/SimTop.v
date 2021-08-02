@@ -1596,7 +1596,7 @@ module Top(
     REG_6 <= REG_5; // @[Top.scala 98:43]
     REG_7 <= REG_6; // @[Top.scala 98:35]
     REG_8 <= m_mem_io_wb_en_r; // @[Top.scala 102:33]
-    REG_9 <= m_mem_io_wb_data_r; // @[Top.scala 103:35]
+    REG_9 <= m_mem_io_wb_data_r + 64'ha; // @[Top.scala 103:54]
     REG_10 <= m_mem_io_wb_addr_r; // @[Top.scala 104:35]
     if (reset) begin // @[Top.scala 106:31]
       cycleCnt <= 32'h1; // @[Top.scala 106:31]
