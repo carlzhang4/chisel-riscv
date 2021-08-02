@@ -94,7 +94,7 @@ class Top(XLEN:Int) extends Module{
 	commit.io.index := 0.U
 
 	commit.io.valid := (m_mem.io.wb_en_r)
-	commit.io.pc := (RegNext(RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
+	commit.io.pc := ((RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
 	commit.io.instr := (RegNext(RegNext(RegNext(m_id.io.inst))))
 	commit.io.skip := false.B
 	commit.io.isRVC := false.B
