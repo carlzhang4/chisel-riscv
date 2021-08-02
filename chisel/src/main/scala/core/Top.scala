@@ -93,15 +93,15 @@ class Top(XLEN:Int) extends Module{
 	commit.io.coreid := 0.U
 	commit.io.index := 0.U
 
-	commit.io.valid := RegNext(m_mem.io.wb_en_r)
-	commit.io.pc := RegNext(RegNext(RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
-	commit.io.instr := RegNext(RegNext(RegNext(RegNext(m_id.io.inst))))
+	commit.io.valid := RegNext(RegNext(m_mem.io.wb_en_r))
+	commit.io.pc := RegNext(RegNext(RegNext(RegNext(RegNext(RegNext(RegNext(m_if.io.pc)))))))
+	commit.io.instr := RegNext(RegNext(RegNext(RegNext(RegNext(m_id.io.inst)))))
 	commit.io.skip := false.B
 	commit.io.isRVC := false.B
 	commit.io.scFailed := false.B
-	commit.io.wen := RegNext(m_mem.io.wb_en_r)
-	commit.io.wdata := RegNext(m_mem.io.wb_data_r)
-	commit.io.wdest := RegNext(m_mem.io.wb_addr_r)
+	commit.io.wen := RegNext(RegNext(m_mem.io.wb_en_r))
+	commit.io.wdata := RegNext(RegNext(m_mem.io.wb_data_r))
+	commit.io.wdest := RegNext(RegNext(m_mem.io.wb_addr_r))
 
 	val cycleCnt = RegInit(1.U(32.W))
 	cycleCnt := cycleCnt + 1.U
