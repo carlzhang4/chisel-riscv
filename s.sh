@@ -58,7 +58,7 @@ if [[ "$SIMULATE" == "true" ]]; then
     if [[ "$GBD" == "true" ]]; then
         gdb -s $EMU_FILE --args ./$EMU_FILE $PARAMETERS
     else
-        ./emu -b 0 -e 30 --dump-wave -i ../difftest/build/inst.bin
+        ./emu -b 0 -e 30 --dump-wave -i ../difftest/build/inst.txt
     fi
 
     if [ $? -ne 0 ]; then
