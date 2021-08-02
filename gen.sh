@@ -51,23 +51,25 @@ echo $BUILD_PATH
 # generate verilog
 if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd "chisel"
-	mill ysyx
+	mill -i __.test.runMain top.topMain -td ./build
+	cp Verilog/SimTop.v ./difftest/build
     # sbt 'runMain top.elaborate'$MODULE_NAME
-	cp "Verilog/"$MODULE_NAME".v" ../modules/$MODULE_NAME
+	# cp "Verilog/"$MODULE_NAME".v" ../modules/$MODULE_NAME
 
 fi
 
 
 # Build project
 if [[ "$BUILD" == "true" ]]; then
-
-	cd $SRC_PATH
-	CPP_SRC=`find . -maxdepth 1 -name "*.cpp"`
-	verilator  --cc --exe -o $EMU_FILE --trace $CFLAGS -Mdir ./$BUILD_FOLDER --build *.v $CPP_SRC
-	if [ $? -ne 0 ]; then
-        echo "Failed to run verilator!!!"
-        exit 1
-    fi
+	cd /home/amax/share/riscv/oscpu-framework/chisel
+	make -C difftest clean emu
+	# cd $SRC_PATH
+	# CPP_SRC=`find . -maxdepth 1 -name "*.cpp"`
+	# verilator  --cc --exe -o $EMU_FILE --trace $CFLAGS -Mdir ./$BUILD_FOLDER --build *.v $CPP_SRC
+	# if [ $? -ne 0 ]; then
+    #     echo "Failed to run verilator!!!"
+    #     exit 1
+    # fi
 	cd $SHELL_PATH
 	git add . -A --ignore-errors
 	(echo $NAME && echo $ID && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
