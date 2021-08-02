@@ -547,8 +547,8 @@ module MemStage(
   output [63:0] io_wb_data_r,
   output [63:0] io_mem_addr_wr,
   output [63:0] io_mem_addr_rd,
-  output        io_mem_rd_en,
-  output        io_mem_wr_en,
+  output        io_mem_en_rd,
+  output        io_mem_en_wr,
   output [63:0] io_mem_data_wr,
   input  [63:0] io_mem_data_rd
 );
@@ -593,8 +593,8 @@ module MemStage(
   assign io_wb_data_r = 7'h24 == wb_data_r_REG ? _wb_data_r_T_7 : _wb_data_r_T_15; // @[Mux.scala 80:57]
   assign io_mem_addr_wr = io_op1 + io_imm; // @[Mem_stage.scala 33:34]
   assign io_mem_addr_rd = io_op1 + io_op2; // @[Mem_stage.scala 32:34]
-  assign io_mem_rd_en = 3'h1 == io_fu_type; // @[Mux.scala 80:60]
-  assign io_mem_wr_en = 7'h27 == io_fu_op_type | (7'h26 == io_fu_op_type | 7'h25 == io_fu_op_type); // @[Mux.scala 80:57]
+  assign io_mem_en_rd = 3'h1 == io_fu_type; // @[Mux.scala 80:60]
+  assign io_mem_en_wr = 7'h27 == io_fu_op_type | (7'h26 == io_fu_op_type | 7'h25 == io_fu_op_type); // @[Mux.scala 80:57]
   assign io_mem_data_wr = 7'h27 == io_fu_op_type ? _mem_data_wr_T_2 : _mem_data_wr_T_6; // @[Mux.scala 80:57]
   always @(posedge clock) begin
     wb_data_r_REG <= io_fu_op_type; // @[Mem_stage.scala 57:50]
@@ -1371,8 +1371,8 @@ module Top(
   wire [63:0] m_mem_io_wb_data_r; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_mem_addr_wr; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_mem_addr_rd; // @[Top.scala 43:47]
-  wire  m_mem_io_mem_rd_en; // @[Top.scala 43:47]
-  wire  m_mem_io_mem_wr_en; // @[Top.scala 43:47]
+  wire  m_mem_io_mem_en_rd; // @[Top.scala 43:47]
+  wire  m_mem_io_mem_en_wr; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_mem_data_wr; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_mem_data_rd; // @[Top.scala 43:47]
   wire  m_regfile_clock; // @[Top.scala 45:39]
@@ -1470,8 +1470,8 @@ module Top(
     .io_wb_data_r(m_mem_io_wb_data_r),
     .io_mem_addr_wr(m_mem_io_mem_addr_wr),
     .io_mem_addr_rd(m_mem_io_mem_addr_rd),
-    .io_mem_rd_en(m_mem_io_mem_rd_en),
-    .io_mem_wr_en(m_mem_io_mem_wr_en),
+    .io_mem_en_rd(m_mem_io_mem_en_rd),
+    .io_mem_en_wr(m_mem_io_mem_en_wr),
     .io_mem_data_wr(m_mem_io_mem_data_wr),
     .io_mem_data_rd(m_mem_io_mem_data_rd)
   );
@@ -1513,13 +1513,13 @@ module Top(
   assign io_inst_ram_wIdx = m_mem_io_mem_addr_wr; // @[Top.scala 97:65]
   assign io_inst_ram_wdata = m_mem_io_mem_data_wr; // @[Top.scala 98:65]
   assign io_inst_ram_wmask = m_mem_io_mem_data_wr; // @[Top.scala 99:65]
-  assign io_inst_ram_wen = m_mem_io_mem_wr_en; // @[Top.scala 100:65]
-  assign io_data_ram_en = m_mem_io_mem_rd_en; // @[Top.scala 102:65]
+  assign io_inst_ram_wen = m_mem_io_mem_en_wr; // @[Top.scala 100:65]
+  assign io_data_ram_en = m_mem_io_mem_en_rd; // @[Top.scala 102:65]
   assign io_data_ram_rIdx = m_mem_io_mem_addr_rd; // @[Top.scala 103:65]
   assign io_data_ram_wIdx = m_mem_io_mem_addr_wr; // @[Top.scala 104:65]
   assign io_data_ram_wdata = m_mem_io_mem_data_wr; // @[Top.scala 105:65]
   assign io_data_ram_wmask = m_mem_io_mem_data_wr; // @[Top.scala 106:65]
-  assign io_data_ram_wen = m_mem_io_mem_wr_en; // @[Top.scala 107:65]
+  assign io_data_ram_wen = m_mem_io_mem_en_wr; // @[Top.scala 107:65]
   assign m_if_clock = clock;
   assign m_if_reset = reset;
   assign m_id_clock = clock;
@@ -1674,11 +1674,7 @@ module SimTop(
   output        io_uart_out_valid,
   output [7:0]  io_uart_out_ch,
   output        io_uart_in_valid,
-  input  [7:0]  io_uart_in_ch,
-  input         io_start,
-  input         io_wr_en,
-  input  [9:0]  io_wr_addr,
-  input  [31:0] io_wr_data
+  input  [7:0]  io_uart_in_ch
 );
   wire  rcore_clock; // @[SimTop.scala 35:21]
   wire  rcore_reset; // @[SimTop.scala 35:21]
