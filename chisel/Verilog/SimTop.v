@@ -1407,9 +1407,9 @@ module Top(
   wire [63:0] trap_instrCnt; // @[Top.scala 109:26]
   wire  word_select = m_if_io_pc[2]; // @[Top.scala 35:67]
   reg [31:0] m_id_io_inst_REG; // @[Top.scala 37:64]
-  reg [31:0] REG; // @[Top.scala 98:52]
-  reg [31:0] REG_1; // @[Top.scala 98:44]
-  reg [31:0] REG_2; // @[Top.scala 98:36]
+  reg [31:0] REG_1; // @[Top.scala 98:52]
+  reg [31:0] REG_2; // @[Top.scala 98:44]
+  reg [31:0] REG_3; // @[Top.scala 98:36]
   reg [31:0] cycleCnt; // @[Top.scala 106:31]
   wire [31:0] _cycleCnt_T_1 = cycleCnt + 32'h1; // @[Top.scala 107:30]
   If m_if ( // @[Top.scala 29:47]
@@ -1550,8 +1550,8 @@ module Top(
   assign commit_coreid = 8'h0; // @[Top.scala 93:26]
   assign commit_index = 8'h0; // @[Top.scala 94:25]
   assign commit_valid = m_mem_io_wb_en_r; // @[Top.scala 96:25]
-  assign commit_pc = 64'h0; // @[Top.scala 97:22]
-  assign commit_instr = REG_2; // @[Top.scala 98:25]
+  assign commit_pc = 64'h80000000; // @[Top.scala 97:22]
+  assign commit_instr = REG_3; // @[Top.scala 98:25]
   assign commit_skip = 1'h0; // @[Top.scala 99:24]
   assign commit_isRVC = 1'h0; // @[Top.scala 100:25]
   assign commit_scFailed = 1'h0; // @[Top.scala 101:28]
@@ -1571,9 +1571,9 @@ module Top(
     end else begin
       m_id_io_inst_REG <= io_inst_ram_rdata[31:0];
     end
-    REG <= m_id_io_inst; // @[Top.scala 98:52]
-    REG_1 <= REG; // @[Top.scala 98:44]
-    REG_2 <= REG_1; // @[Top.scala 98:36]
+    REG_1 <= m_id_io_inst; // @[Top.scala 98:52]
+    REG_2 <= REG_1; // @[Top.scala 98:44]
+    REG_3 <= REG_2; // @[Top.scala 98:36]
     if (reset) begin // @[Top.scala 106:31]
       cycleCnt <= 32'h1; // @[Top.scala 106:31]
     end else begin
@@ -1619,11 +1619,11 @@ initial begin
   _RAND_0 = {1{`RANDOM}};
   m_id_io_inst_REG = _RAND_0[31:0];
   _RAND_1 = {1{`RANDOM}};
-  REG = _RAND_1[31:0];
+  REG_1 = _RAND_1[31:0];
   _RAND_2 = {1{`RANDOM}};
-  REG_1 = _RAND_2[31:0];
+  REG_2 = _RAND_2[31:0];
   _RAND_3 = {1{`RANDOM}};
-  REG_2 = _RAND_3[31:0];
+  REG_3 = _RAND_3[31:0];
   _RAND_4 = {1{`RANDOM}};
   cycleCnt = _RAND_4[31:0];
 `endif // RANDOMIZE_REG_INIT
