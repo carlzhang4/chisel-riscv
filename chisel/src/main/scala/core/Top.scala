@@ -32,10 +32,8 @@ class Top(XLEN:Int) extends Module{
 	val m_mem		=	Module(new MemStage(XLEN))
 	val m_regfile	=	Module(new Regfile(32,XLEN))
 	
-	val word_select 			= 	RegInit("b0".U(1.W))
+	val word_select 			= 	RegNext(m_if.io.pc(2))
 	
-	word_select 				:= ~word_select
-
 	m_id.io.inst 				:=	Mux(word_select === 1.U, io.inst_ram.rdata(63,32), io.inst_ram.rdata(31,0))
 	m_id.io.pc 					:= 	m_if.io.pc
 	
