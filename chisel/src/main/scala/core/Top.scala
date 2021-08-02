@@ -109,7 +109,7 @@ class Top(XLEN:Int) extends Module{
 	val trap = Module(new difftest.DifftestTrapEvent)
 	trap.io.clock    := clock
 	trap.io.coreid   := 0.U
-	trap.io.valid    := 0.U//commit.io.instr === BigInt("0000006b", 16).U
+	trap.io.valid    := (commit.io.instr === BigInt("0000006b", 16).U)
 	trap.io.code     := 0.U // GoodTrap
 	trap.io.pc       := commit.io.pc
 	trap.io.cycleCnt := cycleCnt

@@ -1576,7 +1576,7 @@ module Top(
   assign commit_wdest = {{3'd0}, REG_10}; // @[Top.scala 104:25]
   assign trap_clock = clock; // @[Top.scala 110:26]
   assign trap_coreid = 8'h0; // @[Top.scala 111:26]
-  assign trap_valid = 1'h0; // @[Top.scala 112:26]
+  assign trap_valid = commit_instr == 32'h6b; // @[Top.scala 112:46]
   assign trap_code = 3'h0; // @[Top.scala 113:26]
   assign trap_pc = commit_pc; // @[Top.scala 114:26]
   assign trap_cycleCnt = {{32'd0}, cycleCnt}; // @[Top.scala 115:26]
