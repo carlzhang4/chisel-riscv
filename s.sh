@@ -29,6 +29,10 @@ done
 if [[ "$GEN_VERILOG" == "true" ]]; then
 	cd $CHISEL_HOME
 	mill -i __.test.runMain top.topMain -td ./build
+	if [ $? -ne 0 ]; then
+        echo "Failed to gen verilog!!!"
+        exit 1
+    fi
 	cp Verilog/SimTop.v ./difftest/build
 fi
 
@@ -36,6 +40,10 @@ fi
 if [[ "$BUILD" == "true" ]]; then
 	cd $CHISEL_HOME
 	make -C difftest clean emu
+	if [ $? -ne 0 ]; then
+        echo "Failed to build emu!!!"
+        exit 1
+    fi
 
 	cd $PROJECT_HOME
 	git add . -A --ignore-errors
