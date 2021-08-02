@@ -1764,7 +1764,7 @@ module SimTop(
   assign rcore_io_data_ram_rdata = data_ram_rdata; // @[SimTop.scala 62:41]
   assign inst_ram_clk = clock; // @[SimTop.scala 46:49]
   assign inst_ram_en = 1'h1; // @[SimTop.scala 47:49]
-  assign inst_ram_rIdx = rcore_io_inst_ram_rIdx - 64'h10000000; // @[SimTop.scala 48:75]
+  assign inst_ram_rIdx = rcore_io_inst_ram_rIdx; // @[SimTop.scala 48:49]
   assign inst_ram_wIdx = rcore_io_inst_ram_wIdx; // @[SimTop.scala 49:49]
   assign inst_ram_wdata = rcore_io_inst_ram_wdata; // @[SimTop.scala 50:49]
   assign inst_ram_wmask = rcore_io_inst_ram_wmask; // @[SimTop.scala 51:49]

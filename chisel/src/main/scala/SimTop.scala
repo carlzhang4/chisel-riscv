@@ -45,7 +45,7 @@ class SimTop extends Module {
 
   inst_ram.io.clk				:= clock
   inst_ram.io.en				:= rcore.io.inst_ram.en
-  inst_ram.io.rIdx				:= rcore.io.inst_ram.rIdx - (BigInt("80000000", 16) >> 3).U
+  inst_ram.io.rIdx				:= rcore.io.inst_ram.rIdx// - (BigInt("80000000", 16) >> 3).U
   inst_ram.io.wIdx				:= rcore.io.inst_ram.wIdx
   inst_ram.io.wdata				:= rcore.io.inst_ram.wdata
   inst_ram.io.wmask				:= rcore.io.inst_ram.wmask
