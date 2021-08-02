@@ -545,8 +545,9 @@ module MemStage(
   output [4:0]  io_wb_addr_r,
   output        io_wb_en_r,
   output [63:0] io_wb_data_r,
-  output [63:0] io_mem_addr,
-  output        io_mem_en,
+  output [63:0] io_mem_addr_wr,
+  output [63:0] io_mem_addr_rd,
+  output        io_mem_rd_en,
   output        io_mem_wr_en,
   output [63:0] io_mem_data_s,
   input  [63:0] io_mem_data_l
@@ -557,29 +558,25 @@ module MemStage(
   reg [31:0] _RAND_2;
   reg [31:0] _RAND_3;
 `endif // RANDOMIZE_REG_INIT
-  wire [63:0] load_addr = io_op1 + io_op2; // @[Mem_stage.scala 31:34]
-  wire [63:0] store_addr = io_op1 + io_imm; // @[Mem_stage.scala 32:34]
-  wire [63:0] _mem_addr_T_1 = 7'h25 == io_fu_op_type ? store_addr : load_addr; // @[Mux.scala 80:57]
-  wire [63:0] _mem_addr_T_3 = 7'h26 == io_fu_op_type ? store_addr : _mem_addr_T_1; // @[Mux.scala 80:57]
-  wire [7:0] mem_data_s_lo = io_op2[7:0]; // @[Mem_stage.scala 51:63]
+  wire [7:0] mem_data_s_lo = io_op2[7:0]; // @[Mem_stage.scala 52:63]
   wire [63:0] _mem_data_s_T = {56'h0,mem_data_s_lo}; // @[Cat.scala 30:58]
-  wire [15:0] mem_data_s_lo_1 = io_op2[15:0]; // @[Mem_stage.scala 52:63]
+  wire [15:0] mem_data_s_lo_1 = io_op2[15:0]; // @[Mem_stage.scala 53:63]
   wire [63:0] _mem_data_s_T_1 = {48'h0,mem_data_s_lo_1}; // @[Cat.scala 30:58]
-  wire [31:0] mem_data_s_lo_2 = io_op2[31:0]; // @[Mem_stage.scala 53:63]
+  wire [31:0] mem_data_s_lo_2 = io_op2[31:0]; // @[Mem_stage.scala 54:63]
   wire [63:0] _mem_data_s_T_2 = {32'h0,mem_data_s_lo_2}; // @[Cat.scala 30:58]
   wire [63:0] _mem_data_s_T_4 = 7'h25 == io_fu_op_type ? _mem_data_s_T : 64'h0; // @[Mux.scala 80:57]
   wire [63:0] _mem_data_s_T_6 = 7'h26 == io_fu_op_type ? _mem_data_s_T_1 : _mem_data_s_T_4; // @[Mux.scala 80:57]
-  reg [6:0] wb_data_r_REG; // @[Mem_stage.scala 56:50]
-  reg [63:0] wb_data_r_REG_1; // @[Mem_stage.scala 56:73]
-  wire [7:0] wb_data_r_lo = io_mem_data_l[7:0]; // @[Mem_stage.scala 57:79]
+  reg [6:0] wb_data_r_REG; // @[Mem_stage.scala 57:50]
+  reg [63:0] wb_data_r_REG_1; // @[Mem_stage.scala 57:73]
+  wire [7:0] wb_data_r_lo = io_mem_data_l[7:0]; // @[Mem_stage.scala 58:79]
   wire  wb_data_r_signBit = wb_data_r_lo[7]; // @[BitUtil.scala 9:20]
   wire [55:0] wb_data_r_hi = wb_data_r_signBit ? 56'hffffffffffffff : 56'h0; // @[Bitwise.scala 72:12]
   wire [63:0] _wb_data_r_T_1 = {wb_data_r_hi,wb_data_r_lo}; // @[Cat.scala 30:58]
-  wire [15:0] wb_data_r_lo_1 = io_mem_data_l[15:0]; // @[Mem_stage.scala 58:71]
+  wire [15:0] wb_data_r_lo_1 = io_mem_data_l[15:0]; // @[Mem_stage.scala 59:71]
   wire  wb_data_r_signBit_1 = wb_data_r_lo_1[15]; // @[BitUtil.scala 9:20]
   wire [47:0] wb_data_r_hi_1 = wb_data_r_signBit_1 ? 48'hffffffffffff : 48'h0; // @[Bitwise.scala 72:12]
   wire [63:0] _wb_data_r_T_3 = {wb_data_r_hi_1,wb_data_r_lo_1}; // @[Cat.scala 30:58]
-  wire [31:0] wb_data_r_lo_2 = io_mem_data_l[31:0]; // @[Mem_stage.scala 59:71]
+  wire [31:0] wb_data_r_lo_2 = io_mem_data_l[31:0]; // @[Mem_stage.scala 60:71]
   wire  wb_data_r_signBit_2 = wb_data_r_lo_2[31]; // @[BitUtil.scala 9:20]
   wire [31:0] wb_data_r_hi_2 = wb_data_r_signBit_2 ? 32'hffffffff : 32'h0; // @[Bitwise.scala 72:12]
   wire [63:0] _wb_data_r_T_5 = {wb_data_r_hi_2,wb_data_r_lo_2}; // @[Cat.scala 30:58]
@@ -589,20 +586,21 @@ module MemStage(
   wire [63:0] _wb_data_r_T_11 = 7'h21 == wb_data_r_REG ? _wb_data_r_T_3 : _wb_data_r_T_9; // @[Mux.scala 80:57]
   wire [63:0] _wb_data_r_T_13 = 7'h22 == wb_data_r_REG ? _wb_data_r_T_5 : _wb_data_r_T_11; // @[Mux.scala 80:57]
   wire [63:0] _wb_data_r_T_15 = 7'h23 == wb_data_r_REG ? _wb_data_r_T_6 : _wb_data_r_T_13; // @[Mux.scala 80:57]
-  reg [4:0] io_wb_addr_r_REG; // @[Mem_stage.scala 67:40]
-  reg  io_wb_en_r_REG; // @[Mem_stage.scala 68:48]
-  assign io_wb_addr_r = io_wb_addr_r_REG; // @[Mem_stage.scala 67:25]
-  assign io_wb_en_r = io_wb_en_r_REG; // @[Mem_stage.scala 68:33]
+  reg [4:0] io_wb_addr_r_REG; // @[Mem_stage.scala 68:40]
+  reg  io_wb_en_r_REG; // @[Mem_stage.scala 69:48]
+  assign io_wb_addr_r = io_wb_addr_r_REG; // @[Mem_stage.scala 68:25]
+  assign io_wb_en_r = io_wb_en_r_REG; // @[Mem_stage.scala 69:33]
   assign io_wb_data_r = 7'h24 == wb_data_r_REG ? _wb_data_r_T_7 : _wb_data_r_T_15; // @[Mux.scala 80:57]
-  assign io_mem_addr = 7'h27 == io_fu_op_type ? store_addr : _mem_addr_T_3; // @[Mux.scala 80:57]
-  assign io_mem_en = 3'h1 == io_fu_type; // @[Mux.scala 80:60]
+  assign io_mem_addr_wr = io_op1 + io_imm; // @[Mem_stage.scala 33:34]
+  assign io_mem_addr_rd = io_op1 + io_op2; // @[Mem_stage.scala 32:34]
+  assign io_mem_rd_en = 3'h1 == io_fu_type; // @[Mux.scala 80:60]
   assign io_mem_wr_en = 7'h27 == io_fu_op_type | (7'h26 == io_fu_op_type | 7'h25 == io_fu_op_type); // @[Mux.scala 80:57]
   assign io_mem_data_s = 7'h27 == io_fu_op_type ? _mem_data_s_T_2 : _mem_data_s_T_6; // @[Mux.scala 80:57]
   always @(posedge clock) begin
-    wb_data_r_REG <= io_fu_op_type; // @[Mem_stage.scala 56:50]
-    wb_data_r_REG_1 <= io_wb_data; // @[Mem_stage.scala 56:73]
-    io_wb_addr_r_REG <= io_wb_addr; // @[Mem_stage.scala 67:40]
-    io_wb_en_r_REG <= io_wb_en; // @[Mem_stage.scala 68:48]
+    wb_data_r_REG <= io_fu_op_type; // @[Mem_stage.scala 57:50]
+    wb_data_r_REG_1 <= io_wb_data; // @[Mem_stage.scala 57:73]
+    io_wb_addr_r_REG <= io_wb_addr; // @[Mem_stage.scala 68:40]
+    io_wb_en_r_REG <= io_wb_en; // @[Mem_stage.scala 69:48]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -1371,8 +1369,9 @@ module Top(
   wire [4:0] m_mem_io_wb_addr_r; // @[Top.scala 43:47]
   wire  m_mem_io_wb_en_r; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_wb_data_r; // @[Top.scala 43:47]
-  wire [63:0] m_mem_io_mem_addr; // @[Top.scala 43:47]
-  wire  m_mem_io_mem_en; // @[Top.scala 43:47]
+  wire [63:0] m_mem_io_mem_addr_wr; // @[Top.scala 43:47]
+  wire [63:0] m_mem_io_mem_addr_rd; // @[Top.scala 43:47]
+  wire  m_mem_io_mem_rd_en; // @[Top.scala 43:47]
   wire  m_mem_io_mem_wr_en; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_mem_data_s; // @[Top.scala 43:47]
   wire [63:0] m_mem_io_mem_data_l; // @[Top.scala 43:47]
@@ -1469,8 +1468,9 @@ module Top(
     .io_wb_addr_r(m_mem_io_wb_addr_r),
     .io_wb_en_r(m_mem_io_wb_en_r),
     .io_wb_data_r(m_mem_io_wb_data_r),
-    .io_mem_addr(m_mem_io_mem_addr),
-    .io_mem_en(m_mem_io_mem_en),
+    .io_mem_addr_wr(m_mem_io_mem_addr_wr),
+    .io_mem_addr_rd(m_mem_io_mem_addr_rd),
+    .io_mem_rd_en(m_mem_io_mem_rd_en),
     .io_mem_wr_en(m_mem_io_mem_wr_en),
     .io_mem_data_s(m_mem_io_mem_data_s),
     .io_mem_data_l(m_mem_io_mem_data_l)
@@ -1510,13 +1510,13 @@ module Top(
     .instrCnt(trap_instrCnt)
   );
   assign io_inst_ram_rIdx = m_if_io_inst_addr; // @[Top.scala 95:65]
-  assign io_inst_ram_wIdx = m_mem_io_mem_addr; // @[Top.scala 97:65]
+  assign io_inst_ram_wIdx = m_mem_io_mem_addr_wr; // @[Top.scala 97:65]
   assign io_inst_ram_wdata = m_mem_io_mem_data_s; // @[Top.scala 98:65]
   assign io_inst_ram_wmask = m_mem_io_mem_data_s; // @[Top.scala 99:65]
   assign io_inst_ram_wen = m_mem_io_mem_wr_en; // @[Top.scala 100:65]
-  assign io_data_ram_en = m_mem_io_mem_en; // @[Top.scala 102:65]
-  assign io_data_ram_rIdx = m_mem_io_mem_addr; // @[Top.scala 103:65]
-  assign io_data_ram_wIdx = m_mem_io_mem_addr; // @[Top.scala 104:65]
+  assign io_data_ram_en = m_mem_io_mem_rd_en; // @[Top.scala 102:65]
+  assign io_data_ram_rIdx = m_mem_io_mem_addr_rd; // @[Top.scala 103:65]
+  assign io_data_ram_wIdx = m_mem_io_mem_addr_wr; // @[Top.scala 104:65]
   assign io_data_ram_wdata = m_mem_io_mem_data_s; // @[Top.scala 105:65]
   assign io_data_ram_wmask = m_mem_io_mem_data_s; // @[Top.scala 106:65]
   assign io_data_ram_wen = m_mem_io_mem_wr_en; // @[Top.scala 107:65]
