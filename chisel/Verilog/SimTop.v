@@ -1333,16 +1333,11 @@ module Top(
   reg [63:0] _RAND_9;
   reg [31:0] _RAND_10;
   reg [31:0] _RAND_11;
-  reg [31:0] _RAND_12;
-  reg [31:0] _RAND_13;
+  reg [63:0] _RAND_12;
+  reg [63:0] _RAND_13;
   reg [31:0] _RAND_14;
   reg [31:0] _RAND_15;
   reg [31:0] _RAND_16;
-  reg [63:0] _RAND_17;
-  reg [63:0] _RAND_18;
-  reg [31:0] _RAND_19;
-  reg [31:0] _RAND_20;
-  reg [31:0] _RAND_21;
 `endif // RANDOMIZE_REG_INIT
   wire  m_if_clock; // @[Top.scala 29:47]
   wire  m_if_reset; // @[Top.scala 29:47]
@@ -1433,17 +1428,12 @@ module Top(
   reg [63:0] REG_6; // @[Top.scala 97:48]
   reg [63:0] REG_7; // @[Top.scala 97:40]
   reg [63:0] REG_8; // @[Top.scala 97:32]
-  reg [31:0] REG_9; // @[Top.scala 98:67]
-  reg [31:0] REG_10; // @[Top.scala 98:59]
-  reg [31:0] REG_11; // @[Top.scala 98:51]
-  reg [31:0] REG_12; // @[Top.scala 98:43]
-  reg [31:0] REG_13; // @[Top.scala 98:35]
-  reg  REG_14; // @[Top.scala 102:41]
-  reg  REG_15; // @[Top.scala 102:33]
-  reg [63:0] REG_16; // @[Top.scala 103:43]
-  reg [63:0] REG_17; // @[Top.scala 103:35]
-  reg [4:0] REG_18; // @[Top.scala 104:43]
-  reg [4:0] REG_19; // @[Top.scala 104:35]
+  reg  REG_9; // @[Top.scala 102:41]
+  reg  REG_10; // @[Top.scala 102:33]
+  reg [63:0] REG_11; // @[Top.scala 103:43]
+  reg [63:0] REG_12; // @[Top.scala 103:35]
+  reg [4:0] REG_13; // @[Top.scala 104:43]
+  reg [4:0] REG_14; // @[Top.scala 104:35]
   reg [31:0] cycleCnt; // @[Top.scala 106:31]
   wire [31:0] _cycleCnt_T_1 = cycleCnt + 32'h1; // @[Top.scala 107:30]
   If m_if ( // @[Top.scala 29:47]
@@ -1585,13 +1575,13 @@ module Top(
   assign commit_index = 8'h0; // @[Top.scala 94:25]
   assign commit_valid = REG_1; // @[Top.scala 96:25]
   assign commit_pc = REG_8; // @[Top.scala 97:22]
-  assign commit_instr = REG_13; // @[Top.scala 98:25]
+  assign commit_instr = 32'h0;
   assign commit_skip = 1'h0; // @[Top.scala 99:24]
   assign commit_isRVC = 1'h0; // @[Top.scala 100:25]
   assign commit_scFailed = 1'h0; // @[Top.scala 101:28]
-  assign commit_wen = REG_15; // @[Top.scala 102:23]
-  assign commit_wdata = REG_17; // @[Top.scala 103:25]
-  assign commit_wdest = {{3'd0}, REG_19}; // @[Top.scala 104:25]
+  assign commit_wen = REG_10; // @[Top.scala 102:23]
+  assign commit_wdata = REG_12; // @[Top.scala 103:25]
+  assign commit_wdest = {{3'd0}, REG_14}; // @[Top.scala 104:25]
   assign trap_clock = clock; // @[Top.scala 110:26]
   assign trap_coreid = 8'h0; // @[Top.scala 111:26]
   assign trap_valid = commit_instr == 32'h6b; // @[Top.scala 112:46]
@@ -1614,17 +1604,12 @@ module Top(
     REG_6 <= REG_5; // @[Top.scala 97:48]
     REG_7 <= REG_6; // @[Top.scala 97:40]
     REG_8 <= REG_7; // @[Top.scala 97:32]
-    REG_9 <= m_id_io_inst; // @[Top.scala 98:67]
-    REG_10 <= REG_9; // @[Top.scala 98:59]
-    REG_11 <= REG_10; // @[Top.scala 98:51]
-    REG_12 <= REG_11; // @[Top.scala 98:43]
-    REG_13 <= REG_12; // @[Top.scala 98:35]
-    REG_14 <= m_mem_io_wb_en_r; // @[Top.scala 102:41]
-    REG_15 <= REG_14; // @[Top.scala 102:33]
-    REG_16 <= m_mem_io_wb_data_r; // @[Top.scala 103:43]
-    REG_17 <= REG_16; // @[Top.scala 103:35]
-    REG_18 <= m_mem_io_wb_addr_r; // @[Top.scala 104:43]
-    REG_19 <= REG_18; // @[Top.scala 104:35]
+    REG_9 <= m_mem_io_wb_en_r; // @[Top.scala 102:41]
+    REG_10 <= REG_9; // @[Top.scala 102:33]
+    REG_11 <= m_mem_io_wb_data_r; // @[Top.scala 103:43]
+    REG_12 <= REG_11; // @[Top.scala 103:35]
+    REG_13 <= m_mem_io_wb_addr_r; // @[Top.scala 104:43]
+    REG_14 <= REG_13; // @[Top.scala 104:35]
     if (reset) begin // @[Top.scala 106:31]
       cycleCnt <= 32'h1; // @[Top.scala 106:31]
     end else begin
@@ -1688,29 +1673,19 @@ initial begin
   _RAND_9 = {2{`RANDOM}};
   REG_8 = _RAND_9[63:0];
   _RAND_10 = {1{`RANDOM}};
-  REG_9 = _RAND_10[31:0];
+  REG_9 = _RAND_10[0:0];
   _RAND_11 = {1{`RANDOM}};
-  REG_10 = _RAND_11[31:0];
-  _RAND_12 = {1{`RANDOM}};
-  REG_11 = _RAND_12[31:0];
-  _RAND_13 = {1{`RANDOM}};
-  REG_12 = _RAND_13[31:0];
+  REG_10 = _RAND_11[0:0];
+  _RAND_12 = {2{`RANDOM}};
+  REG_11 = _RAND_12[63:0];
+  _RAND_13 = {2{`RANDOM}};
+  REG_12 = _RAND_13[63:0];
   _RAND_14 = {1{`RANDOM}};
-  REG_13 = _RAND_14[31:0];
+  REG_13 = _RAND_14[4:0];
   _RAND_15 = {1{`RANDOM}};
-  REG_14 = _RAND_15[0:0];
+  REG_14 = _RAND_15[4:0];
   _RAND_16 = {1{`RANDOM}};
-  REG_15 = _RAND_16[0:0];
-  _RAND_17 = {2{`RANDOM}};
-  REG_16 = _RAND_17[63:0];
-  _RAND_18 = {2{`RANDOM}};
-  REG_17 = _RAND_18[63:0];
-  _RAND_19 = {1{`RANDOM}};
-  REG_18 = _RAND_19[4:0];
-  _RAND_20 = {1{`RANDOM}};
-  REG_19 = _RAND_20[4:0];
-  _RAND_21 = {1{`RANDOM}};
-  cycleCnt = _RAND_21[31:0];
+  cycleCnt = _RAND_16[31:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
