@@ -7,7 +7,7 @@ import chisel3.util._
 // import difftest._
 
 
-class Ram_inf extends Bundle {
+class RamInterface extends Bundle {
 
     val en = Input(Bool())
     val rIdx = Input(UInt(64.W))
@@ -22,37 +22,21 @@ class Ram_inf extends Bundle {
 
 class Top(XLEN:Int) extends Module{
 	val io = IO(new Bundle{
-	val inst_ram = Flipped(new Ram_inf)
-	val data_ram = Flipped(new Ram_inf)
-
-
+	val inst_ram = Flipped(new RamInterface)
+	val data_ram = Flipped(new RamInterface)
 	})
 
-
-	// val m_inst_ram	=	Module(new Inst_ram)
 	val m_if 		=	Module(new If(XLEN))
 	val m_id 		=	Module(new Id(XLEN))
 	val m_exe		=	Module(new Exe(XLEN))
 	val m_mem		=	Module(new MemStage(XLEN))
-	// val m_mem_ram	=	Module(new Mem_ram(XLEN))
 	val m_regfile	=	Module(new Regfile(32,XLEN))
-
-	// m_inst_ram.io.wr_en			:=	io.wr_en
-	// m_inst_ram.io.wr_addr		:=	io.wr_addr
-	// m_inst_ram.io.wr_data		:=	io.wr_data
-
 	
-
-
-
-
-	// m_if.io.start 				:= 	io.start
-
-	val inst_choice 			= 	RegInit("b0".U(1.W))
+	val word_select 			= 	RegInit("b0".U(1.W))
 	
-	inst_choice 				:= ~inst_choice
+	word_select 				:= ~word_select
 
-	m_id.io.inst 				:=	Mux(inst_choice === 1.U, io.inst_ram.rdata(63,32), io.inst_ram.rdata(31,0))
+	m_id.io.inst 				:=	Mux(word_select === 1.U, io.inst_ram.rdata(63,32), io.inst_ram.rdata(31,0))
 	m_id.io.pc 					:= 	m_if.io.pc
 	
 	m_regfile.io.r1_addr		:=	m_id.io.rs1
