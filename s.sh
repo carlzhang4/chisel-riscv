@@ -69,5 +69,5 @@ fi
 
 if [[ "$CHECK_WAVE" == "true" ]]; then
 	cd $CHISEL_HOME/build
-	gtkwave $WAVE_FILE
+	gtkwave ../$WAVE_FILE
 fi

@@ -11,6 +11,6 @@ class If(XLEN:Int) extends Module{
 	val pc = RegInit("h80000000".U(XLEN.W))
 	pc := pc + 4.U
 
-	io.inst_addr 	:= pc >> 3.U
-	io.pc 			:= pc
+	io.inst_addr 	:= RegNext(pc >> 3.U)
+	io.pc 			:= RegNext(pc)
 }

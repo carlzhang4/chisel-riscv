@@ -6,17 +6,23 @@ module If(
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
+  reg [63:0] _RAND_1;
+  reg [63:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
   reg [63:0] pc; // @[If_stage.scala 11:25]
   wire [63:0] _pc_T_1 = pc + 64'h4; // @[If_stage.scala 12:18]
-  assign io_inst_addr = {{3'd0}, pc[63:3]}; // @[If_stage.scala 14:31]
-  assign io_pc = pc; // @[If_stage.scala 15:33]
+  reg [63:0] io_inst_addr_REG; // @[If_stage.scala 14:35]
+  reg [63:0] io_pc_REG; // @[If_stage.scala 15:43]
+  assign io_inst_addr = io_inst_addr_REG; // @[If_stage.scala 14:25]
+  assign io_pc = io_pc_REG; // @[If_stage.scala 15:33]
   always @(posedge clock) begin
     if (reset) begin // @[If_stage.scala 11:25]
       pc <= 64'h80000000; // @[If_stage.scala 11:25]
     end else begin
       pc <= _pc_T_1; // @[If_stage.scala 12:12]
     end
+    io_inst_addr_REG <= {{3'd0}, pc[63:3]}; // @[If_stage.scala 14:39]
+    io_pc_REG <= pc; // @[If_stage.scala 15:43]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -56,6 +62,10 @@ initial begin
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {2{`RANDOM}};
   pc = _RAND_0[63:0];
+  _RAND_1 = {2{`RANDOM}};
+  io_inst_addr_REG = _RAND_1[63:0];
+  _RAND_2 = {2{`RANDOM}};
+  io_pc_REG = _RAND_2[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
