@@ -22,15 +22,8 @@ class Ram_inf extends Bundle {
 
 class Top(XLEN:Int) extends Module{
 	val io = IO(new Bundle{
-		// val start = Input(Bool())
-		// val wr_en = Input(Bool())
-		// val wr_addr = Input(UInt(10.W))
-		// val wr_data = Input(UInt(32.W))
-
-		val wb_data_r = Output(UInt(XLEN.W))
-
-		val inst_ram = Flipped(new Ram_inf)
-		val data_ram = Flipped(new Ram_inf)
+	val inst_ram = Flipped(new Ram_inf)
+	val data_ram = Flipped(new Ram_inf)
 
 
 	})
@@ -109,8 +102,6 @@ class Top(XLEN:Int) extends Module{
 	m_regfile.io.w_addr			:=	m_mem.io.wb_addr_r
 	m_regfile.io.w_data			:=	m_mem.io.wb_data_r
 	m_regfile.io.w_en			:=	m_mem.io.wb_en_r
-
-	io.wb_data_r				:=	m_mem.io.wb_data_r
 
 
 
