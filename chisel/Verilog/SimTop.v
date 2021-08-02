@@ -1523,7 +1523,7 @@ module Top(
   assign m_if_clock = clock;
   assign m_if_reset = reset;
   assign m_id_clock = clock;
-  assign m_id_io_inst = ~word_select ? io_inst_ram_rdata[63:32] : io_inst_ram_rdata[31:0]; // @[Top.scala 37:60]
+  assign m_id_io_inst = word_select ? io_inst_ram_rdata[63:32] : io_inst_ram_rdata[31:0]; // @[Top.scala 37:60]
   assign m_id_io_pc = m_if_io_pc; // @[Top.scala 38:57]
   assign m_id_io_rs1_data = m_regfile_io_r1_data; // @[Top.scala 43:49]
   assign m_id_io_rs2_data = m_regfile_io_r2_data; // @[Top.scala 44:49]
