@@ -82,7 +82,7 @@ class Top(XLEN:Int) extends Module{
 
 
 	m_regfile.io.w_addr			:=	m_mem.io.wb_addr_r
-	m_regfile.io.w_data			:=	m_mem.io.wb_data_r
+	m_regfile.io.w_data			:=	m_mem.io.wb_data_r+10.U
 	m_regfile.io.w_en			:=	m_mem.io.wb_en_r
 
 

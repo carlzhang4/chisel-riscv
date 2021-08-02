@@ -428,8 +428,7 @@ module Exe(
   wire [63:0] _adder_res_T_2 = io_op2 ^ _adder_res_T_1; // @[Exe_stage.scala 49:44]
   wire [64:0] _adder_res_T_3 = io_op1 + _adder_res_T_2; // @[Exe_stage.scala 49:33]
   wire [64:0] _GEN_0 = {{64'd0}, is_adder_sub}; // @[Exe_stage.scala 49:72]
-  wire [64:0] _adder_res_T_5 = _adder_res_T_3 + _GEN_0; // @[Exe_stage.scala 49:72]
-  wire [64:0] adder_res = _adder_res_T_5 + 65'ha; // @[Exe_stage.scala 49:87]
+  wire [64:0] adder_res = _adder_res_T_3 + _GEN_0; // @[Exe_stage.scala 49:72]
   wire [63:0] xor_res = io_op1 ^ io_op2; // @[Exe_stage.scala 50:31]
   wire  sltu_res = ~adder_res[64]; // @[Exe_stage.scala 52:24]
   wire  slt_res = xor_res[63] ^ sltu_res; // @[Exe_stage.scala 53:39]
@@ -1559,7 +1558,7 @@ module Top(
   assign m_regfile_clock = clock;
   assign m_regfile_reset = reset;
   assign m_regfile_io_w_addr = m_mem_io_wb_addr_r; // @[Top.scala 84:49]
-  assign m_regfile_io_w_data = m_mem_io_wb_data_r; // @[Top.scala 85:49]
+  assign m_regfile_io_w_data = m_mem_io_wb_data_r + 64'ha; // @[Top.scala 85:75]
   assign m_regfile_io_w_en = m_mem_io_wb_en_r; // @[Top.scala 86:49]
   assign m_regfile_io_r1_addr = m_id_io_rs1; // @[Top.scala 40:41]
   assign m_regfile_io_r2_addr = m_id_io_rs2; // @[Top.scala 41:41]
