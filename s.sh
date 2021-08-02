@@ -39,7 +39,7 @@ fi
 # build emu
 if [[ "$BUILD" == "true" ]]; then
 	cd $CHISEL_HOME
-	make -C difftest clean emu
+	make -s -C difftest clean emu
 	if [ $? -ne 0 ]; then
         echo "Failed to build emu!!!"
         exit 1
