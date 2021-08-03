@@ -100,7 +100,7 @@ class Top(XLEN:Int) extends Module{
 	commit.io.isRVC := false.B
 	commit.io.scFailed := false.B
 	commit.io.wen := RegNext(RegNext(m_mem.io.wb_en_r))
-	commit.io.wdata := RegNext(RegNext(m_mem.io.wb_data_r))
+	commit.io.wdata := 0.U//RegNext(RegNext(m_mem.io.wb_data_r))
 	commit.io.wdest := RegNext(RegNext(m_mem.io.wb_addr_r))
 
 	val cycleCnt = RegInit(1.U(32.W))
