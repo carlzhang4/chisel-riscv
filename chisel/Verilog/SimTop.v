@@ -708,7 +708,6 @@ module Regfile(
   reg [63:0] _RAND_29;
   reg [63:0] _RAND_30;
   reg [63:0] _RAND_31;
-  reg [63:0] _RAND_32;
 `endif // RANDOMIZE_REG_INIT
   wire  mod_clock; // @[Reg_file.scala 27:25]
   wire [7:0] mod_coreid; // @[Reg_file.scala 27:25]
@@ -856,7 +855,6 @@ module Regfile(
   wire [63:0] _GEN_60 = 5'h1c == io_r2_addr ? registers_28 : _GEN_59; // @[Reg_file.scala 22:20 Reg_file.scala 22:20]
   wire [63:0] _GEN_61 = 5'h1d == io_r2_addr ? registers_29 : _GEN_60; // @[Reg_file.scala 22:20 Reg_file.scala 22:20]
   wire [63:0] _GEN_62 = 5'h1e == io_r2_addr ? registers_30 : _GEN_61; // @[Reg_file.scala 22:20 Reg_file.scala 22:20]
-  reg [63:0] registers_REG; // @[Reg_file.scala 24:48]
   DifftestArchIntRegState mod ( // @[Reg_file.scala 27:25]
     .clock(mod_clock),
     .coreid(mod_coreid),
@@ -976,227 +974,226 @@ module Regfile(
       registers_0 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h0 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_0 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_0 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_1 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_1 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_1 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_2 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h2 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_2 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_2 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_3 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h3 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_3 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_3 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_4 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h4 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_4 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_4 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_5 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h5 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_5 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_5 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_6 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h6 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_6 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_6 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_7 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h7 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_7 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_7 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_8 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h8 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_8 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_8 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_9 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h9 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_9 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_9 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_10 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'ha == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_10 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_10 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_11 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'hb == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_11 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_11 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_12 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'hc == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_12 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_12 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_13 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'hd == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_13 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_13 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_14 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'he == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_14 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_14 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_15 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'hf == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_15 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_15 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_16 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h10 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_16 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_16 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_17 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h11 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_17 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_17 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_18 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h12 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_18 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_18 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_19 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h13 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_19 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_19 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_20 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h14 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_20 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_20 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_21 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h15 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_21 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_21 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_22 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h16 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_22 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_22 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_23 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h17 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_23 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_23 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_24 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h18 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_24 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_24 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_25 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h19 == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_25 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_25 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_26 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1a == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_26 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_26 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_27 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1b == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_27 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_27 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_28 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1c == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_28 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_28 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_29 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1d == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_29 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_29 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_30 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1e == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_30 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_30 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_31 <= 64'h0; // @[Reg_file.scala 18:32]
     end else if (io_w_en) begin // @[Reg_file.scala 23:22]
       if (5'h1f == io_w_addr) begin // @[Reg_file.scala 24:38]
-        registers_31 <= registers_REG; // @[Reg_file.scala 24:38]
+        registers_31 <= io_w_data; // @[Reg_file.scala 24:38]
       end
     end
-    registers_REG <= io_w_data; // @[Reg_file.scala 24:48]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -1298,8 +1295,6 @@ initial begin
   registers_30 = _RAND_30[63:0];
   _RAND_31 = {2{`RANDOM}};
   registers_31 = _RAND_31[63:0];
-  _RAND_32 = {2{`RANDOM}};
-  registers_REG = _RAND_32[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

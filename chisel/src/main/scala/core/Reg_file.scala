@@ -21,7 +21,7 @@ class Regfile(depth:Int,width:Int) extends Module{
 	io.r1_data := registers(io.r1_addr)
 	io.r2_data := registers(io.r2_addr)
 	when(io.w_en){
-		registers(io.w_addr) := RegNext(io.w_data)
+		registers(io.w_addr) := (io.w_data)
 	}
 
 	val mod = Module(new difftest.DifftestArchIntRegState)
