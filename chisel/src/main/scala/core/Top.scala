@@ -87,14 +87,18 @@ class Top(XLEN:Int) extends Module{
 	m_regfile.io.w_en			:=	(m_ls.io.wb_en_o)
 
 
+	val commit_valid = RegInit(0.U)
 
+	when(m_ls.io.wb_en_o){
+		commit_valid := 1.U
+	}
 
 	val commit = Module(new difftest.DifftestInstrCommit)
 	commit.io.clock := clock
 	commit.io.coreid := 0.U
 	commit.io.index := 0.U
 
-	commit.io.valid		:= 1.U
+	commit.io.valid		:= commit_valid
 	commit.io.pc		:= RegNext(m_ls.io.pc_o)//RegNext((RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
 	commit.io.instr		:= RegNext(m_ls.io.inst_o)//RegNext(RegNext(RegNext(RegNext(m_id.io.inst))))
 	commit.io.skip		:= false.B
