@@ -41,7 +41,7 @@ class SimTop extends Module {
 
 
   val inst_ram = Module(new RAMHelper)
-  val data_ram = Module(new RAMHelper)
+  //val data_ram = Module(new RAMHelper)
 
   inst_ram.io.clk				:= clock
   inst_ram.io.en				:= rcore.io.inst_ram.en
@@ -52,14 +52,14 @@ class SimTop extends Module {
   inst_ram.io.wen				:= rcore.io.inst_ram.wen
   rcore.io.inst_ram.rdata		:= inst_ram.io.rdata
 
-  data_ram.io.clk				:= clock
-  data_ram.io.en				:= rcore.io.data_ram.en
-  data_ram.io.rIdx				:= rcore.io.data_ram.rIdx
-  data_ram.io.wIdx				:= rcore.io.data_ram.wIdx
-  data_ram.io.wdata				:= rcore.io.data_ram.wdata
-  data_ram.io.wmask				:= rcore.io.data_ram.wmask
-  data_ram.io.wen				:= rcore.io.data_ram.wen
-  rcore.io.data_ram.rdata		:= data_ram.io.rdata
+//   data_ram.io.clk				:= clock
+//   data_ram.io.en				:= rcore.io.data_ram.en
+//   data_ram.io.rIdx				:= rcore.io.data_ram.rIdx
+//   data_ram.io.wIdx				:= rcore.io.data_ram.wIdx
+//   data_ram.io.wdata				:= rcore.io.data_ram.wdata
+//   data_ram.io.wmask				:= rcore.io.data_ram.wmask
+//   data_ram.io.wen				:= rcore.io.data_ram.wen
+  rcore.io.data_ram.rdata		:= 0.U//data_ram.io.rdata
 
 
 

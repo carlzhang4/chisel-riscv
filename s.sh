@@ -72,3 +72,6 @@ if [[ "$CHECK_WAVE" == "true" ]]; then
 	cd $CHISEL_HOME/build
 	gtkwave ../$WAVE_FILE
 fi
+
+#chisel/difftest 下 make DESIGN_DIR=./ -m "EMU_TRACE=1"
+#chisel/difftest/build  ./emu -i inst.bin --dump-wave -b 0
