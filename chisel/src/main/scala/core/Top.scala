@@ -35,7 +35,7 @@ class Top(XLEN:Int) extends Module{
 	val word_select 			= 	m_if.io.pc(2)
 	
 	m_id.io.inst 				:=	RegNext(Mux(word_select === 1.U, io.inst_ram.rdata(63,32), io.inst_ram.rdata(31,0)))//
-	m_id.io.pc 					:= 	m_if.io.pc
+	m_id.io.pc 					:= 	RegNext(m_if.io.pc)
 	
 	m_id.io.rs1_data			:=	m_regfile.io.r1_data
 	m_id.io.rs2_data			:=	m_regfile.io.r2_data
