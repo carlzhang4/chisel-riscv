@@ -46,7 +46,7 @@ class Exe(XLEN:Int) extends Module with HasInstType{
 	val shamt = io.op2(5,0) //for rv64 no word op
 
 	val is_adder_sub = !FUOpType.isAdd(io.fu_op_type)
-	val adder_res = (io.op1 +& (io.op2 ^ Fill(XLEN,is_adder_sub))) + is_adder_sub + 10.U
+	val adder_res = (io.op1 +& (io.op2 ^ Fill(XLEN,is_adder_sub))) + is_adder_sub
 	val xor_res = (io.op1 ^ io.op2)
 
 	val sltu_res = !adder_res(XLEN)// return if(op1<op2)
