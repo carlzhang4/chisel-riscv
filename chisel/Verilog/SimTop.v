@@ -1500,8 +1500,6 @@ module Top(
   reg [31:0] _RAND_11;
   reg [31:0] _RAND_12;
   reg [31:0] _RAND_13;
-  reg [31:0] _RAND_14;
-  reg [31:0] _RAND_15;
 `endif // RANDOMIZE_REG_INIT
   wire  m_if_clock; // @[Top.scala 29:47]
   wire  m_if_reset; // @[Top.scala 29:47]
@@ -1593,10 +1591,8 @@ module Top(
   reg [31:0] REG_7; // @[Top.scala 98:52]
   reg [31:0] REG_8; // @[Top.scala 98:44]
   reg [31:0] REG_9; // @[Top.scala 98:36]
-  reg  REG_10; // @[Top.scala 102:41]
-  reg  REG_11; // @[Top.scala 102:33]
-  reg [4:0] REG_12; // @[Top.scala 104:43]
-  reg [4:0] REG_13; // @[Top.scala 104:35]
+  reg  REG_10; // @[Top.scala 102:34]
+  reg [4:0] REG_11; // @[Top.scala 104:36]
   reg [31:0] cycleCnt; // @[Top.scala 106:31]
   wire [31:0] _cycleCnt_T_1 = cycleCnt + 32'h1; // @[Top.scala 107:30]
   If m_if ( // @[Top.scala 29:47]
@@ -1742,9 +1738,9 @@ module Top(
   assign commit_skip = 1'h0; // @[Top.scala 99:24]
   assign commit_isRVC = 1'h0; // @[Top.scala 100:25]
   assign commit_scFailed = 1'h0; // @[Top.scala 101:28]
-  assign commit_wen = REG_11; // @[Top.scala 102:23]
+  assign commit_wen = REG_10; // @[Top.scala 102:23]
   assign commit_wdata = 64'h0; // @[Top.scala 103:25]
-  assign commit_wdest = {{3'd0}, REG_13}; // @[Top.scala 104:25]
+  assign commit_wdest = {{3'd0}, REG_11}; // @[Top.scala 104:25]
   assign trap_clock = clock; // @[Top.scala 110:26]
   assign trap_coreid = 8'h0; // @[Top.scala 111:26]
   assign trap_valid = commit_instr == 32'h6b; // @[Top.scala 112:46]
@@ -1768,10 +1764,8 @@ module Top(
     REG_7 <= REG_6; // @[Top.scala 98:52]
     REG_8 <= REG_7; // @[Top.scala 98:44]
     REG_9 <= REG_8; // @[Top.scala 98:36]
-    REG_10 <= m_mem_io_wb_en_r; // @[Top.scala 102:41]
-    REG_11 <= REG_10; // @[Top.scala 102:33]
-    REG_12 <= m_mem_io_wb_addr_r; // @[Top.scala 104:43]
-    REG_13 <= REG_12; // @[Top.scala 104:35]
+    REG_10 <= m_mem_io_wb_en_r; // @[Top.scala 102:34]
+    REG_11 <= m_mem_io_wb_addr_r; // @[Top.scala 104:36]
     if (reset) begin // @[Top.scala 106:31]
       cycleCnt <= 32'h1; // @[Top.scala 106:31]
     end else begin
@@ -1839,13 +1833,9 @@ initial begin
   _RAND_11 = {1{`RANDOM}};
   REG_10 = _RAND_11[0:0];
   _RAND_12 = {1{`RANDOM}};
-  REG_11 = _RAND_12[0:0];
+  REG_11 = _RAND_12[4:0];
   _RAND_13 = {1{`RANDOM}};
-  REG_12 = _RAND_13[4:0];
-  _RAND_14 = {1{`RANDOM}};
-  REG_13 = _RAND_14[4:0];
-  _RAND_15 = {1{`RANDOM}};
-  cycleCnt = _RAND_15[31:0];
+  cycleCnt = _RAND_13[31:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
