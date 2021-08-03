@@ -741,38 +741,6 @@ module Regfile(
   reg [63:0] _RAND_62;
   reg [63:0] _RAND_63;
   reg [63:0] _RAND_64;
-  reg [63:0] _RAND_65;
-  reg [63:0] _RAND_66;
-  reg [63:0] _RAND_67;
-  reg [63:0] _RAND_68;
-  reg [63:0] _RAND_69;
-  reg [63:0] _RAND_70;
-  reg [63:0] _RAND_71;
-  reg [63:0] _RAND_72;
-  reg [63:0] _RAND_73;
-  reg [63:0] _RAND_74;
-  reg [63:0] _RAND_75;
-  reg [63:0] _RAND_76;
-  reg [63:0] _RAND_77;
-  reg [63:0] _RAND_78;
-  reg [63:0] _RAND_79;
-  reg [63:0] _RAND_80;
-  reg [63:0] _RAND_81;
-  reg [63:0] _RAND_82;
-  reg [63:0] _RAND_83;
-  reg [63:0] _RAND_84;
-  reg [63:0] _RAND_85;
-  reg [63:0] _RAND_86;
-  reg [63:0] _RAND_87;
-  reg [63:0] _RAND_88;
-  reg [63:0] _RAND_89;
-  reg [63:0] _RAND_90;
-  reg [63:0] _RAND_91;
-  reg [63:0] _RAND_92;
-  reg [63:0] _RAND_93;
-  reg [63:0] _RAND_94;
-  reg [63:0] _RAND_95;
-  reg [63:0] _RAND_96;
 `endif // RANDOMIZE_REG_INIT
   wire  mod_clock; // @[Reg_file.scala 33:25]
   wire [7:0] mod_coreid; // @[Reg_file.scala 33:25]
@@ -953,38 +921,6 @@ module Regfile(
   wire [63:0] _GEN_61 = 5'h1d == io_r2_addr ? registers_29 : _GEN_60; // @[Reg_file.scala 24:20 Reg_file.scala 24:20]
   wire [63:0] _GEN_62 = 5'h1e == io_r2_addr ? registers_30 : _GEN_61; // @[Reg_file.scala 24:20 Reg_file.scala 24:20]
   reg [63:0] registers_REG; // @[Reg_file.scala 26:48]
-  reg [63:0] REG_0; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_1; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_2; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_3; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_4; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_5; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_6; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_7; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_8; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_9; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_10; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_11; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_12; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_13; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_14; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_15; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_16; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_17; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_18; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_19; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_20; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_21; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_22; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_23; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_24; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_25; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_26; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_27; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_28; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_29; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_30; // @[Reg_file.scala 36:30]
-  reg [63:0] REG_31; // @[Reg_file.scala 36:30]
   DifftestArchIntRegState mod ( // @[Reg_file.scala 33:25]
     .clock(mod_clock),
     .coreid(mod_coreid),
@@ -1047,38 +983,38 @@ module Regfile(
   assign io_r2_data = 5'h1f == io_r2_addr ? registers_31 : _GEN_62; // @[Reg_file.scala 24:20 Reg_file.scala 24:20]
   assign mod_clock = clock; // @[Reg_file.scala 34:22]
   assign mod_coreid = 8'h0; // @[Reg_file.scala 35:23]
-  assign mod_gpr_0 = REG_0; // @[Reg_file.scala 36:20]
-  assign mod_gpr_1 = REG_1; // @[Reg_file.scala 36:20]
-  assign mod_gpr_2 = REG_2; // @[Reg_file.scala 36:20]
-  assign mod_gpr_3 = REG_3; // @[Reg_file.scala 36:20]
-  assign mod_gpr_4 = REG_4; // @[Reg_file.scala 36:20]
-  assign mod_gpr_5 = REG_5; // @[Reg_file.scala 36:20]
-  assign mod_gpr_6 = REG_6; // @[Reg_file.scala 36:20]
-  assign mod_gpr_7 = REG_7; // @[Reg_file.scala 36:20]
-  assign mod_gpr_8 = REG_8; // @[Reg_file.scala 36:20]
-  assign mod_gpr_9 = REG_9; // @[Reg_file.scala 36:20]
-  assign mod_gpr_10 = REG_10; // @[Reg_file.scala 36:20]
-  assign mod_gpr_11 = REG_11; // @[Reg_file.scala 36:20]
-  assign mod_gpr_12 = REG_12; // @[Reg_file.scala 36:20]
-  assign mod_gpr_13 = REG_13; // @[Reg_file.scala 36:20]
-  assign mod_gpr_14 = REG_14; // @[Reg_file.scala 36:20]
-  assign mod_gpr_15 = REG_15; // @[Reg_file.scala 36:20]
-  assign mod_gpr_16 = REG_16; // @[Reg_file.scala 36:20]
-  assign mod_gpr_17 = REG_17; // @[Reg_file.scala 36:20]
-  assign mod_gpr_18 = REG_18; // @[Reg_file.scala 36:20]
-  assign mod_gpr_19 = REG_19; // @[Reg_file.scala 36:20]
-  assign mod_gpr_20 = REG_20; // @[Reg_file.scala 36:20]
-  assign mod_gpr_21 = REG_21; // @[Reg_file.scala 36:20]
-  assign mod_gpr_22 = REG_22; // @[Reg_file.scala 36:20]
-  assign mod_gpr_23 = REG_23; // @[Reg_file.scala 36:20]
-  assign mod_gpr_24 = REG_24; // @[Reg_file.scala 36:20]
-  assign mod_gpr_25 = REG_25; // @[Reg_file.scala 36:20]
-  assign mod_gpr_26 = REG_26; // @[Reg_file.scala 36:20]
-  assign mod_gpr_27 = REG_27; // @[Reg_file.scala 36:20]
-  assign mod_gpr_28 = REG_28; // @[Reg_file.scala 36:20]
-  assign mod_gpr_29 = REG_29; // @[Reg_file.scala 36:20]
-  assign mod_gpr_30 = REG_30; // @[Reg_file.scala 36:20]
-  assign mod_gpr_31 = REG_31; // @[Reg_file.scala 36:20]
+  assign mod_gpr_0 = reg_o_0; // @[Reg_file.scala 36:20]
+  assign mod_gpr_1 = reg_o_1; // @[Reg_file.scala 36:20]
+  assign mod_gpr_2 = reg_o_2; // @[Reg_file.scala 36:20]
+  assign mod_gpr_3 = reg_o_3; // @[Reg_file.scala 36:20]
+  assign mod_gpr_4 = reg_o_4; // @[Reg_file.scala 36:20]
+  assign mod_gpr_5 = reg_o_5; // @[Reg_file.scala 36:20]
+  assign mod_gpr_6 = reg_o_6; // @[Reg_file.scala 36:20]
+  assign mod_gpr_7 = reg_o_7; // @[Reg_file.scala 36:20]
+  assign mod_gpr_8 = reg_o_8; // @[Reg_file.scala 36:20]
+  assign mod_gpr_9 = reg_o_9; // @[Reg_file.scala 36:20]
+  assign mod_gpr_10 = reg_o_10; // @[Reg_file.scala 36:20]
+  assign mod_gpr_11 = reg_o_11; // @[Reg_file.scala 36:20]
+  assign mod_gpr_12 = reg_o_12; // @[Reg_file.scala 36:20]
+  assign mod_gpr_13 = reg_o_13; // @[Reg_file.scala 36:20]
+  assign mod_gpr_14 = reg_o_14; // @[Reg_file.scala 36:20]
+  assign mod_gpr_15 = reg_o_15; // @[Reg_file.scala 36:20]
+  assign mod_gpr_16 = reg_o_16; // @[Reg_file.scala 36:20]
+  assign mod_gpr_17 = reg_o_17; // @[Reg_file.scala 36:20]
+  assign mod_gpr_18 = reg_o_18; // @[Reg_file.scala 36:20]
+  assign mod_gpr_19 = reg_o_19; // @[Reg_file.scala 36:20]
+  assign mod_gpr_20 = reg_o_20; // @[Reg_file.scala 36:20]
+  assign mod_gpr_21 = reg_o_21; // @[Reg_file.scala 36:20]
+  assign mod_gpr_22 = reg_o_22; // @[Reg_file.scala 36:20]
+  assign mod_gpr_23 = reg_o_23; // @[Reg_file.scala 36:20]
+  assign mod_gpr_24 = reg_o_24; // @[Reg_file.scala 36:20]
+  assign mod_gpr_25 = reg_o_25; // @[Reg_file.scala 36:20]
+  assign mod_gpr_26 = reg_o_26; // @[Reg_file.scala 36:20]
+  assign mod_gpr_27 = reg_o_27; // @[Reg_file.scala 36:20]
+  assign mod_gpr_28 = reg_o_28; // @[Reg_file.scala 36:20]
+  assign mod_gpr_29 = reg_o_29; // @[Reg_file.scala 36:20]
+  assign mod_gpr_30 = reg_o_30; // @[Reg_file.scala 36:20]
+  assign mod_gpr_31 = reg_o_31; // @[Reg_file.scala 36:20]
   assign csr_clock = clock; // @[Reg_file.scala 39:18]
   assign csr_coreid = 8'h0; // @[Reg_file.scala 40:19]
   assign csr_priviledgeMode = 2'h0; // @[Reg_file.scala 58:27]
@@ -1549,38 +1485,6 @@ module Regfile(
       end
     end
     registers_REG <= io_w_data; // @[Reg_file.scala 26:48]
-    REG_0 <= reg_o_0; // @[Reg_file.scala 36:30]
-    REG_1 <= reg_o_1; // @[Reg_file.scala 36:30]
-    REG_2 <= reg_o_2; // @[Reg_file.scala 36:30]
-    REG_3 <= reg_o_3; // @[Reg_file.scala 36:30]
-    REG_4 <= reg_o_4; // @[Reg_file.scala 36:30]
-    REG_5 <= reg_o_5; // @[Reg_file.scala 36:30]
-    REG_6 <= reg_o_6; // @[Reg_file.scala 36:30]
-    REG_7 <= reg_o_7; // @[Reg_file.scala 36:30]
-    REG_8 <= reg_o_8; // @[Reg_file.scala 36:30]
-    REG_9 <= reg_o_9; // @[Reg_file.scala 36:30]
-    REG_10 <= reg_o_10; // @[Reg_file.scala 36:30]
-    REG_11 <= reg_o_11; // @[Reg_file.scala 36:30]
-    REG_12 <= reg_o_12; // @[Reg_file.scala 36:30]
-    REG_13 <= reg_o_13; // @[Reg_file.scala 36:30]
-    REG_14 <= reg_o_14; // @[Reg_file.scala 36:30]
-    REG_15 <= reg_o_15; // @[Reg_file.scala 36:30]
-    REG_16 <= reg_o_16; // @[Reg_file.scala 36:30]
-    REG_17 <= reg_o_17; // @[Reg_file.scala 36:30]
-    REG_18 <= reg_o_18; // @[Reg_file.scala 36:30]
-    REG_19 <= reg_o_19; // @[Reg_file.scala 36:30]
-    REG_20 <= reg_o_20; // @[Reg_file.scala 36:30]
-    REG_21 <= reg_o_21; // @[Reg_file.scala 36:30]
-    REG_22 <= reg_o_22; // @[Reg_file.scala 36:30]
-    REG_23 <= reg_o_23; // @[Reg_file.scala 36:30]
-    REG_24 <= reg_o_24; // @[Reg_file.scala 36:30]
-    REG_25 <= reg_o_25; // @[Reg_file.scala 36:30]
-    REG_26 <= reg_o_26; // @[Reg_file.scala 36:30]
-    REG_27 <= reg_o_27; // @[Reg_file.scala 36:30]
-    REG_28 <= reg_o_28; // @[Reg_file.scala 36:30]
-    REG_29 <= reg_o_29; // @[Reg_file.scala 36:30]
-    REG_30 <= reg_o_30; // @[Reg_file.scala 36:30]
-    REG_31 <= reg_o_31; // @[Reg_file.scala 36:30]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -1748,70 +1652,6 @@ initial begin
   reg_o_31 = _RAND_63[63:0];
   _RAND_64 = {2{`RANDOM}};
   registers_REG = _RAND_64[63:0];
-  _RAND_65 = {2{`RANDOM}};
-  REG_0 = _RAND_65[63:0];
-  _RAND_66 = {2{`RANDOM}};
-  REG_1 = _RAND_66[63:0];
-  _RAND_67 = {2{`RANDOM}};
-  REG_2 = _RAND_67[63:0];
-  _RAND_68 = {2{`RANDOM}};
-  REG_3 = _RAND_68[63:0];
-  _RAND_69 = {2{`RANDOM}};
-  REG_4 = _RAND_69[63:0];
-  _RAND_70 = {2{`RANDOM}};
-  REG_5 = _RAND_70[63:0];
-  _RAND_71 = {2{`RANDOM}};
-  REG_6 = _RAND_71[63:0];
-  _RAND_72 = {2{`RANDOM}};
-  REG_7 = _RAND_72[63:0];
-  _RAND_73 = {2{`RANDOM}};
-  REG_8 = _RAND_73[63:0];
-  _RAND_74 = {2{`RANDOM}};
-  REG_9 = _RAND_74[63:0];
-  _RAND_75 = {2{`RANDOM}};
-  REG_10 = _RAND_75[63:0];
-  _RAND_76 = {2{`RANDOM}};
-  REG_11 = _RAND_76[63:0];
-  _RAND_77 = {2{`RANDOM}};
-  REG_12 = _RAND_77[63:0];
-  _RAND_78 = {2{`RANDOM}};
-  REG_13 = _RAND_78[63:0];
-  _RAND_79 = {2{`RANDOM}};
-  REG_14 = _RAND_79[63:0];
-  _RAND_80 = {2{`RANDOM}};
-  REG_15 = _RAND_80[63:0];
-  _RAND_81 = {2{`RANDOM}};
-  REG_16 = _RAND_81[63:0];
-  _RAND_82 = {2{`RANDOM}};
-  REG_17 = _RAND_82[63:0];
-  _RAND_83 = {2{`RANDOM}};
-  REG_18 = _RAND_83[63:0];
-  _RAND_84 = {2{`RANDOM}};
-  REG_19 = _RAND_84[63:0];
-  _RAND_85 = {2{`RANDOM}};
-  REG_20 = _RAND_85[63:0];
-  _RAND_86 = {2{`RANDOM}};
-  REG_21 = _RAND_86[63:0];
-  _RAND_87 = {2{`RANDOM}};
-  REG_22 = _RAND_87[63:0];
-  _RAND_88 = {2{`RANDOM}};
-  REG_23 = _RAND_88[63:0];
-  _RAND_89 = {2{`RANDOM}};
-  REG_24 = _RAND_89[63:0];
-  _RAND_90 = {2{`RANDOM}};
-  REG_25 = _RAND_90[63:0];
-  _RAND_91 = {2{`RANDOM}};
-  REG_26 = _RAND_91[63:0];
-  _RAND_92 = {2{`RANDOM}};
-  REG_27 = _RAND_92[63:0];
-  _RAND_93 = {2{`RANDOM}};
-  REG_28 = _RAND_93[63:0];
-  _RAND_94 = {2{`RANDOM}};
-  REG_29 = _RAND_94[63:0];
-  _RAND_95 = {2{`RANDOM}};
-  REG_30 = _RAND_95[63:0];
-  _RAND_96 = {2{`RANDOM}};
-  REG_31 = _RAND_96[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

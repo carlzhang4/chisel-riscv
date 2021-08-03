@@ -33,7 +33,7 @@ class Regfile(depth:Int,width:Int) extends Module{
 	val mod = Module(new difftest.DifftestArchIntRegState)
 	mod.io.clock := clock
 	mod.io.coreid := 0.U
-	mod.io.gpr := RegNext(reg_o)
+	mod.io.gpr := (reg_o)
 
     val csr = Module(new difftest.DifftestCSRState)
     csr.io.clock := clock
