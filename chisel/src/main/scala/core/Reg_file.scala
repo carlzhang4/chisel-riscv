@@ -16,7 +16,6 @@ class Regfile(depth:Int,width:Int) extends Module{
 		val r2_data = Output(UInt(width.W))
 	})
 	val registers = RegInit(VecInit(Seq.fill(32)(0.U(width.W))))
-	// Reg(Vec(depth,UInt(width.W)))
 
 	io.r1_data := registers(io.r1_addr)
 	io.r2_data := registers(io.r2_addr)
