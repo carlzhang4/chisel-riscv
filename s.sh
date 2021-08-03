@@ -13,12 +13,13 @@ BUILD="false"
 SIMULATE="false"
 CHECK_WAVE="false"
 WAVE_FILE="hhj.vcd"
+IMG_FILE="inst.txt"
 
-while getopts 'vbswf:' OPT; do
+while getopts 'vbs:wf:' OPT; do
     case $OPT in
 		v) GEN_VERILOG="true";;
         b) BUILD="true";;
-		s) SIMULATE="true";;
+		s) SIMULATE="true";IMG_FILE="$OPTARG";;
 		a) PARAMETERS="$OPTARG";;
 		w) CHECK_WAVE="true";;
 		f) WAVE_FILE="$OPTARG";;
@@ -58,7 +59,7 @@ if [[ "$SIMULATE" == "true" ]]; then
     if [[ "$GBD" == "true" ]]; then
         gdb -s $EMU_FILE --args ./$EMU_FILE $PARAMETERS
     else
-        ./emu -b 0 -e 30 --dump-wave -i ../difftest/build/inst.txt
+        ./emu -b 0 -e 30 --dump-wave -i ../difftest/build/$IMG_FILE
     fi
 
     if [ $? -ne 0 ]; then
