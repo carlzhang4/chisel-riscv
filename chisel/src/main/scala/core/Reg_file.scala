@@ -18,16 +18,22 @@ class Regfile(depth:Int,width:Int) extends Module{
 	val registers = RegInit(VecInit(Seq.fill(32)(0.U(width.W))))
 	// Reg(Vec(depth,UInt(width.W)))
 
+	val reg_o = RegInit(VecInit(Seq.fill(32)(0.U(width.W))))
+
 	io.r1_data := registers(io.r1_addr)
 	io.r2_data := registers(io.r2_addr)
 	when(io.w_en){
 		registers(io.w_addr) := RegNext(io.w_data)
 	}
 
+	when(io.w_en){
+		reg_o(io.w_addr) := (io.w_data)
+	}
+
 	val mod = Module(new difftest.DifftestArchIntRegState)
 	mod.io.clock := clock
 	mod.io.coreid := 0.U
-	mod.io.gpr := (registers)
+	mod.io.gpr := RegNext(reg_o)
 
     val csr = Module(new difftest.DifftestCSRState)
     csr.io.clock := clock
