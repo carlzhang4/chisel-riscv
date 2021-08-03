@@ -50,4 +50,9 @@ class Regfile(depth:Int,width:Int) extends Module{
     csr.io.stvec := 0.U
     csr.io.priviledgeMode := 0.U
 
+	val fp = Module(new difftest.DifftestArchFpRegState)
+	fp.io.clock		:=	clock
+	fp.io.coreid	:=	0.U
+	fp.io.fpr 		:=	RegInit(VecInit(Seq.fill(32)(0.U(width.W))))
+
 }

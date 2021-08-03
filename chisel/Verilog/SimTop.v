@@ -809,6 +809,40 @@ module Regfile(
   wire [63:0] csr_sscratch; // @[Reg_file.scala 31:21]
   wire [63:0] csr_mideleg; // @[Reg_file.scala 31:21]
   wire [63:0] csr_medeleg; // @[Reg_file.scala 31:21]
+  wire  fp_clock; // @[Reg_file.scala 53:24]
+  wire [7:0] fp_coreid; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_0; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_1; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_2; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_3; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_4; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_5; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_6; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_7; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_8; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_9; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_10; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_11; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_12; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_13; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_14; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_15; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_16; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_17; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_18; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_19; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_20; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_21; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_22; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_23; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_24; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_25; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_26; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_27; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_28; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_29; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_30; // @[Reg_file.scala 53:24]
+  wire [63:0] fp_fpr_31; // @[Reg_file.scala 53:24]
   reg [63:0] registers_0; // @[Reg_file.scala 18:32]
   reg [63:0] registers_1; // @[Reg_file.scala 18:32]
   reg [63:0] registers_2; // @[Reg_file.scala 18:32]
@@ -959,6 +993,42 @@ module Regfile(
     .mideleg(csr_mideleg),
     .medeleg(csr_medeleg)
   );
+  DifftestArchFpRegState fp ( // @[Reg_file.scala 53:24]
+    .clock(fp_clock),
+    .coreid(fp_coreid),
+    .fpr_0(fp_fpr_0),
+    .fpr_1(fp_fpr_1),
+    .fpr_2(fp_fpr_2),
+    .fpr_3(fp_fpr_3),
+    .fpr_4(fp_fpr_4),
+    .fpr_5(fp_fpr_5),
+    .fpr_6(fp_fpr_6),
+    .fpr_7(fp_fpr_7),
+    .fpr_8(fp_fpr_8),
+    .fpr_9(fp_fpr_9),
+    .fpr_10(fp_fpr_10),
+    .fpr_11(fp_fpr_11),
+    .fpr_12(fp_fpr_12),
+    .fpr_13(fp_fpr_13),
+    .fpr_14(fp_fpr_14),
+    .fpr_15(fp_fpr_15),
+    .fpr_16(fp_fpr_16),
+    .fpr_17(fp_fpr_17),
+    .fpr_18(fp_fpr_18),
+    .fpr_19(fp_fpr_19),
+    .fpr_20(fp_fpr_20),
+    .fpr_21(fp_fpr_21),
+    .fpr_22(fp_fpr_22),
+    .fpr_23(fp_fpr_23),
+    .fpr_24(fp_fpr_24),
+    .fpr_25(fp_fpr_25),
+    .fpr_26(fp_fpr_26),
+    .fpr_27(fp_fpr_27),
+    .fpr_28(fp_fpr_28),
+    .fpr_29(fp_fpr_29),
+    .fpr_30(fp_fpr_30),
+    .fpr_31(fp_fpr_31)
+  );
   assign io_r1_data = 5'h1f == io_r1_addr ? registers_31 : _GEN_30; // @[Reg_file.scala 20:20 Reg_file.scala 20:20]
   assign io_r2_data = 5'h1f == io_r2_addr ? registers_31 : _GEN_62; // @[Reg_file.scala 21:20 Reg_file.scala 21:20]
   assign mod_clock = clock; // @[Reg_file.scala 27:22]
@@ -1015,6 +1085,40 @@ module Regfile(
   assign csr_sscratch = 64'h0; // @[Reg_file.scala 44:21]
   assign csr_mideleg = 64'h0; // @[Reg_file.scala 45:20]
   assign csr_medeleg = 64'h0; // @[Reg_file.scala 46:20]
+  assign fp_clock = clock; // @[Reg_file.scala 54:33]
+  assign fp_coreid = 8'h0; // @[Reg_file.scala 55:25]
+  assign fp_fpr_0 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_1 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_2 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_3 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_4 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_5 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_6 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_7 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_8 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_9 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_10 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_11 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_12 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_13 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_14 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_15 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_16 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_17 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_18 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_19 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_20 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_21 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_22 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_23 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_24 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_25 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_26 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_27 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_28 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_29 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_30 = 64'h0; // @[Reg_file.scala 56:33]
+  assign fp_fpr_31 = 64'h0; // @[Reg_file.scala 56:33]
   always @(posedge clock) begin
     if (reset) begin // @[Reg_file.scala 18:32]
       registers_0 <= 64'h0; // @[Reg_file.scala 18:32]
