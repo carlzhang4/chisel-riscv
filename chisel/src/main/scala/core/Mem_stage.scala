@@ -14,9 +14,9 @@ class MemStage(XLEN:Int) extends Module{
 		val fu_type		=	Input(FUType())
 		val fu_op_type	=	Input(FUOpType())
 
-		val wb_addr_r	=	Output(UInt(5.W))
-		val wb_en_r		=	Output(Bool())
-		val wb_data_r	=	Output(UInt(XLEN.W))
+		val wb_addr_o	=	Output(UInt(5.W))
+		val wb_en_o		=	Output(Bool())
+		val wb_data_o	=	Output(UInt(XLEN.W))
 
 
 		val mem_addr_wr	=	Output(UInt(XLEN.W))
@@ -54,7 +54,7 @@ class MemStage(XLEN:Int) extends Module{
 		FUOpType.sw 		->	ZeroExt(io.op2(31, 0),XLEN),		
 	))
 
-	val wb_data_r = LookupTreeDefault(RegNext(io.fu_op_type),RegNext(io.wb_data),List(
+	val wb_data_o = LookupTreeDefault(RegNext(io.fu_op_type),RegNext(io.wb_data),List(
 		FUOpType.lb			->	(SignExt(io.mem_data_rd(7, 0),XLEN)),      //res[63:0]
 		FUOpType.lh 		->	(SignExt(io.mem_data_rd(15, 0),XLEN)), 
 		FUOpType.lw 		->	(SignExt(io.mem_data_rd(31, 0),XLEN)), 
@@ -65,9 +65,9 @@ class MemStage(XLEN:Int) extends Module{
 
 
 
-	io.wb_addr_r	:=	RegNext(io.wb_addr)
-	io.wb_en_r		:=	RegNext(io.wb_en)
-	io.wb_data_r	:= 	wb_data_r
+	io.wb_addr_o	:=	RegNext(io.wb_addr)
+	io.wb_en_o		:=	RegNext(io.wb_en)
+	io.wb_data_o	:= 	wb_data_o
 	io.mem_en_rd	:= 	mem_en_rd
 	io.mem_en_wr	:= 	mem_en_wr
 	io.mem_addr_rd	:= 	mem_addr_rd

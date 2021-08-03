@@ -37,11 +37,11 @@ class Top(XLEN:Int) extends Module{
 	m_id.io.inst 				:=	RegNext(Mux(word_select === 1.U, io.inst_ram.rdata(63,32), io.inst_ram.rdata(31,0)))//
 	m_id.io.pc 					:= 	m_if.io.pc
 	
-	m_regfile.io.r1_addr		:=	m_id.io.rs1
-	m_regfile.io.r2_addr		:=	m_id.io.rs2
-
 	m_id.io.rs1_data			:=	m_regfile.io.r1_data
 	m_id.io.rs2_data			:=	m_regfile.io.r2_data
+
+	m_regfile.io.r1_addr		:=	m_id.io.rs1
+	m_regfile.io.r2_addr		:=	m_id.io.rs2
 
 	m_exe.io.pc 				:=	m_id.io.pc_o
 	m_exe.io.inst 				:=	m_id.io.inst_o
@@ -61,8 +61,15 @@ class Top(XLEN:Int) extends Module{
 	m_mem.io.fu_type			:=	m_exe.io.fu_type_o
 	m_mem.io.fu_op_type			:=	m_exe.io.fu_op_type_o
 
+	io.data_ram.en 						:= m_mem.io.mem_en_rd
+	io.data_ram.rIdx 					:= m_mem.io.mem_addr_rd
+	io.data_ram.wIdx 					:= m_mem.io.mem_addr_wr
+	io.data_ram.wdata 					:= m_mem.io.mem_data_wr
+	io.data_ram.wmask 					:= m_mem.io.mem_data_wr//todo
+	io.data_ram.wen 					:= m_mem.io.mem_en_wr
 
-	m_mem.io.mem_data_rd			:= io.data_ram.rdata
+	m_mem.io.mem_data_rd				:= io.data_ram.rdata
+
 
 	io.inst_ram.rIdx					:=	m_if.io.inst_addr
 	io.inst_ram.en 						:=	1.U
@@ -71,19 +78,11 @@ class Top(XLEN:Int) extends Module{
 	io.inst_ram.wmask 					:=	m_mem.io.mem_data_wr
 	io.inst_ram.wen 					:=	m_mem.io.mem_en_wr
 
-	io.data_ram.en 						:= m_mem.io.mem_en_rd
-	io.data_ram.rIdx 					:= m_mem.io.mem_addr_rd
-	io.data_ram.wIdx 					:= m_mem.io.mem_addr_wr
-	io.data_ram.wdata 					:= m_mem.io.mem_data_wr
-	io.data_ram.wmask 					:= m_mem.io.mem_data_wr//todo
-	io.data_ram.wen 					:= m_mem.io.mem_en_wr
 
 
-
-
-	m_regfile.io.w_addr			:=	(m_mem.io.wb_addr_r)
-	m_regfile.io.w_data			:=	(m_mem.io.wb_data_r)
-	m_regfile.io.w_en			:=	(m_mem.io.wb_en_r)
+	m_regfile.io.w_addr			:=	(m_mem.io.wb_addr_o)
+	m_regfile.io.w_data			:=	(m_mem.io.wb_data_o)
+	m_regfile.io.w_en			:=	(m_mem.io.wb_en_o)
 
 
 
@@ -93,15 +92,15 @@ class Top(XLEN:Int) extends Module{
 	commit.io.coreid := 0.U
 	commit.io.index := 0.U
 
-	commit.io.valid		:= RegNext(m_mem.io.wb_en_r)
+	commit.io.valid		:= RegNext(m_mem.io.wb_en_o)
 	commit.io.pc		:= RegNext((RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
 	commit.io.instr		:= RegNext(RegNext(RegNext(RegNext(m_id.io.inst))))
 	commit.io.skip		:= false.B
 	commit.io.isRVC		:= false.B
 	commit.io.scFailed	:= false.B
-	commit.io.wen		:= RegNext(m_mem.io.wb_en_r)
-	commit.io.wdata		:= RegNext(m_mem.io.wb_data_r)
-	commit.io.wdest		:= RegNext(m_mem.io.wb_addr_r)
+	commit.io.wen		:= RegNext(m_mem.io.wb_en_o)
+	commit.io.wdata		:= RegNext(m_mem.io.wb_data_o)
+	commit.io.wdest		:= RegNext(m_mem.io.wb_addr_o)
 
 	val cycleCnt = RegInit(1.U(32.W))
 	cycleCnt := cycleCnt + 1.U
