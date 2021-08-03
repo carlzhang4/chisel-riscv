@@ -29,7 +29,7 @@ class Top(XLEN:Int) extends Module{
 	val m_if 		=	Module(new If(XLEN))
 	val m_id 		=	Module(new Id(XLEN))
 	val m_exe		=	Module(new Exe(XLEN))
-	val m_io		=	Module(new MemStage(XLEN))
+	val m_ls		=	Module(new MemStage(XLEN))
 	val m_regfile	=	Module(new Regfile(32,XLEN))
 	
 	val word_select 			= 	m_if.io.pc(2)
@@ -52,37 +52,37 @@ class Top(XLEN:Int) extends Module{
 	m_exe.io.fu_op_type 		:=	m_id.io.fu_op_type
 	m_exe.io.fu_type 			:=	m_id.io.fu_type
 
-	m_io.io.wb_addr			:=	m_exe.io.wb_addr
-	m_io.io.wb_en				:=	m_exe.io.wb_en
-	m_io.io.wb_data			:=	m_exe.io.wb_data
-	m_io.io.op1				:=	m_exe.io.op1_o
-	m_io.io.op2				:=	m_exe.io.op2_o
-	m_io.io.imm				:=	m_exe.io.imm_o
-	m_io.io.fu_type			:=	m_exe.io.fu_type_o
-	m_io.io.fu_op_type			:=	m_exe.io.fu_op_type_o
+	m_ls.io.wb_addr			:=	m_exe.io.wb_addr
+	m_ls.io.wb_en				:=	m_exe.io.wb_en
+	m_ls.io.wb_data			:=	m_exe.io.wb_data
+	m_ls.io.op1				:=	m_exe.io.op1_o
+	m_ls.io.op2				:=	m_exe.io.op2_o
+	m_ls.io.imm				:=	m_exe.io.imm_o
+	m_ls.io.fu_type			:=	m_exe.io.fu_type_o
+	m_ls.io.fu_op_type			:=	m_exe.io.fu_op_type_o
 
-	io.data_ram.en 						:= m_io.io.mem_en_rd
-	io.data_ram.rIdx 					:= m_io.io.mem_addr_rd
-	io.data_ram.wIdx 					:= m_io.io.mem_addr_wr
-	io.data_ram.wdata 					:= m_io.io.mem_data_wr
-	io.data_ram.wmask 					:= m_io.io.mem_data_wr//todo
-	io.data_ram.wen 					:= m_io.io.mem_en_wr
+	io.data_ram.en 						:= m_ls.io.mem_en_rd
+	io.data_ram.rIdx 					:= m_ls.io.mem_addr_rd
+	io.data_ram.wIdx 					:= m_ls.io.mem_addr_wr
+	io.data_ram.wdata 					:= m_ls.io.mem_data_wr
+	io.data_ram.wmask 					:= m_ls.io.mem_data_wr//todo
+	io.data_ram.wen 					:= m_ls.io.mem_en_wr
 
-	m_io.io.mem_data_rd				:= io.data_ram.rdata
+	m_ls.io.mem_data_rd				:= io.data_ram.rdata
 
 
 	io.inst_ram.rIdx					:=	m_if.io.inst_addr
 	io.inst_ram.en 						:=	1.U
-	io.inst_ram.wIdx 					:=	m_io.io.mem_addr_wr
-	io.inst_ram.wdata 					:=	m_io.io.mem_data_wr
-	io.inst_ram.wmask 					:=	m_io.io.mem_data_wr
-	io.inst_ram.wen 					:=	m_io.io.mem_en_wr
+	io.inst_ram.wIdx 					:=	m_ls.io.mem_addr_wr
+	io.inst_ram.wdata 					:=	m_ls.io.mem_data_wr
+	io.inst_ram.wmask 					:=	m_ls.io.mem_data_wr
+	io.inst_ram.wen 					:=	m_ls.io.mem_en_wr
 
 
 
-	m_regfile.io.w_addr			:=	(m_io.io.wb_addr_o)
-	m_regfile.io.w_data			:=	(m_io.io.wb_data_o)
-	m_regfile.io.w_en			:=	(m_io.io.wb_en_o)
+	m_regfile.io.w_addr			:=	(m_ls.io.wb_addr_o)
+	m_regfile.io.w_data			:=	(m_ls.io.wb_data_o)
+	m_regfile.io.w_en			:=	(m_ls.io.wb_en_o)
 
 
 
@@ -92,15 +92,15 @@ class Top(XLEN:Int) extends Module{
 	commit.io.coreid := 0.U
 	commit.io.index := 0.U
 
-	commit.io.valid		:= RegNext(m_io.io.wb_en_o)
+	commit.io.valid		:= RegNext(m_ls.io.wb_en_o)
 	commit.io.pc		:= RegNext((RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
 	commit.io.instr		:= RegNext(RegNext(RegNext(RegNext(m_id.io.inst))))
 	commit.io.skip		:= false.B
 	commit.io.isRVC		:= false.B
 	commit.io.scFailed	:= false.B
-	commit.io.wen		:= RegNext(m_io.io.wb_en_o)
-	commit.io.wdata		:= RegNext(m_io.io.wb_data_o)
-	commit.io.wdest		:= RegNext(m_io.io.wb_addr_o)
+	commit.io.wen		:= RegNext(m_ls.io.wb_en_o)
+	commit.io.wdata		:= RegNext(m_ls.io.wb_data_o)
+	commit.io.wdest		:= RegNext(m_ls.io.wb_addr_o)
 
 	val cycleCnt = RegInit(1.U(32.W))
 	cycleCnt := cycleCnt + 1.U
