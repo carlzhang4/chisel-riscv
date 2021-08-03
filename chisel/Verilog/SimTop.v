@@ -1464,11 +1464,7 @@ module Top(
   output        io_inst_ram_wen,
   output        io_data_ram_en,
   output [63:0] io_data_ram_rIdx,
-  input  [63:0] io_data_ram_rdata,
-  output [63:0] io_data_ram_wIdx,
-  output [63:0] io_data_ram_wdata,
-  output [63:0] io_data_ram_wmask,
-  output        io_data_ram_wen
+  input  [63:0] io_data_ram_rdata
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -1690,10 +1686,6 @@ module Top(
   assign io_inst_ram_wen = m_ls_io_mem_en_wr; // @[Top.scala 81:65]
   assign io_data_ram_en = m_ls_io_mem_en_rd; // @[Top.scala 66:65]
   assign io_data_ram_rIdx = m_ls_io_mem_addr_rd; // @[Top.scala 67:65]
-  assign io_data_ram_wIdx = m_ls_io_mem_addr_wr; // @[Top.scala 68:65]
-  assign io_data_ram_wdata = m_ls_io_mem_data_wr; // @[Top.scala 69:65]
-  assign io_data_ram_wmask = m_ls_io_mem_data_wr; // @[Top.scala 70:65]
-  assign io_data_ram_wen = m_ls_io_mem_en_wr; // @[Top.scala 71:65]
   assign m_if_clock = clock;
   assign m_if_reset = reset;
   assign m_id_clock = clock;
@@ -1857,10 +1849,6 @@ module SimTop(
   wire  rcore_io_data_ram_en; // @[SimTop.scala 31:21]
   wire [63:0] rcore_io_data_ram_rIdx; // @[SimTop.scala 31:21]
   wire [63:0] rcore_io_data_ram_rdata; // @[SimTop.scala 31:21]
-  wire [63:0] rcore_io_data_ram_wIdx; // @[SimTop.scala 31:21]
-  wire [63:0] rcore_io_data_ram_wdata; // @[SimTop.scala 31:21]
-  wire [63:0] rcore_io_data_ram_wmask; // @[SimTop.scala 31:21]
-  wire  rcore_io_data_ram_wen; // @[SimTop.scala 31:21]
   wire  inst_ram_clk; // @[SimTop.scala 43:24]
   wire  inst_ram_en; // @[SimTop.scala 43:24]
   wire [63:0] inst_ram_rIdx; // @[SimTop.scala 43:24]
@@ -1888,11 +1876,7 @@ module SimTop(
     .io_inst_ram_wen(rcore_io_inst_ram_wen),
     .io_data_ram_en(rcore_io_data_ram_en),
     .io_data_ram_rIdx(rcore_io_data_ram_rIdx),
-    .io_data_ram_rdata(rcore_io_data_ram_rdata),
-    .io_data_ram_wIdx(rcore_io_data_ram_wIdx),
-    .io_data_ram_wdata(rcore_io_data_ram_wdata),
-    .io_data_ram_wmask(rcore_io_data_ram_wmask),
-    .io_data_ram_wen(rcore_io_data_ram_wen)
+    .io_data_ram_rdata(rcore_io_data_ram_rdata)
   );
   RAMHelper inst_ram ( // @[SimTop.scala 43:24]
     .clk(inst_ram_clk),
@@ -1931,8 +1915,8 @@ module SimTop(
   assign data_ram_clk = clock; // @[SimTop.scala 55:49]
   assign data_ram_en = rcore_io_data_ram_en; // @[SimTop.scala 56:49]
   assign data_ram_rIdx = rcore_io_data_ram_rIdx; // @[SimTop.scala 57:49]
-  assign data_ram_wIdx = rcore_io_data_ram_wIdx; // @[SimTop.scala 58:49]
-  assign data_ram_wdata = rcore_io_data_ram_wdata; // @[SimTop.scala 59:49]
-  assign data_ram_wmask = rcore_io_data_ram_wmask; // @[SimTop.scala 60:49]
-  assign data_ram_wen = rcore_io_data_ram_wen; // @[SimTop.scala 61:49]
+  assign data_ram_wIdx = 64'h0; // @[SimTop.scala 58:49]
+  assign data_ram_wdata = 64'h0; // @[SimTop.scala 59:49]
+  assign data_ram_wmask = 64'h0; // @[SimTop.scala 60:49]
+  assign data_ram_wen = 1'h0; // @[SimTop.scala 61:49]
 endmodule

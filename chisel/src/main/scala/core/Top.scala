@@ -65,10 +65,10 @@ class Top(XLEN:Int) extends Module{
 
 	io.data_ram.en 						:= m_ls.io.mem_en_rd
 	io.data_ram.rIdx 					:= m_ls.io.mem_addr_rd
-	io.data_ram.wIdx 					:= m_ls.io.mem_addr_wr
-	io.data_ram.wdata 					:= m_ls.io.mem_data_wr
-	io.data_ram.wmask 					:= m_ls.io.mem_data_wr//todo
-	io.data_ram.wen 					:= m_ls.io.mem_en_wr
+	io.data_ram.wIdx 					:= 0.U//m_ls.io.mem_addr_wr
+	io.data_ram.wdata 					:= 0.U//m_ls.io.mem_data_wr
+	io.data_ram.wmask 					:= 0.U//m_ls.io.mem_data_wr//todo
+	io.data_ram.wen 					:= 0.U//m_ls.io.mem_en_wr
 
 	m_ls.io.mem_data_rd				:= io.data_ram.rdata
 
