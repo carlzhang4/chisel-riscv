@@ -14,6 +14,12 @@ class MemStage(XLEN:Int) extends Module{
 		val fu_type		=	Input(FUType())
 		val fu_op_type	=	Input(FUOpType())
 
+		val inst		=	Input(UInt(32.W))
+		val pc 			=   Input(UInt(XLEN.W))
+
+		val inst_o		=	Output(UInt(32.W))
+		val pc_o		=	Output(UInt(XLEN.W))
+
 		val wb_addr_o	=	Output(UInt(5.W))
 		val wb_en_o		=	Output(Bool())
 		val wb_data_o	=	Output(UInt(XLEN.W))
@@ -74,5 +80,7 @@ class MemStage(XLEN:Int) extends Module{
 	io.mem_addr_wr	:= 	mem_addr_wr
 	io.mem_data_wr	:= 	mem_data_wr
 	
+	io.pc_o			:=	RegNext(io.pc)
+	io.inst_o		:=	RegNext(io.inst)
 	
 }

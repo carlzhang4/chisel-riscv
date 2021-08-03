@@ -15,7 +15,8 @@ class Exe(XLEN:Int) extends Module with HasInstType{
 		val inst		=	Input(UInt(32.W))
 		val pc 			=   Input(UInt(XLEN.W))
 
-		
+		val inst_o		=	Output(UInt(32.W))
+		val pc_o		=	Output(UInt(XLEN.W))
 		val fu_type_o	=	Output(FUType())
 		val fu_op_type_o=	Output(FUOpType()) 
 		val op1_o 		=  	Output(UInt(XLEN.W))
@@ -75,4 +76,7 @@ class Exe(XLEN:Int) extends Module with HasInstType{
 	io.op1_o			:=	RegNext(io.op1)
 	io.op2_o			:=	RegNext(io.op2)
 	io.imm_o			:=	RegNext(io.imm)
+
+	io.pc_o				:=	RegNext(io.pc)
+	io.inst_o				:=	RegNext(io.inst)
 }

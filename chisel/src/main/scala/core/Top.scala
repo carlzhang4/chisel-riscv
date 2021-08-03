@@ -53,13 +53,15 @@ class Top(XLEN:Int) extends Module{
 	m_exe.io.fu_type 			:=	m_id.io.fu_type
 
 	m_ls.io.wb_addr			:=	m_exe.io.wb_addr
-	m_ls.io.wb_en				:=	m_exe.io.wb_en
+	m_ls.io.wb_en			:=	m_exe.io.wb_en
 	m_ls.io.wb_data			:=	m_exe.io.wb_data
 	m_ls.io.op1				:=	m_exe.io.op1_o
 	m_ls.io.op2				:=	m_exe.io.op2_o
 	m_ls.io.imm				:=	m_exe.io.imm_o
 	m_ls.io.fu_type			:=	m_exe.io.fu_type_o
-	m_ls.io.fu_op_type			:=	m_exe.io.fu_op_type_o
+	m_ls.io.fu_op_type		:=	m_exe.io.fu_op_type_o
+	m_ls.io.pc 				:=	m_exe.io.pc_o
+	m_ls.io.inst 			:=	m_exe.io.inst_o
 
 	io.data_ram.en 						:= m_ls.io.mem_en_rd
 	io.data_ram.rIdx 					:= m_ls.io.mem_addr_rd
