@@ -1324,21 +1324,18 @@ module Top(
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
   reg [63:0] _RAND_2;
-  reg [31:0] _RAND_3;
-  reg [31:0] _RAND_4;
+  reg [63:0] _RAND_3;
+  reg [63:0] _RAND_4;
   reg [63:0] _RAND_5;
   reg [63:0] _RAND_6;
-  reg [63:0] _RAND_7;
-  reg [63:0] _RAND_8;
-  reg [63:0] _RAND_9;
+  reg [31:0] _RAND_7;
+  reg [31:0] _RAND_8;
+  reg [31:0] _RAND_9;
   reg [31:0] _RAND_10;
   reg [31:0] _RAND_11;
-  reg [31:0] _RAND_12;
+  reg [63:0] _RAND_12;
   reg [31:0] _RAND_13;
   reg [31:0] _RAND_14;
-  reg [63:0] _RAND_15;
-  reg [31:0] _RAND_16;
-  reg [31:0] _RAND_17;
 `endif // RANDOMIZE_REG_INIT
   wire  m_if_clock; // @[Top.scala 29:47]
   wire  m_if_reset; // @[Top.scala 29:47]
@@ -1420,9 +1417,6 @@ module Top(
   wire [63:0] trap_instrCnt; // @[Top.scala 109:26]
   wire  word_select = m_if_io_pc[2]; // @[Top.scala 35:67]
   reg [31:0] m_id_io_inst_REG; // @[Top.scala 37:64]
-  reg [4:0] m_regfile_io_w_addr_REG; // @[Top.scala 84:64]
-  reg [63:0] m_regfile_io_w_data_REG; // @[Top.scala 85:64]
-  reg  m_regfile_io_w_en_REG; // @[Top.scala 86:64]
   reg  REG; // @[Top.scala 96:35]
   reg [63:0] REG_1; // @[Top.scala 97:65]
   reg [63:0] REG_2; // @[Top.scala 97:57]
@@ -1567,9 +1561,9 @@ module Top(
   assign m_mem_io_mem_data_rd = io_data_ram_rdata; // @[Top.scala 65:49]
   assign m_regfile_clock = clock;
   assign m_regfile_reset = reset;
-  assign m_regfile_io_w_addr = m_regfile_io_w_addr_REG; // @[Top.scala 84:49]
-  assign m_regfile_io_w_data = m_regfile_io_w_data_REG; // @[Top.scala 85:49]
-  assign m_regfile_io_w_en = m_regfile_io_w_en_REG; // @[Top.scala 86:49]
+  assign m_regfile_io_w_addr = m_mem_io_wb_addr_r; // @[Top.scala 84:49]
+  assign m_regfile_io_w_data = m_mem_io_wb_data_r; // @[Top.scala 85:49]
+  assign m_regfile_io_w_en = m_mem_io_wb_en_r; // @[Top.scala 86:49]
   assign m_regfile_io_r1_addr = m_id_io_rs1; // @[Top.scala 40:41]
   assign m_regfile_io_r2_addr = m_id_io_rs2; // @[Top.scala 41:41]
   assign commit_clock = clock; // @[Top.scala 92:25]
@@ -1597,9 +1591,6 @@ module Top(
     end else begin
       m_id_io_inst_REG <= io_inst_ram_rdata[31:0];
     end
-    m_regfile_io_w_addr_REG <= m_mem_io_wb_addr_r; // @[Top.scala 84:64]
-    m_regfile_io_w_data_REG <= m_mem_io_wb_data_r; // @[Top.scala 85:64]
-    m_regfile_io_w_en_REG <= m_mem_io_wb_en_r; // @[Top.scala 86:64]
     REG <= m_mem_io_wb_en_r; // @[Top.scala 96:35]
     REG_1 <= m_if_io_pc; // @[Top.scala 97:65]
     REG_2 <= REG_1; // @[Top.scala 97:57]
@@ -1658,39 +1649,33 @@ initial begin
   _RAND_0 = {1{`RANDOM}};
   m_id_io_inst_REG = _RAND_0[31:0];
   _RAND_1 = {1{`RANDOM}};
-  m_regfile_io_w_addr_REG = _RAND_1[4:0];
+  REG = _RAND_1[0:0];
   _RAND_2 = {2{`RANDOM}};
-  m_regfile_io_w_data_REG = _RAND_2[63:0];
-  _RAND_3 = {1{`RANDOM}};
-  m_regfile_io_w_en_REG = _RAND_3[0:0];
-  _RAND_4 = {1{`RANDOM}};
-  REG = _RAND_4[0:0];
+  REG_1 = _RAND_2[63:0];
+  _RAND_3 = {2{`RANDOM}};
+  REG_2 = _RAND_3[63:0];
+  _RAND_4 = {2{`RANDOM}};
+  REG_3 = _RAND_4[63:0];
   _RAND_5 = {2{`RANDOM}};
-  REG_1 = _RAND_5[63:0];
+  REG_4 = _RAND_5[63:0];
   _RAND_6 = {2{`RANDOM}};
-  REG_2 = _RAND_6[63:0];
-  _RAND_7 = {2{`RANDOM}};
-  REG_3 = _RAND_7[63:0];
-  _RAND_8 = {2{`RANDOM}};
-  REG_4 = _RAND_8[63:0];
-  _RAND_9 = {2{`RANDOM}};
-  REG_5 = _RAND_9[63:0];
+  REG_5 = _RAND_6[63:0];
+  _RAND_7 = {1{`RANDOM}};
+  REG_6 = _RAND_7[31:0];
+  _RAND_8 = {1{`RANDOM}};
+  REG_7 = _RAND_8[31:0];
+  _RAND_9 = {1{`RANDOM}};
+  REG_8 = _RAND_9[31:0];
   _RAND_10 = {1{`RANDOM}};
-  REG_6 = _RAND_10[31:0];
+  REG_9 = _RAND_10[31:0];
   _RAND_11 = {1{`RANDOM}};
-  REG_7 = _RAND_11[31:0];
-  _RAND_12 = {1{`RANDOM}};
-  REG_8 = _RAND_12[31:0];
+  REG_10 = _RAND_11[0:0];
+  _RAND_12 = {2{`RANDOM}};
+  REG_11 = _RAND_12[63:0];
   _RAND_13 = {1{`RANDOM}};
-  REG_9 = _RAND_13[31:0];
+  REG_12 = _RAND_13[4:0];
   _RAND_14 = {1{`RANDOM}};
-  REG_10 = _RAND_14[0:0];
-  _RAND_15 = {2{`RANDOM}};
-  REG_11 = _RAND_15[63:0];
-  _RAND_16 = {1{`RANDOM}};
-  REG_12 = _RAND_16[4:0];
-  _RAND_17 = {1{`RANDOM}};
-  cycleCnt = _RAND_17[31:0];
+  cycleCnt = _RAND_14[31:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
