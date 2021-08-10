@@ -28,45 +28,64 @@ object FUType{
   def csr = "b011".U
 
   def apply() = UInt(3.W)
+  def width	  =	3
 }
 
 
 object FUOpType {
-	def add  = "b1000000".U
-	def sll  = "b0000001".U
-	def slt  = "b0000010".U
-	def sltu = "b0000011".U
-	def xor  = "b0000100".U
-	def srl  = "b0000101".U
-	def or   = "b0000110".U
-	def and  = "b0000111".U
-	def sub  = "b0001000".U
-	def sra  = "b0001101".U
+	def add  = "b100_00000".U
+	def sll  = "b000_00001".U
+	def slt  = "b000_00010".U
+	def sltu = "b000_00011".U
+	def xor  = "b000_00100".U
+	def srl  = "b000_00101".U
+	def or   = "b000_00110".U
+	def and  = "b000_00111".U
+	def sub  = "b000_01000".U
+	def sra  = "b000_01001".U
 
-	def jal  = "b1011000".U
-	def jalr = "b1011010".U
-	def beq  = "b0010000".U
-	def bne  = "b0010001".U
-	def blt  = "b0010100".U
-	def bge  = "b0010101".U
-	def bltu = "b0010110".U
-	def bgeu = "b0010111".U
+	def jal  = "b110_00000".U
+	def jalr = "b110_00001".U
+
+	def beq  = "b010_00000".U
+	def bne  = "b010_00001".U
+	def blt  = "b010_00010".U
+	def bge  = "b010_00011".U
+	def bltu = "b010_00100".U
+	def bgeu = "b010_00101".U
+
+	def jmp		=	"b010_11111".U
+
+	def lui		=	"b000_11111".U
+
+	def nop		=	"b000_00000".U
 
 	//todo
-	def lb		=	"b0100000".U
-	def lh		=	"b0100001".U
-	def lw		=	"b0100010".U
-	def lbu		=	"b0100011".U
-	def lhu		=	"b0100100".U
-	def sb		=	"b0100101".U
-	def sh		=	"b0100110".U
-	def sw		=	"b0100111".U
+	def lb		=	"b101_00000".U
+	def lh		=	"b101_00001".U
+	def lw		=	"b101_00010".U
+	def ld		=	"b101_00011".U
+	def lbu		=	"b101_00100".U
+	def lhu		=	"b101_00101".U
+	def lwu		=	"b101_00110".U
+	def sb		=	"b101_00111".U
+	def sh		=	"b101_01000".U
+	def sw		=	"b101_01001".U
+	def sd		=	"b101_01010".U
+
+	def addw	=	"b111_00000".U
+	def subw	=	"b011_00001".U
+	def sllw	=	"b011_00010".U
+	def srlw	=	"b011_00011".U
+	def sraw	=	"b011_00100".U
 
 
-	def jmp  	= 	"b0111111".U
+	
 
-	def apply() = UInt(7.W)
-	def isAdd(func:UInt) = func(6) //only add return true among arithmatic insts
+	def apply() = UInt(8.W)
+	def width	=	8
+	def isAdd(func:UInt) = func(7) //only add return true among arithmatic insts
+	def isWordOp(func: UInt) = func(5)&&func(6)
 	// def isWordOp(func: UInt) = func(5)
 	// def isAdd(func: UInt) = func(6)
 	// def pcPlus2(func: UInt) = func(5)
@@ -93,15 +112,18 @@ object RV32I_Inst extends HasInstType{
 	def LB      =	BitPat("b????????????_?????_000_?????_0000011")
 	def LH      =	BitPat("b????????????_?????_001_?????_0000011")
 	def LW      =	BitPat("b????????????_?????_010_?????_0000011")
+	def LD      =	BitPat("b????????????_?????_011_?????_0000011")
 	def LBU     =	BitPat("b????????????_?????_100_?????_0000011")
 	def LHU     =	BitPat("b????????????_?????_101_?????_0000011")
+	def LWU     =	BitPat("b????????????_?????_110_?????_0000011")
 	def SB      =	BitPat("b???????_?????_?????_000_?????_0100011")
 	def SH      =	BitPat("b???????_?????_?????_001_?????_0100011")
 	def SW      =	BitPat("b???????_?????_?????_010_?????_0100011")
+	def SD      =	BitPat("b???????_?????_?????_011_?????_0100011")
 
 	
 
-	def ADDI	=	BitPat("b????????????_?????_000_?????_0010011") //done
+	def ADDI	=	BitPat("b????????????_?????_000_?????_0010011") //
 	def SLTI 	=	BitPat("b????????????_?????_010_?????_0010011") //
 	def SLTIU   = 	BitPat("b????????????_?????_011_?????_0010011") //
 	def XORI    = 	BitPat("b????????????_?????_100_?????_0010011") //
@@ -121,12 +143,22 @@ object RV32I_Inst extends HasInstType{
   	def SRA     = 	BitPat("b0100000_?????_?????_101_?????_0110011") //
   	def OR      = 	BitPat("b0000000_?????_?????_110_?????_0110011") //
   	def AND     = 	BitPat("b0000000_?????_?????_111_?????_0110011") //
+
+	def ADDIW   =	BitPat("b???????_?????_?????_000_?????_0011011")
+	def SLLIW   =	BitPat("b0000000_?????_?????_001_?????_0011011")
+	def SRLIW   =	BitPat("b0000000_?????_?????_101_?????_0011011")
+	def SRAIW   =	BitPat("b0100000_?????_?????_101_?????_0011011")
+	def SLLW    =	BitPat("b0000000_?????_?????_001_?????_0111011")
+	def SRLW    =	BitPat("b0000000_?????_?????_101_?????_0111011")
+	def SRAW    =	BitPat("b0100000_?????_?????_101_?????_0111011")
+	def ADDW    =	BitPat("b0000000_?????_?????_000_?????_0111011")
+	def SUBW    =	BitPat("b0100000_?????_?????_000_?????_0111011")
 	
 	val table = Array(
-		LUI        		-> List(InstU, FUType.alu, FUOpType.add),
+		LUI        		-> List(InstU, FUType.alu, FUOpType.lui),
 		AUIPC      		-> List(InstU, FUType.alu, FUOpType.add),
-		JAL        		-> List(InstJ, FUType.bru, FUOpType.jal),
-    	JALR       		-> List(InstI, FUType.bru, FUOpType.jalr),
+		JAL        		-> List(InstJ, FUType.alu, FUOpType.jal),
+    	JALR       		-> List(InstI, FUType.alu, FUOpType.jalr),
 
 		BEQ				-> List(InstB, FUType.bru, FUOpType.beq),
 		BNE				-> List(InstB, FUType.bru, FUOpType.bne),
@@ -138,11 +170,14 @@ object RV32I_Inst extends HasInstType{
 		LB				-> List(InstI, FUType.lsu, FUOpType.lb ),
 		LH				-> List(InstI, FUType.lsu, FUOpType.lh ),
 		LW				-> List(InstI, FUType.lsu, FUOpType.lw ),
+		LD				-> List(InstI, FUType.lsu, FUOpType.ld ),
 		LBU				-> List(InstI, FUType.lsu, FUOpType.lbu),
 		LHU				-> List(InstI, FUType.lsu, FUOpType.lhu),
+		LWU				-> List(InstI, FUType.lsu, FUOpType.lwu),
 		SB				-> List(InstS, FUType.lsu, FUOpType.sb ),
 		SH				-> List(InstS, FUType.lsu, FUOpType.sh ),
 		SW				-> List(InstS, FUType.lsu, FUOpType.sw ),
+		SD				-> List(InstS, FUType.lsu, FUOpType.sd ),
 
 		ADDI			-> List(InstI, FUType.alu, FUOpType.add),
 		SLTI			-> List(InstI, FUType.alu, FUOpType.slt),
@@ -165,6 +200,15 @@ object RV32I_Inst extends HasInstType{
 		OR				-> List(InstR, FUType.alu, FUOpType.or ),
 		AND				-> List(InstR, FUType.alu, FUOpType.and),
 
+		ADDIW          -> List(InstI, FUType.alu, FUOpType.addw),
+		SLLIW          -> List(InstI, FUType.alu, FUOpType.sllw),
+		SRLIW          -> List(InstI, FUType.alu, FUOpType.srlw),
+		SRAIW          -> List(InstI, FUType.alu, FUOpType.sraw),
+		SLLW           -> List(InstR, FUType.alu, FUOpType.sllw),
+		SRLW           -> List(InstR, FUType.alu, FUOpType.srlw),
+		SRAW           -> List(InstR, FUType.alu, FUOpType.sraw),
+		ADDW           -> List(InstR, FUType.alu, FUOpType.addw),
+		SUBW           -> List(InstR, FUType.alu, FUOpType.subw),
 	)
 }
 

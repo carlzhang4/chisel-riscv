@@ -46,9 +46,9 @@ if [[ "$BUILD" == "true" ]]; then
         exit 1
     fi
 
-	cd $PROJECT_HOME
-	git add . -A --ignore-errors
-	(echo "ZhangJie HuangHongjing" && echo "20210230 20210300" && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
+	# cd $PROJECT_HOME
+	# git add . -A --ignore-errors
+	# (echo "ZhangJie HuangHongjing" && echo "20210230 20210300" && hostnamectl && uptime) | git commit -F - -q --author='tracer-oscpu2021 <tracer@oscpu.org>' --no-verify --allow-empty 1>/dev/null 2>&1
     sync
 fi
 
@@ -56,10 +56,11 @@ fi
 if [[ "$SIMULATE" == "true" ]]; then
     cd $CHISEL_HOME
 	cd build
+	cp /home/amax/share/riscv/am/am-kernels/tests/cpu-tests/build/*.bin ../difftest/build/
     if [[ "$GBD" == "true" ]]; then
         gdb -s $EMU_FILE --args ./$EMU_FILE $PARAMETERS
     else
-        ./emu -b 0 -e 30 --dump-wave -i ../difftest/build/$IMG_FILE
+        ./emu -b 0 -e 200 --dump-wave -i ../difftest/build/$IMG_FILE
     fi
 
     if [ $? -ne 0 ]; then
@@ -75,3 +76,9 @@ fi
 
 #chisel/difftest 下 make DESIGN_DIR=./ -m "EMU_TRACE=1"
 #chisel/difftest/build  ./emu -i inst.bin --dump-wave -b 0
+
+
+#NEMU
+# make clean && make ISA=riscv64
+
+#s -v -b -s add-riscv64-mycpu.bin

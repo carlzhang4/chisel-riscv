@@ -17,8 +17,12 @@ class Regfile(depth:Int,width:Int) extends Module{
 	})
 	val registers = RegInit(VecInit(Seq.fill(32)(0.U(width.W))))
 
-	io.r1_data := registers(io.r1_addr)
-	io.r2_data := registers(io.r2_addr)
+	val r1_conflict = (io.w_en===true.B) && (io.w_addr===io.r1_addr)
+	val r2_conflict = (io.w_en===true.B) && (io.w_addr===io.r2_addr)
+
+	io.r1_data		:=	Mux(r1_conflict, io.w_data, registers(io.r1_addr))//write earlier
+	io.r2_data		:=	Mux(r2_conflict, io.w_data, registers(io.r2_addr))
+
 	when(io.w_en){
 		registers(io.w_addr) := (io.w_data)
 	}

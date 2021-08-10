@@ -31,54 +31,71 @@ class Top(XLEN:Int) extends Module{
 	val m_exe		=	Module(new Exe(XLEN))
 	val m_ls		=	Module(new MemStage(XLEN))
 	val m_regfile	=	Module(new Regfile(32,XLEN))
+	val m_ctrl		=	Module(new Stall(XLEN))
 	
-	val word_select 			= 	m_if.io.pc(2)
+	m_if.io.inst 				:=	io.inst_ram.rdata
+	m_if.io.jmp_addr			:=	m_id.io.jmp_addr
+
+	m_id.io.inst_valid			:=	m_if.io.inst_valid_o
+	m_id.io.inst 				:=	m_if.io.inst_o
+	m_id.io.pc 					:= 	m_if.io.pc_o
 	
-	m_id.io.inst 				:=	RegNext(Mux(word_select === 1.U, io.inst_ram.rdata(63,32), io.inst_ram.rdata(31,0)))//
-	m_id.io.pc 					:= 	RegNext(m_if.io.pc)
 	
 	m_id.io.rs1_data			:=	m_regfile.io.r1_data
 	m_id.io.rs2_data			:=	m_regfile.io.r2_data
 
-	m_regfile.io.r1_addr		:=	m_id.io.rs1
-	m_regfile.io.r2_addr		:=	m_id.io.rs2
+	m_regfile.io.r1_addr		:=	Mux(m_id.io.rs1_en_c===true.B, m_id.io.rs1_c, 0.U)
+	m_regfile.io.r2_addr		:=	Mux(m_id.io.rs2_en_c===true.B, m_id.io.rs2_c, 0.U)
 
+	m_exe.io.rs1				:=	m_id.io.rs1_o
+	m_exe.io.rs2				:=	m_id.io.rs2_o
+	m_exe.io.rs1_en				:=	m_id.io.rs1_en_o
+	m_exe.io.rs2_en				:=	m_id.io.rs2_en_o
+
+	m_exe.io.wb_en				:=	m_id.io.wb_en_o
+	m_exe.io.wb_addr			:=	m_id.io.wb_addr_o
+
+	m_exe.io.inst_valid			:=	m_id.io.inst_valid_o
 	m_exe.io.pc 				:=	m_id.io.pc_o
 	m_exe.io.inst 				:=	m_id.io.inst_o
-	m_exe.io.op1 				:=	m_id.io.op1
-	m_exe.io.op2 				:=	m_id.io.op2
-	m_exe.io.imm 				:=	m_id.io.imm
-	m_exe.io.rd 				:=	m_id.io.rd
-	m_exe.io.fu_op_type 		:=	m_id.io.fu_op_type
-	m_exe.io.fu_type 			:=	m_id.io.fu_type
+	m_exe.io.op1 				:=	m_id.io.op1_o
+	m_exe.io.op2 				:=	m_id.io.op2_o
+	m_exe.io.imm 				:=	m_id.io.imm_o
+	m_exe.io.fu_op_type 		:=	m_id.io.fu_op_type_o
+	m_exe.io.fu_type 			:=	m_id.io.fu_type_o
 
-	m_ls.io.wb_addr			:=	m_exe.io.wb_addr
-	m_ls.io.wb_en			:=	m_exe.io.wb_en
-	m_ls.io.wb_data			:=	m_exe.io.wb_data
-	m_ls.io.op1				:=	m_exe.io.op1_o
-	m_ls.io.op2				:=	m_exe.io.op2_o
-	m_ls.io.imm				:=	m_exe.io.imm_o
-	m_ls.io.fu_type			:=	m_exe.io.fu_type_o
-	m_ls.io.fu_op_type		:=	m_exe.io.fu_op_type_o
-	m_ls.io.pc 				:=	m_exe.io.pc_o
-	m_ls.io.inst 			:=	m_exe.io.inst_o
+	m_exe.io.by_wb_addr			:=	m_ls.io.wb_addr_o
+	m_exe.io.by_wb_en			:=	m_ls.io.wb_en_o
+	m_exe.io.by_wb_data			:=	m_ls.io.wb_data_o
 
-	io.data_ram.en 						:= m_ls.io.mem_en_rd
-	io.data_ram.rIdx 					:= m_ls.io.mem_addr_rd
-	io.data_ram.wIdx 					:= 0.U//m_ls.io.mem_addr_wr
-	io.data_ram.wdata 					:= 0.U//m_ls.io.mem_data_wr
-	io.data_ram.wmask 					:= 0.U//m_ls.io.mem_data_wr//todo
-	io.data_ram.wen 					:= 0.U//m_ls.io.mem_en_wr
+	m_ls.io.wb_addr				:=	m_exe.io.wb_addr_o
+	m_ls.io.wb_en				:=	m_exe.io.wb_en_o
+	m_ls.io.wb_data				:=	m_exe.io.wb_data_o
+	m_ls.io.op1					:=	m_exe.io.op1_o
+	m_ls.io.op2					:=	m_exe.io.op2_o
+	m_ls.io.imm					:=	m_exe.io.imm_o
+	m_ls.io.fu_type				:=	m_exe.io.fu_type_o
+	m_ls.io.fu_op_type			:=	m_exe.io.fu_op_type_o
+	m_ls.io.pc 					:=	m_exe.io.pc_o
+	m_ls.io.inst 				:=	m_exe.io.inst_o
+	m_ls.io.inst_valid			:=	m_exe.io.inst_valid_o
 
-	m_ls.io.mem_data_rd				:= io.data_ram.rdata
+	io.data_ram.en 				:= m_ls.io.rd_en
+	io.data_ram.rIdx 			:= m_ls.io.rd_idx
+	io.data_ram.wIdx 			:= m_ls.io.wr_idx
+	io.data_ram.wdata 			:= m_ls.io.wr_data
+	io.data_ram.wmask 			:= m_ls.io.wr_mask
+	io.data_ram.wen 			:= m_ls.io.wr_en
+
+	m_ls.io.rd_data				:= io.data_ram.rdata
 
 
-	io.inst_ram.rIdx					:=	m_if.io.inst_addr
-	io.inst_ram.en 						:=	1.U
-	io.inst_ram.wIdx 					:=	m_ls.io.mem_addr_wr
-	io.inst_ram.wdata 					:=	m_ls.io.mem_data_wr
-	io.inst_ram.wmask 					:=	m_ls.io.mem_data_wr
-	io.inst_ram.wen 					:=	m_ls.io.mem_en_wr
+	io.inst_ram.rIdx			:=	m_if.io.pc_c >> 3.U
+	io.inst_ram.en 				:=	1.U
+	io.inst_ram.wIdx 			:=	m_ls.io.wr_idx
+	io.inst_ram.wdata 			:=	m_ls.io.wr_data
+	io.inst_ram.wmask 			:=	m_ls.io.wr_mask
+	io.inst_ram.wen 			:=	m_ls.io.wr_en
 
 
 
@@ -86,19 +103,17 @@ class Top(XLEN:Int) extends Module{
 	m_regfile.io.w_data			:=	(m_ls.io.wb_data_o)
 	m_regfile.io.w_en			:=	(m_ls.io.wb_en_o)
 
-
-	val commit_valid = RegInit(0.U)
-
-	when(m_ls.io.wb_en_o){
-		commit_valid := 1.U
-	}
+	m_if.io.ctrl				:=	m_ctrl.io.ctrl_if
+	m_id.io.ctrl				:=	m_ctrl.io.ctrl_id
+	m_exe.io.ctrl 				:=	m_ctrl.io.ctrl_exe
+	
 
 	val commit = Module(new difftest.DifftestInstrCommit)
 	commit.io.clock := clock
 	commit.io.coreid := 0.U
 	commit.io.index := 0.U
 
-	commit.io.valid		:= commit_valid
+	commit.io.valid		:= RegNext(m_ls.io.inst_valid_o)
 	commit.io.pc		:= RegNext(m_ls.io.pc_o)//RegNext((RegNext(RegNext(RegNext(RegNext(m_if.io.pc))))))
 	commit.io.instr		:= RegNext(m_ls.io.inst_o)//RegNext(RegNext(RegNext(RegNext(m_id.io.inst))))
 	commit.io.skip		:= false.B
