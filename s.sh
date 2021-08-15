@@ -34,7 +34,6 @@ if [[ "$GEN_VERILOG" == "true" ]]; then
         echo "Failed to gen verilog!!!"
         exit 1
     fi
-	cp Verilog/SimTop.v ./difftest/build
 fi
 
 # build emu
@@ -56,11 +55,11 @@ fi
 if [[ "$SIMULATE" == "true" ]]; then
     cd $CHISEL_HOME
 	cd build
-	cp /home/amax/share/riscv/am/am-kernels/tests/cpu-tests/build/*.bin ../difftest/build/
+	cp /home/amax/share/riscv/am/am-kernels/tests/cpu-tests/build/*.bin ../difftest/instructions/
     if [[ "$GBD" == "true" ]]; then
         gdb -s $EMU_FILE --args ./$EMU_FILE $PARAMETERS
     else
-        ./emu -b 0 -e 200 --dump-wave -i ../difftest/build/$IMG_FILE
+        ./emu -b 0 -e 200 --dump-wave -i ../difftest/instructions/$IMG_FILE
     fi
 
     if [ $? -ne 0 ]; then
@@ -82,3 +81,6 @@ fi
 # make clean && make ISA=riscv64
 
 #s -v -b -s add-riscv64-mycpu.bin
+
+# add-riscv64-mycpu.bin done
+# add-longlong-riscv64-mycpu.bin done
