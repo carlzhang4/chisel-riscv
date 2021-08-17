@@ -66,8 +66,8 @@ class Exe(XLEN:Int) extends Module with HasInstType{
 	BoringUtils.addSource(ld_conflict,"exe_ld_conflict")
 
 	val stall_reserve = RegNext(io.by_wb_data)
-	val rs1_harzard_stall = RegNext(rs1_harzard_2 && (ld_conflict))
-	val rs2_harzard_stall = RegNext(rs2_harzard_2 && (ld_conflict))
+	val rs1_harzard_stall = RegNext(rs1_harzard_2 && ld_conflict && (!rs1_harzard_1))
+	val rs2_harzard_stall = RegNext(rs2_harzard_2 && ld_conflict && (!rs2_harzard_1))
 
 	val op1 = Mux(rs1_harzard_stall, stall_reserve, Mux(rs1_harzard_1, io.wb_data_o, Mux(rs1_harzard_2, io.by_wb_data, io.op1)))
 	val op2 = Mux(rs2_harzard_stall, stall_reserve, Mux(rs2_harzard_1, io.wb_data_o, Mux(rs2_harzard_2, io.by_wb_data, io.op2)))

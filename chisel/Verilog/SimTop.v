@@ -852,8 +852,8 @@ module Exe(
   always @(posedge clock) begin
     next_inst_rd_en_REG <= io__fu_op_type; // @[Exe_stage.scala 55:56]
     stall_reserve <= io__by_wb_data; // @[Exe_stage.scala 68:36]
-    rs1_harzard_stall <= rs1_harzard_2 & ld_conflict; // @[Exe_stage.scala 69:55]
-    rs2_harzard_stall <= rs2_harzard_2 & ld_conflict; // @[Exe_stage.scala 70:55]
+    rs1_harzard_stall <= rs1_harzard_2 & ld_conflict & ~rs1_harzard_1; // @[Exe_stage.scala 69:70]
+    rs2_harzard_stall <= rs2_harzard_2 & ld_conflict & ~rs2_harzard_1; // @[Exe_stage.scala 70:70]
     if (reset) begin // @[Exe_stage.scala 122:56]
       wb_en_r <= 1'h0; // @[Exe_stage.scala 122:56]
     end else if (io__ctrl == 2'h0) begin // @[Exe_stage.scala 135:30]
