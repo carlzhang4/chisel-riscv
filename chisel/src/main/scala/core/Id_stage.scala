@@ -76,8 +76,8 @@ class Id(XLEN:Int) extends Module with HasInstType{
 		InstU	->	SignExt( Cat(io.inst(31,12),0.U(12.W)) , XLEN),
 		InstJ	->	SignExt( Cat(io.inst(31),io.inst(19,12),io.inst(20),io.inst(30,21),0.U(1.W)) , XLEN),
 	))
-	val is_jalr		=	io.inst === RV32I_Inst.JALR
-	val is_branch	=	fu_type === FUType.bru
+	val is_jalr		=	io.inst_valid && io.inst === RV32I_Inst.JALR
+	val is_branch	=	io.inst_valid && fu_type === FUType.bru
 	
 	val rs1_harzard_1 =  io.rs1_en_c && io.wb_addr_o===io.rs1_c
 	val rs2_harzard_1 =  io.rs2_en_c && io.wb_addr_o===io.rs2_c

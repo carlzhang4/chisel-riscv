@@ -427,17 +427,18 @@ module Id(
   wire [63:0] _imm_T_21 = _imm_T_20 | _imm_T_17; // @[Mux.scala 27:72]
   wire [63:0] _imm_T_22 = _imm_T_21 | _imm_T_18; // @[Mux.scala 27:72]
   wire [63:0] imm = _imm_T_22 | _imm_T_19; // @[Mux.scala 27:72]
-  wire  is_branch = decode_list_1 == 3'h5; // @[Id_stage.scala 80:41]
+  wire  is_jalr = io_inst_valid & _decode_list_T_7; // @[Id_stage.scala 79:55]
+  wire  is_branch = io_inst_valid & decode_list_1 == 3'h5; // @[Id_stage.scala 80:47]
   wire  rs1_harzard_1 = io_rs1_en_c & io_wb_addr_o == io_rs1_c; // @[Id_stage.scala 82:42]
   wire  rs2_harzard_1 = io_rs2_en_c & io_wb_addr_o == io_rs2_c; // @[Id_stage.scala 83:42]
-  wire  j_alu_conflict = _decode_list_T_7 & io_wb_en_o & io_inst_valid_o & rs1_harzard_1; // @[Id_stage.scala 85:71]
+  wire  j_alu_conflict = is_jalr & io_wb_en_o & io_inst_valid_o & rs1_harzard_1; // @[Id_stage.scala 85:71]
   wire  b_alu_conflict = is_branch & io_wb_en_o & io_inst_valid_o & (rs1_harzard_1 | rs2_harzard_1); // @[Id_stage.scala 86:84]
   wire  id_alu_conlict = j_alu_conflict | b_alu_conflict; // @[Id_stage.scala 87:45]
   wire  rs1_harzard_2 = exe_inst_valid_o & io_rs1_en_c & exe_wb_en_o & exe_wb_addr_o == io_rs1_c; // @[Id_stage.scala 106:94]
   wire  rs2_harzard_2 = exe_inst_valid_o & io_rs2_en_c & exe_wb_en_o & exe_wb_addr_o == io_rs2_c; // @[Id_stage.scala 107:94]
   wire [63:0] _jmp_addr_T = rs1_harzard_2 ? exe_wb_data_o : io_rs1_data; // @[Id_stage.scala 109:55]
-  wire [63:0] _jmp_addr_T_1 = _decode_list_T_7 ? _jmp_addr_T : io_pc; // @[Id_stage.scala 109:42]
-  wire  j_load_conflict = _decode_list_T_7 & rs1_harzard_2; // @[Id_stage.scala 111:39]
+  wire [63:0] _jmp_addr_T_1 = is_jalr ? _jmp_addr_T : io_pc; // @[Id_stage.scala 109:42]
+  wire  j_load_conflict = is_jalr & rs1_harzard_2; // @[Id_stage.scala 111:39]
   wire  b_load_conflict = is_branch & (rs1_harzard_2 | rs2_harzard_2); // @[Id_stage.scala 112:41]
   wire  id_load_conflict = j_load_conflict | b_load_conflict; // @[Id_stage.scala 113:48]
   wire [63:0] cmp2 = rs2_harzard_2 ? exe_wb_data_o : io_rs2_data; // @[Id_stage.scala 118:36]
@@ -458,7 +459,7 @@ module Id(
   wire  _branch_valid_T_16 = _branch_valid_T & beq | _branch_valid_T_1 & bne | _branch_valid_T_2 & blt |
     _branch_valid_T_3 & bge | _branch_valid_T_4 & bltu | _branch_valid_T_5 & bgeu; // @[Mux.scala 27:72]
   wire  branch_valid = is_branch & _branch_valid_T_16; // @[Id_stage.scala 126:39]
-  wire  jmp = _decode_list_T_7 | branch_valid; // @[Id_stage.scala 134:27]
+  wire  jmp = is_jalr | branch_valid; // @[Id_stage.scala 134:27]
   wire  _wb_en_T_30 = 8'ha1 == decode_list_2 | (8'ha0 == decode_list_2 | (8'h1f == decode_list_2 | (8'hc1 ==
     decode_list_2 | (8'hc0 == decode_list_2 | (8'h8 == decode_list_2 | (8'h3 == decode_list_2 | (8'h2 == decode_list_2
      | (8'h4 == decode_list_2 | (8'h7 == decode_list_2 | (8'h6 == decode_list_2 | (8'h9 == decode_list_2 | (8'h5 ==
