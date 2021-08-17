@@ -74,6 +74,21 @@ class MemStage(XLEN:Int) extends Module{
 	val wr_mask_w	= WireDefault(0.U(64.W))
 	val wr_mask_d	= BigInt("FFFFFFFFFFFFFFFF",16).U
 
+	val store_mask_b	= WireDefault(0.U(8.W))
+	val store_mask_h	= WireDefault(0.U(8.W))
+	val store_mask_w	= WireDefault(0.U(8.W))
+	val store_mask_d	= BigInt("11111111",2).U
+
+	val wr_data_b	= WireDefault(0.U(XLEN.W))
+	val wr_data_h	= WireDefault(0.U(XLEN.W))
+	val wr_data_w	= WireDefault(0.U(XLEN.W))
+	val wr_data_d	= WireDefault(0.U(XLEN.W))
+	val value_b = io.op2(7, 0)
+	val value_h = io.op2(15, 0)
+	val value_w = io.op2(31, 0)
+	val value_d = io.op2(63, 0)
+	wr_data_d	:=	value_d
+
 	val wr_mask = LookupTreeDefault(io.fu_op_type,wr_mask_d,List(
 		FUOpType.sb 		->	wr_mask_b,
 		FUOpType.sh 		->	wr_mask_h,
@@ -81,26 +96,35 @@ class MemStage(XLEN:Int) extends Module{
 		FUOpType.sd 		->	wr_mask_d,	
 	))
 
+	val store_mask = LookupTreeDefault(io.fu_op_type,wr_mask_d,List(
+		FUOpType.sb 		->	store_mask_b,
+		FUOpType.sh 		->	store_mask_h,
+		FUOpType.sw 		->	store_mask_w,	
+		FUOpType.sd 		->	store_mask_d,	
+	))
+
+	
+
 	switch(wr_sel){
-		is(0.U){wr_mask_b	:= BigInt("00000000000000FF",16).U}
-		is(1.U){wr_mask_b	:= BigInt("000000000000FF00",16).U}
-		is(2.U){wr_mask_b	:= BigInt("0000000000FF0000",16).U}
-		is(3.U){wr_mask_b	:= BigInt("00000000FF000000",16).U}
-		is(4.U){wr_mask_b	:= BigInt("000000FF00000000",16).U}
-		is(5.U){wr_mask_b	:= BigInt("0000FF0000000000",16).U}
-		is(6.U){wr_mask_b	:= BigInt("00FF000000000000",16).U}
-		is(7.U){wr_mask_b	:= BigInt("FF00000000000000",16).U}
+		is(0.U){wr_mask_b	:= BigInt("00000000000000FF",16).U;		store_mask_b	:= BigInt("00000001",2).U;		wr_data_b	:=	ZeroExt(value_b,XLEN)}
+		is(1.U){wr_mask_b	:= BigInt("000000000000FF00",16).U;		store_mask_b	:= BigInt("00000010",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(8.W)), XLEN)}
+		is(2.U){wr_mask_b	:= BigInt("0000000000FF0000",16).U;		store_mask_b	:= BigInt("00000100",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(16.W)), XLEN)}
+		is(3.U){wr_mask_b	:= BigInt("00000000FF000000",16).U;		store_mask_b	:= BigInt("00001000",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(24.W)), XLEN)}
+		is(4.U){wr_mask_b	:= BigInt("000000FF00000000",16).U;		store_mask_b	:= BigInt("00010000",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(32.W)), XLEN)}
+		is(5.U){wr_mask_b	:= BigInt("0000FF0000000000",16).U;		store_mask_b	:= BigInt("00100000",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(40.W)), XLEN)}
+		is(6.U){wr_mask_b	:= BigInt("00FF000000000000",16).U;		store_mask_b	:= BigInt("01000000",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(48.W)), XLEN)}
+		is(7.U){wr_mask_b	:= BigInt("FF00000000000000",16).U;		store_mask_b	:= BigInt("10000000",2).U;		wr_data_b	:=	ZeroExt(Cat(value_b,0.U(56.W)), XLEN)}
 	}
 
 	switch(wr_sel(2,1)){
-		is(0.U){wr_mask_h	:=	BigInt("000000000000FFFF",16).U}
-		is(1.U){wr_mask_h	:=	BigInt("00000000FFFF0000",16).U}
-		is(2.U){wr_mask_h	:=	BigInt("0000FFFF00000000",16).U}
-		is(3.U){wr_mask_h	:=	BigInt("FFFF000000000000",16).U}
+		is(0.U){wr_mask_h	:=	BigInt("000000000000FFFF",16).U;	store_mask_h	:=	BigInt("00000011",2).U;		wr_data_h	:=	ZeroExt(value_h, XLEN)}
+		is(1.U){wr_mask_h	:=	BigInt("00000000FFFF0000",16).U;	store_mask_h	:=	BigInt("00001100",2).U;		wr_data_h	:=	ZeroExt(Cat(value_h,0.U(16.W)), XLEN)}
+		is(2.U){wr_mask_h	:=	BigInt("0000FFFF00000000",16).U;	store_mask_h	:=	BigInt("00110000",2).U;		wr_data_h	:=	ZeroExt(Cat(value_h,0.U(32.W)), XLEN)}
+		is(3.U){wr_mask_h	:=	BigInt("FFFF000000000000",16).U;	store_mask_h	:=	BigInt("11000000",2).U;		wr_data_h	:=	ZeroExt(Cat(value_h,0.U(48.W)), XLEN)}
 	}
 	switch(wr_sel(2)){
-		is(false.B){wr_mask_w	:=	BigInt("00000000FFFFFFFF",16).U}
-		is(true.B) {wr_mask_w	:=	BigInt("FFFFFFFF00000000",16).U}
+		is(false.B){wr_mask_w	:=	BigInt("00000000FFFFFFFF",16).U;	store_mask_w	:=	BigInt("00001111",2).U;	wr_data_w	:=	ZeroExt(value_w, XLEN)}
+		is(true.B) {wr_mask_w	:=	BigInt("FFFFFFFF00000000",16).U;	store_mask_w	:=	BigInt("11110000",2).U;	wr_data_w	:=	Cat(value_w,0.U(32.W))}
 	}
 
 
@@ -124,10 +148,10 @@ class MemStage(XLEN:Int) extends Module{
 	)
 
 	val wr_data = LookupTreeDefault(io.fu_op_type,0.U(XLEN.W),List(
-		FUOpType.sb 		->	ZeroExt(io.op2(7, 0),XLEN),
-		FUOpType.sh 		->	ZeroExt(io.op2(15, 0),XLEN),
-		FUOpType.sw 		->	ZeroExt(io.op2(31, 0),XLEN),
-		FUOpType.sd 		->	ZeroExt(io.op2(63, 0),XLEN),		
+		FUOpType.sb 		->	wr_data_b,
+		FUOpType.sh 		->	wr_data_h,
+		FUOpType.sw 		->	wr_data_w,
+		FUOpType.sd 		->	wr_data_d,		
 	))
 
 	val wb_data_o = LookupTreeDefault(io.fu_op_type,io.wb_data,List(
@@ -141,6 +165,14 @@ class MemStage(XLEN:Int) extends Module{
 		FUOpType.lwu 		->	ZeroExt(rd_data_w,XLEN),		
 	))
 
+	val store_test = Module(new difftest.DifftestStoreEvent)
+	store_test.io.clock       := clock
+	store_test.io.coreid      := 0.U
+	store_test.io.index       := 0.U
+	store_test.io.valid       := RegNext(RegNext(RegNext(wr_en)))
+	store_test.io.storeAddr   := RegNext(RegNext(RegNext(wr_addr)))
+	store_test.io.storeData   := RegNext(RegNext(RegNext(wr_data)))
+	store_test.io.storeMask   := RegNext(RegNext(RegNext(store_mask)))//attention, store unit is byte mask while ram is bit mask
 
 	io.wb_addr_o	:=	RegNext(io.wb_addr)
 	io.wb_en_o		:=	RegNext(io.wb_en)

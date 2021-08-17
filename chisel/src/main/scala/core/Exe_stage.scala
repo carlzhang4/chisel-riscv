@@ -65,9 +65,16 @@ class Exe(XLEN:Int) extends Module with HasInstType{
 	val ld_conflict =  next_inst_rd_en && (rs1_harzard_1 || rs2_harzard_1)
 	BoringUtils.addSource(ld_conflict,"exe_ld_conflict")
 
-	val op1 = Mux(rs1_harzard_1, io.wb_data_o, Mux(rs1_harzard_2, io.by_wb_data, io.op1))
-	val op2 = Mux(rs2_harzard_1, io.wb_data_o, Mux(rs2_harzard_2, io.by_wb_data, io.op2))
-	val shamt = op2(5,0) //for rv64 no word op
+	val stall_reserve = RegNext(io.by_wb_data)
+	val rs1_harzard_stall = RegNext(rs1_harzard_2 && (ld_conflict))
+	val rs2_harzard_stall = RegNext(rs2_harzard_2 && (ld_conflict))
+
+	val op1 = Mux(rs1_harzard_stall, stall_reserve, Mux(rs1_harzard_1, io.wb_data_o, Mux(rs1_harzard_2, io.by_wb_data, io.op1)))
+	val op2 = Mux(rs2_harzard_stall, stall_reserve, Mux(rs2_harzard_1, io.wb_data_o, Mux(rs2_harzard_2, io.by_wb_data, io.op2)))
+
+
+
+	val shamt = Mux(FUOpType.isWordOp(io.fu_op_type),op2(4,0), op2(5,0))
 
 	val is_InstS = LookupTreeDefault(io.fu_op_type,false.B,List(
 		FUOpType.sb			->	true.B,
@@ -85,10 +92,19 @@ class Exe(XLEN:Int) extends Module with HasInstType{
 
 	val next_pc	=	io.pc + 4.U
 
+	val shift_src = LookupTreeDefault(io.fu_op_type, op1(XLEN-1,0), List(
+		FUOpType.srlw		->	ZeroExt(op1(31,0), XLEN),
+		FUOpType.sraw		->	SignExt(op1(31,0), XLEN)
+	))
+
 	val res = LookupTreeDefault(io.fu_op_type,adder_res,List(
-		FUOpType.sll		->	(op1 << shamt)(XLEN-1, 0), //res[63:0]
-		FUOpType.srl 		->	(op1 >> shamt),
-		FUOpType.sra 		->	(op1.asSInt >> shamt).asUInt,
+		FUOpType.sll		->	(shift_src << shamt)(XLEN-1, 0), 
+		FUOpType.srl 		->	(shift_src >> shamt),
+		FUOpType.sra 		->	(shift_src.asSInt >> shamt).asUInt,
+
+		FUOpType.sllw		->	(shift_src << shamt)(XLEN-1, 0), 
+		FUOpType.srlw 		->	(shift_src >> shamt),
+		FUOpType.sraw 		->	(shift_src.asSInt >> shamt).asUInt,
 
 		FUOpType.or 		->	(op1 | op2),
 		FUOpType.and 		->	(op1 & op2),
